@@ -87,15 +87,24 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	// todo: this update loop could use some work.
 	bool doContinue = true;
 	int const target_framerate = 60;
-	long long ms_per_frame = 1000 / target_framerate;
+	long long const ms_per_frame = 1000 / target_framerate;
+	long long const fixed_time_step = ms_per_frame / 2;
 	auto last_time = std::chrono::high_resolution_clock::now();
+	float lag = 0.0f;
 	while (doContinue)
 	{
 		auto const current_time = std::chrono::high_resolution_clock::now();
 		float const delta_time = std::chrono::duration<float>(current_time - last_time).count();
 		last_time = current_time;
+		lag += delta_time;
 
 		doContinue = input.ProcessInput();
+		while (lag > fixed_time_step)
+		{
+			sceneManager.FixedUpdate(fixed_time_step);
+			lag -= fixed_time_step;
+		}
+
 		sceneManager.Update(delta_time);
 		renderer.Render();
 

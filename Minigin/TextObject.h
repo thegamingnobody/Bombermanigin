@@ -12,6 +12,7 @@ namespace dae
 	{
 	public:
 		void Update(float const delta_time) override;
+		void FixedUpdate(float const fixed_time_step) override;
 		void Render() const override;
 
 		void SetText(const std::string& text);

@@ -13,6 +13,7 @@ namespace dae
 		void RemoveAll();
 
 		void Update(float const delta_time);
+		void FixedUpdate(float const fixed_time_step);
 		void Render() const;
 
 		~Scene();

@@ -11,6 +11,7 @@ namespace dae
 	{
 	public:
 		virtual void Update(float const delta_time);
+		virtual void FixedUpdate(float const fixed_time_step);
 		virtual void Render() const;
 
 		void SetTexture(const std::string& filename);

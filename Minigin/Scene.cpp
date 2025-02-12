@@ -34,6 +34,14 @@ void Scene::Update(float const delta_time)
 	}
 }
 
+void Scene::FixedUpdate(float const fixed_time_step)
+{
+	for(auto& object : m_objects)
+	{
+		object->FixedUpdate(fixed_time_step);
+	}
+}
+
 void Scene::Render() const
 {
 	for (const auto& object : m_objects)
