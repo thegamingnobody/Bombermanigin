@@ -83,8 +83,8 @@ namespace dae
 			return false;
 		}
 
-		//void SetTexture(const std::string& filename);
-		//void SetPosition(float x, float y);
+		void SetPosition(float x, float y);
+		const Transform& GetPosition() const { return m_Transform; }
 
 		GameObject() = default;
 		virtual ~GameObject();
@@ -97,9 +97,7 @@ namespace dae
 		std::vector<std::shared_ptr<RenderComponent>> m_pRenderComponents{};
 		std::vector<std::shared_ptr<PhysicsComponent>> m_pPhysicsComponents{};
 		std::vector<std::shared_ptr<Component>> m_pMiscComponents{};
-		//Transform m_transform{};
-		//// todo: mmm, every gameobject has a texture? Is that correct?
-		//std::shared_ptr<Texture2D> m_texture{};
+		Transform m_Transform{};
 	};
 }
 

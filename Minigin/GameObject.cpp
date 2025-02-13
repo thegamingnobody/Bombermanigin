@@ -33,12 +33,7 @@ void dae::GameObject::Render() const
 	}
 }
 
-//void dae::GameObject::SetTexture(const std::string& filename)
-//{
-//	m_texture = ResourceManager::GetInstance().LoadTexture(filename);
-//}
-//
-//void dae::GameObject::SetPosition(float x, float y)
-//{
-//	m_transform.SetPosition(x, y, 0.0f);
-//}
+void dae::GameObject::SetPosition(float x, float y)
+{
+	m_Transform.SetPosition(x, y, 0.0f);
+}

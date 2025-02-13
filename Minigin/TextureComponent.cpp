@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include <iostream>
 #include "Renderer.h"
+#include "GameObject.h"
 
 void dae::TextureComponent::Render() const
 {
@@ -10,8 +11,9 @@ void dae::TextureComponent::Render() const
 		throw std::invalid_argument("Texture does not exist");
 	}
 
-	dae::Renderer::GetInstance().RenderTexture(*m_pTextures[m_CurrentSpriteIndex], 0.0f, 0.0f);
-	//todo: add ability to render at location in transformcomponent
+	auto& position = GetOwner()->GetPosition().GetPosition();
+
+	dae::Renderer::GetInstance().RenderTexture(*m_pTextures[m_CurrentSpriteIndex], position.x, position.y);
 }
 
 void dae::TextureComponent::AddTexture(const std::string& filename)
@@ -40,7 +42,7 @@ void dae::TextureComponent::AddTexture(const std::shared_ptr<Texture2D>& texture
 
 void dae::TextureComponent::SetCurrentIndex(int const newIndex)
 {
-	if (newIndex < m_pTextures.size() and newIndex >= 0)
+	if (newIndex < static_cast<int>(m_pTextures.size()) and newIndex >= 0)
 	{
 		m_CurrentSpriteIndex = newIndex;
 	}
