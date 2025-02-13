@@ -13,86 +13,89 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Components">
+      <UniqueIdentifier>{7ac2fed3-b071-4d31-858d-c80220461778}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Base Components">
+      <UniqueIdentifier>{c6b0c544-f8a8-4549-b680-4f3395f6a289}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{f962d570-93c3-4f43-9dd2-98e741821ee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Base Components">
+      <UniqueIdentifier>{fc714a16-fba3-4067-9d1a-c402dd131ced}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Managers">
+      <UniqueIdentifier>{7a4596fd-7581-4aa0-baff-6de32fa8ced3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Managers">
+      <UniqueIdentifier>{2ba0738e-3d66-4bd5-888e-e6f70115a727}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Misc Classes">
+      <UniqueIdentifier>{f9235e1f-aac4-4882-b18b-c724750bc14d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Misc Classes">
+      <UniqueIdentifier>{fa6cdb6f-172d-4844-a5ab-0bce7ba641fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Singleton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Minigin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="RenderComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Components\Base Components</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Components\Base Components</Filter>
     </ClInclude>
-    <ClInclude Include="TextureComponent.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Component.h">
+      <Filter>Header Files\Components\Base Components</Filter>
     </ClInclude>
     <ClInclude Include="FPSComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="TextComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureComponent.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Header Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Header Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Header Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Header Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Header Files\Misc Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Misc Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Header Files\Misc Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Header Files\Misc Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files\Misc Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="RotatorComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
@@ -102,21 +105,48 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Component.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Components\Base Components</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Components\Base Components</Filter>
     </ClCompile>
-    <ClCompile Include="TextureComponent.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="RenderComponent.cpp">
+      <Filter>Source Files\Components\Base Components</Filter>
     </ClCompile>
     <ClCompile Include="FPSComponent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureComponent.cpp">
+      <Filter>Source Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="TextComponent.cpp">
+      <Filter>Source Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Source Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files\Misc Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Misc Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Source Files\Misc Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Source Files\Misc Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="RotatorComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

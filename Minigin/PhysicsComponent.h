@@ -17,6 +17,7 @@ namespace dae
 		PhysicsComponent& operator=(PhysicsComponent&& other) = delete;
 
 		virtual void FixedUpdate(float const fixedTimeStep) = 0;
+		virtual void Update(float const deltaTime) = 0;
 
 	private:
 	};
