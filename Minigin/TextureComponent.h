@@ -1,11 +1,12 @@
 #ifndef TEXTURECOMPONENT
 #define TEXTURECOMPONENT
 
-#include "RenderComponent.h"
 #include <string>
 #include <memory>
-#include "Texture2D.h"
 #include <vector>
+#include "RenderComponent.h"
+#include "Texture2D.h"
+#include "Transform.h"
 
 namespace dae
 {
@@ -15,7 +16,7 @@ namespace dae
         void Render() const override;
 
         void Update(float const deltaTime) override { deltaTime; }
-
+                
         void AddTexture(const std::string& filename);
         void AddTexture(const std::shared_ptr<Texture2D>& texture);
 
@@ -31,7 +32,7 @@ namespace dae
         TextureComponent& operator= (const TextureComponent& other) = delete;
         TextureComponent& operator=(TextureComponent&& other) = delete;
 
-    private:
+    protected:
         std::vector<std::shared_ptr<Texture2D>> m_pTextures{};
         int m_CurrentSpriteIndex{};
 	};

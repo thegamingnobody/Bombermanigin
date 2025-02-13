@@ -12,7 +12,6 @@ void dae::TextureComponent::Render() const
 	}
 
 	auto& position = GetOwner()->GetPosition().GetPosition();
-
 	dae::Renderer::GetInstance().RenderTexture(*m_pTextures[m_CurrentSpriteIndex], position.x, position.y);
 }
 
