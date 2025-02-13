@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TEXTCOMPONENT
+#define TEXTCOMPONENT
 #include "TextureComponent.h"
 #include "Font.h"
 
@@ -26,3 +27,5 @@ namespace dae
 		std::shared_ptr<Font> m_font;
 	};
 }
+
+#endif

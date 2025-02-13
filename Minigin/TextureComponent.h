@@ -17,8 +17,8 @@ namespace dae
 
         void Update(float const deltaTime) override { deltaTime; }
                 
-        void AddTexture(const std::string& filename);
-        void AddTexture(const std::shared_ptr<Texture2D>& texture);
+        int AddTexture(const std::string& filename);
+        int AddTexture(const std::shared_ptr<Texture2D>& texture);
 
         int GetCurrentIndex() const { return m_CurrentSpriteIndex; }
         void SetCurrentIndex(int const newIndex);

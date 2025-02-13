@@ -30,7 +30,8 @@ void dae::TextComponent::Update(float const)
 			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 		}
 		SDL_FreeSurface(surf);
-		AddTexture(std::make_shared<Texture2D>(texture));
+		int index = AddTexture(std::make_shared<Texture2D>(texture));
+		SetCurrentIndex(index);
 		m_needsUpdate = false;
 	}
 

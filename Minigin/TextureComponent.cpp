@@ -15,7 +15,7 @@ void dae::TextureComponent::Render() const
 	dae::Renderer::GetInstance().RenderTexture(*m_pTextures[m_CurrentSpriteIndex], position.x, position.y);
 }
 
-void dae::TextureComponent::AddTexture(const std::string& filename)
+int dae::TextureComponent::AddTexture(const std::string& filename)
 {
 	try
 	{
@@ -27,9 +27,11 @@ void dae::TextureComponent::AddTexture(const std::string& filename)
 	{
 		std::cout << "Invalid path: \"" << filename << "\"\n";
 	}
+
+	return static_cast<int>(m_pTextures.size()) - 1;
 }
 
-void dae::TextureComponent::AddTexture(const std::shared_ptr<Texture2D>& texture)
+int dae::TextureComponent::AddTexture(const std::shared_ptr<Texture2D>& texture)
 {
 	if (texture == nullptr)
 	{
@@ -37,6 +39,8 @@ void dae::TextureComponent::AddTexture(const std::shared_ptr<Texture2D>& texture
 	}
 
 	m_pTextures.emplace_back(texture);
+
+	return static_cast<int>(m_pTextures.size()) - 1;
 }
 
 void dae::TextureComponent::SetCurrentIndex(int const newIndex)
