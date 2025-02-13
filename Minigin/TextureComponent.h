@@ -14,6 +14,8 @@ namespace dae
     public:
         void Render() const override;
 
+        void Update(float const deltaTime) override { deltaTime; }
+
         void AddTexture(const std::string& filename);
         void AddTexture(const std::shared_ptr<Texture2D>& texture);
 
@@ -23,8 +25,7 @@ namespace dae
         glm::ivec2 GetSize() const { return m_pTextures[m_CurrentSpriteIndex]->GetSize(); }
 
         TextureComponent(dae::GameObject* object);
-        //TextureComponent(dae::GameObject* object, const std::string& filename);
-        virtual ~TextureComponent() override = default;
+        virtual ~TextureComponent() = default;
         TextureComponent(const TextureComponent& other) = delete;
         TextureComponent(TextureComponent&& other) = delete;
         TextureComponent& operator= (const TextureComponent& other) = delete;

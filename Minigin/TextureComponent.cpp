@@ -28,6 +28,16 @@ void dae::TextureComponent::AddTexture(const std::string& filename)
 	}
 }
 
+void dae::TextureComponent::AddTexture(const std::shared_ptr<Texture2D>& texture)
+{
+	if (texture == nullptr)
+	{
+		throw std::invalid_argument("Texture doesn't exist");
+	}
+
+	m_pTextures.emplace_back(texture);
+}
+
 void dae::TextureComponent::SetCurrentIndex(int const newIndex)
 {
 	if (newIndex < m_pTextures.size() and newIndex >= 0)
@@ -38,4 +48,10 @@ void dae::TextureComponent::SetCurrentIndex(int const newIndex)
 	{
 		throw std::out_of_range("New Index out of range");
 	}
+}
+
+dae::TextureComponent::TextureComponent(dae::GameObject* object)
+	: RenderComponent(object)
+	, m_CurrentSpriteIndex(0)
+{
 }

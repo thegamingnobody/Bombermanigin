@@ -8,6 +8,7 @@
 #include "RenderComponent.h"
 #include "PhysicsComponent.h"
 #include "Component.h"
+#include <iostream>
 
 namespace dae
 {
@@ -20,6 +21,67 @@ namespace dae
 		virtual void Update(float const deltaTime);
 		virtual void FixedUpdate(float const fixedTimeStep);
 		virtual void Render() const;
+
+		template<std::derived_from<Component> T, class... Arguments>
+		T& AddComponent(Arguments&&... arguments)
+		{
+			if (HasComponent<T>())
+			{
+				throw std::runtime_error("Component already exists");
+			}
+
+			std::shared_ptr<T> newComponent{ std::make_shared<T>(std::forward<Arguments>(arguments)...) };
+			if constexpr (std::is_base_of_v<RenderComponent, T>)
+			{
+				m_pRenderComponents.emplace_back(newComponent);
+			}
+			else if constexpr (std::is_base_of_v<PhysicsComponent, T>)
+			{
+				m_pPhysicsComponents.emplace_back(newComponent);
+			}
+			else
+			{
+				m_pMiscComponents.emplace_back(newComponent);
+			}
+
+			return *newComponent;
+		}
+
+		template<std::derived_from<Component> T>
+		bool HasComponent() const
+		{
+			if constexpr (std::is_base_of_v<RenderComponent, T>)
+			{
+				for (const auto& component : m_pRenderComponents)
+				{
+					if (dynamic_cast<T*>(component.get()))
+					{
+						return true;
+					}
+				}
+			}
+			else if constexpr (std::is_base_of_v<PhysicsComponent, T>)
+			{
+				for (const auto& component : m_pPhysicsComponents)
+				{
+					if (dynamic_cast<T*>(component.get()))
+					{
+						return true;
+					}
+				}
+			}
+			else
+			{
+				for (const auto& component : m_pMiscComponents)
+				{
+					if (dynamic_cast<T*>(component.get()))
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
 
 		//void SetTexture(const std::string& filename);
 		//void SetPosition(float x, float y);
