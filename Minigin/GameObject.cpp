@@ -3,6 +3,11 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
+dae::GameObject::GameObject(std::string name)
+	: m_Name(name)
+{
+}
+
 dae::GameObject::~GameObject() = default;
 
 void dae::GameObject::Update(float const deltaTime)

@@ -160,7 +160,7 @@ namespace dae
 		void SetPosition(float x, float y);
 		const Transform& GetPosition() const { return m_Transform; }
 
-		GameObject() = default;
+		GameObject(std::string name = "");
 		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -168,6 +168,7 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
+		std::string m_Name;
 		std::vector<std::shared_ptr<RenderComponent>> m_pRenderComponents{};
 		std::vector<std::shared_ptr<PhysicsComponent>> m_pPhysicsComponents{};
 		std::vector<std::shared_ptr<Component>> m_pMiscComponents{};
