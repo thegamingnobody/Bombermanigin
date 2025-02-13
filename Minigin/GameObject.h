@@ -9,6 +9,7 @@
 #include "PhysicsComponent.h"
 #include "Component.h"
 #include <iostream>
+#include <optional>
 
 namespace dae
 {
@@ -45,6 +46,80 @@ namespace dae
 			}
 
 			return *newComponent;
+		}
+
+		template<std::derived_from<Component> T>
+		void RemoveComponent()
+		{
+			if constexpr (std::is_base_of_v<RenderComponent, T>)
+			{
+				for (auto& component : m_pRenderComponents)
+				{
+					if (dynamic_cast<T*>(component.get()))
+					{
+						component->SetShouldBeRemoved();
+						return;
+					}
+				}
+			}
+			else if constexpr (std::is_base_of_v<PhysicsComponent, T>)
+			{
+				for (auto& component : m_pPhysicsComponents)
+				{
+					if (dynamic_cast<T*>(component.get()))
+					{
+						component->SetShouldBeRemoved();
+						return;
+					}
+				}
+			}
+			else
+			{
+				for (auto& component : m_pMiscComponents)
+				{
+					if (dynamic_cast<T*>(component.get()))
+					{
+						component->SetShouldBeRemoved();
+						return;
+					}
+				}
+			}
+		}
+
+		template<std::derived_from<Component> T>
+		std::optional<T*> GetComponent() const
+		{
+			if constexpr (std::is_base_of_v<RenderComponent, T>)
+			{
+				for (const auto& component : m_pRenderComponents)
+				{
+					if (auto derivedComponent = dynamic_cast<T*>(component.get()))
+					{
+						return derivedComponent;
+					}
+				}
+			}
+			else if constexpr (std::is_base_of_v<PhysicsComponent, T>)
+			{
+				for (const auto& component : m_pPhysicsComponents)
+				{
+					if (auto derivedComponent = dynamic_cast<T*>(component.get()))
+					{
+						return derivedComponent;
+					}
+				}
+			}
+			else
+			{
+				for (const auto& component : m_pMiscComponents)
+				{
+					if (auto derivedComponent = dynamic_cast<T*>(component.get()))
+					{
+						return derivedComponent;
+					}
+				}
+			}
+			return std::nullopt;
 		}
 
 		template<std::derived_from<Component> T>
