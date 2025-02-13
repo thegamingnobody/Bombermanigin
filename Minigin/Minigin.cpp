@@ -10,6 +10,10 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include <thread>
+#include <fstream>
+#include <json.hpp>
+#include <iostream>
+using json = nlohmann::json;
 
 SDL_Window* g_window{};
 
@@ -84,11 +88,13 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
 
-	// todo: this update loop could use some work.
+	std::ifstream f("../config.json");
+	json data = json::parse(f);
+
 	bool doContinue = true;
-	int const targetFramerate = 60;
+	int const targetFramerate{ data["targetFramerate"] };
+	float const fixedTimeStep{ data["fixedTimeStep"] };
 	long long const msPerFrame = 1000 / targetFramerate;
-	float const fixedTimeStep = 0.02f;
 	auto lastTime = std::chrono::high_resolution_clock::now();
 	float lag = 0.0f;
 	while (doContinue)
