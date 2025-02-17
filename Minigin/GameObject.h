@@ -18,9 +18,9 @@ namespace dae
 	class GameObject final
 	{
 	public:
-		virtual void Update(float const deltaTime);
-		virtual void FixedUpdate(float const fixedTimeStep);
-		virtual void Render() const;
+		void Update(float const deltaTime);
+		void FixedUpdate(float const fixedTimeStep);
+		void Render() const;
 
 		template<std::derived_from<Component> T, class... Arguments>
 		T& AddComponent(Arguments&&... arguments)
@@ -161,14 +161,21 @@ namespace dae
 		const Transform& GetPosition() const { return m_Transform; }
 
 		GameObject(std::string name = "");
-		virtual ~GameObject();
+		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
+		void SetParentObject(GameObject* parentObject);
+		GameObject* GetParentObject() const { return m_pParentObject; }
+
 	private:
 		std::string m_Name;
+
+		GameObject* m_pParentObject{};
+		std::vector<GameObject*> m_pChildObjects{};
+
 		std::vector<std::shared_ptr<RenderComponent>> m_pRenderComponents{};
 		std::vector<std::shared_ptr<PhysicsComponent>> m_pPhysicsComponents{};
 		std::vector<std::shared_ptr<Component>> m_pMiscComponents{};

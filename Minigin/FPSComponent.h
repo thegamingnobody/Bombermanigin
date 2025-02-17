@@ -2,6 +2,7 @@
 #define FPSCOMPONENT
 
 #include "Component.h"
+#include "TextComponent.h"
 
 namespace dae
 {
@@ -24,6 +25,7 @@ namespace dae
 		float m_CurrentFPS{};
 		float m_Delay{};
 		float const m_MaxDelay{ 0.10f };
+		TextComponent* m_pTextComponent;
 
 	};
 }

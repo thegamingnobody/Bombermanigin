@@ -10,6 +10,31 @@ dae::GameObject::GameObject(std::string name)
 
 dae::GameObject::~GameObject() = default;
 
+void dae::GameObject::SetParentObject(GameObject* parentObject)
+{
+	//check if new parent is valid
+	if (parentObject == nullptr or parentObject == this) return;
+
+	//remove child from old parent
+	if (m_pParentObject)
+	{
+		auto it = std::find(m_pParentObject->m_pChildObjects.begin(), m_pParentObject->m_pChildObjects.end(), this);
+
+		if (it != m_pParentObject->m_pChildObjects.end())
+		{
+			m_pParentObject->m_pChildObjects.erase(it);
+		}
+	}
+
+	//set new parent
+	m_pParentObject = parentObject;
+
+	//add to parent as child
+	m_pParentObject->m_pChildObjects.emplace_back(this);
+
+	//todo: update position
+}
+
 void dae::GameObject::Update(float const deltaTime)
 {
 	for (auto& component : m_pRenderComponents)

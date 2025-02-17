@@ -26,7 +26,7 @@ namespace dae
         float m_CurrentAngle;
         float m_Radius;
 		glm::vec2 m_Center;
-		glm::vec2 m_CurrentOffset;
+		//glm::vec2 m_CurrentOffset;
     };
 }
 
