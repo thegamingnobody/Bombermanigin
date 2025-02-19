@@ -32,6 +32,14 @@ void Scene::Update(float const deltaTime)
 	{
 		object->Update(deltaTime);
 	}
+
+	for (auto& object : m_objects)
+	{
+		if (object->GetSouldBeRemoved())
+		{
+			Remove(object);
+		}
+	}
 }
 
 void Scene::FixedUpdate(float const fixedTimeStep)

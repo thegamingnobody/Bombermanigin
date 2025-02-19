@@ -1,7 +1,6 @@
 #include "Component.h"
 
-dae::Component::Component(dae::GameObject* ownerObject, ComponentType compnentType)
+dae::Component::Component(dae::GameObject* ownerObject)
 	: m_pOwnerObject(ownerObject)
-	, m_ComponentType(compnentType)
 {
 }

@@ -1,6 +1,6 @@
 #include "PhysicsComponent.h"
 
-dae::PhysicsComponent::PhysicsComponent(dae::GameObject* ownerObject, ComponentType compnentType)
-	: Component(ownerObject, compnentType)
+dae::PhysicsComponent::PhysicsComponent(dae::GameObject* ownerObject)
+	: Component(ownerObject)
 {
 }

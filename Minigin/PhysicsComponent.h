@@ -8,7 +8,7 @@ namespace dae
 	class PhysicsComponent : public Component
 	{
 	public:
-		PhysicsComponent(dae::GameObject* ownerObject, ComponentType compnentType = ComponentType::PhysicsComponent);
+		PhysicsComponent(dae::GameObject* ownerObject);
 
 		virtual ~PhysicsComponent() = default;
 		PhysicsComponent(const PhysicsComponent& other) = delete;

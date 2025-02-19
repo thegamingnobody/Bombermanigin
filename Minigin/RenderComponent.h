@@ -8,7 +8,7 @@ namespace dae
 	class RenderComponent : public Component
 	{
 	public:
-		RenderComponent(dae::GameObject* ownerObject, ComponentType compnentType = ComponentType::RenderComponent);
+		RenderComponent(dae::GameObject* ownerObject);
 
 		virtual ~RenderComponent() = default;
 		RenderComponent(const RenderComponent& other) = delete;
