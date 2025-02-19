@@ -11,7 +11,7 @@ void dae::TextureComponent::Render() const
 		throw std::invalid_argument("Texture does not exist");
 	}
 
-	auto& position = GetOwner()->GetPosition().GetPosition();
+	auto position = GetOwner()->GetGlobalPosition();
 	dae::Renderer::GetInstance().RenderTexture(*m_pTextures[m_CurrentSpriteIndex], position.x, position.y);
 }
 

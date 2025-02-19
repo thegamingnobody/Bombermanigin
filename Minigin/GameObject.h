@@ -157,8 +157,11 @@ namespace dae
 			return false;
 		}
 
-		void SetPosition(float x, float y);
-		const Transform& GetPosition() const { return m_Transform; }
+		glm::vec3 GetGlobalPosition() const;
+		glm::vec3 GetLocalPosition() const;
+		void SetLocalPosition(float x, float y);
+		void SetLocalPosition(glm::vec3 pos);
+		void SetLocalPosition(glm::vec2 pos);
 
 		GameObject(std::string name = "");
 		~GameObject();
@@ -167,10 +170,19 @@ namespace dae
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
-		void SetParentObject(GameObject* parentObject);
+		void SetParentObject(GameObject* parentObject, bool keepWorldPos);
 		GameObject* GetParentObject() const { return m_pParentObject; }
 
+		int GetChildCount() const { return static_cast<int>(m_pChildObjects.size()); }
+		GameObject* GetChildObject(int index) const { return m_pChildObjects[index]; }
+
+		void SetShouldBeRemoved() { m_ShouldBeRemoved = true; }
+		bool GetSouldBeRemoved() const { return m_ShouldBeRemoved; }
+
 	private:
+		void AddChildObject(GameObject* childObject);
+		void RemoveChildObject(GameObject* childObject);
+
 		std::string m_Name;
 
 		GameObject* m_pParentObject{};
