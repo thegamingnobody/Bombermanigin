@@ -5,21 +5,12 @@
 
 namespace dae
 {
-	enum class ComponentType
-	{
-		RenderComponent,
-		PhysicsComponent,
-		MiscComponent
-	};
-
 	class GameObject;
 
 	class Component
 	{
 	public:
 		virtual void Update(float const deltaTime) = 0;
-
-		Component(dae::GameObject* ownerObject, ComponentType compnentType = ComponentType::MiscComponent);
 
 		virtual ~Component() = default;
 		Component(const Component& other) = delete;
@@ -30,13 +21,12 @@ namespace dae
 		void SetShouldBeRemoved() { m_ShouldBeRemoved = true; }
 		bool GetSouldBeRemoved() const { return m_ShouldBeRemoved; }
 
-		ComponentType GetComponentType() const { return m_ComponentType; }
-
 	private:
 		GameObject* m_pOwnerObject{};
-		ComponentType const m_ComponentType;
 
 	protected:
+		explicit Component(dae::GameObject* ownerObject);
+
 		GameObject* GetOwner() const { return m_pOwnerObject; }
 		bool m_ShouldBeRemoved{ false };
 	};

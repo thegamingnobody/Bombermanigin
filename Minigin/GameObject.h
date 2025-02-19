@@ -31,18 +31,18 @@ namespace dae
 			}
 
 			std::shared_ptr<T> newComponent{ std::make_shared<T>(std::forward<Arguments>(arguments)...) };
-			if constexpr (std::is_base_of_v<RenderComponent, T>)
-			{
-				m_pRenderComponents.emplace_back(newComponent);
-			}
-			else if constexpr (std::is_base_of_v<PhysicsComponent, T>)
-			{
-				m_pPhysicsComponents.emplace_back(newComponent);
-			}
-			else
-			{
-				m_pMiscComponents.emplace_back(newComponent);
-			}
+			//if constexpr (std::is_base_of_v<RenderComponent, T>)
+			//{
+			//	m_pRenderComponents.emplace_back(newComponent);
+			//}
+			//else if constexpr (std::is_base_of_v<PhysicsComponent, T>)
+			//{
+			//	m_pPhysicsComponents.emplace_back(newComponent);
+			//}
+			//else
+			//{
+				m_pComponents.emplace_back(newComponent);
+			//}
 
 			return *newComponent;
 		}
@@ -50,9 +50,31 @@ namespace dae
 		template<std::derived_from<Component> T>
 		void RemoveComponent()
 		{
-			if constexpr (std::is_base_of_v<RenderComponent, T>)
-			{
-				for (auto& component : m_pRenderComponents)
+			//if constexpr (std::is_base_of_v<RenderComponent, T>)
+			//{
+			//	for (auto& component : m_pRenderComponents)
+			//	{
+			//		if (dynamic_cast<T*>(component.get()))
+			//		{
+			//			component->SetShouldBeRemoved();
+			//			return;
+			//		}
+			//	}
+			//}
+			//else if constexpr (std::is_base_of_v<PhysicsComponent, T>)
+			//{
+			//	for (auto& component : m_pPhysicsComponents)
+			//	{
+			//		if (dynamic_cast<T*>(component.get()))
+			//		{
+			//			component->SetShouldBeRemoved();
+			//			return;
+			//		}
+			//	}
+			//}
+			//else
+			//{
+				for (auto& component : m_pComponents)
 				{
 					if (dynamic_cast<T*>(component.get()))
 					{
@@ -60,100 +82,78 @@ namespace dae
 						return;
 					}
 				}
-			}
-			else if constexpr (std::is_base_of_v<PhysicsComponent, T>)
-			{
-				for (auto& component : m_pPhysicsComponents)
-				{
-					if (dynamic_cast<T*>(component.get()))
-					{
-						component->SetShouldBeRemoved();
-						return;
-					}
-				}
-			}
-			else
-			{
-				for (auto& component : m_pMiscComponents)
-				{
-					if (dynamic_cast<T*>(component.get()))
-					{
-						component->SetShouldBeRemoved();
-						return;
-					}
-				}
-			}
+			//}
 		}
 
 		template<std::derived_from<Component> T>
 		std::optional<T*> GetComponent() const
 		{
-			if constexpr (std::is_base_of_v<RenderComponent, T>)
-			{
-				for (const auto& component : m_pRenderComponents)
+			//if constexpr (std::is_base_of_v<RenderComponent, T>)
+			//{
+			//	for (const auto& component : m_pRenderComponents)
+			//	{
+			//		if (auto derivedComponent = dynamic_cast<T*>(component.get()))
+			//		{
+			//			return derivedComponent;
+			//		}
+			//	}
+			//}
+			//else if constexpr (std::is_base_of_v<PhysicsComponent, T>)
+			//{
+			//	for (const auto& component : m_pPhysicsComponents)
+			//	{
+			//		if (auto derivedComponent = dynamic_cast<T*>(component.get()))
+			//		{
+			//			return derivedComponent;
+			//		}
+			//	}
+			//}
+			//else
+			//{
+				for (const auto& component : m_pComponents)
 				{
 					if (auto derivedComponent = dynamic_cast<T*>(component.get()))
 					{
 						return derivedComponent;
 					}
 				}
-			}
-			else if constexpr (std::is_base_of_v<PhysicsComponent, T>)
-			{
-				for (const auto& component : m_pPhysicsComponents)
-				{
-					if (auto derivedComponent = dynamic_cast<T*>(component.get()))
-					{
-						return derivedComponent;
-					}
-				}
-			}
-			else
-			{
-				for (const auto& component : m_pMiscComponents)
-				{
-					if (auto derivedComponent = dynamic_cast<T*>(component.get()))
-					{
-						return derivedComponent;
-					}
-				}
-			}
+			//}
 			return std::nullopt;
 		}
 
 		template<std::derived_from<Component> T>
 		bool HasComponent() const
 		{
-			if constexpr (std::is_base_of_v<RenderComponent, T>)
-			{
-				for (const auto& component : m_pRenderComponents)
+			//if constexpr (std::is_base_of_v<RenderComponent, T>)
+			//{
+			//	for (const auto& component : m_pRenderComponents)
+			//	{
+			//		if (dynamic_cast<T*>(component.get()))
+			//		{
+			//			return true;
+			//		}
+			//	}
+			//}
+			//else if constexpr (std::is_base_of_v<PhysicsComponent, T>)
+			//{
+			//	for (const auto& component : m_pPhysicsComponents)
+			//	{
+			//		if (dynamic_cast<T*>(component.get()))
+			//		{
+			//			return true;
+			//		}
+			//	}
+			//}
+			//else
+			//{
+				for (const auto& component : m_pComponents)
 				{
 					if (dynamic_cast<T*>(component.get()))
 					{
 						return true;
 					}
 				}
-			}
-			else if constexpr (std::is_base_of_v<PhysicsComponent, T>)
-			{
-				for (const auto& component : m_pPhysicsComponents)
-				{
-					if (dynamic_cast<T*>(component.get()))
-					{
-						return true;
-					}
-				}
-			}
-			else
-			{
-				for (const auto& component : m_pMiscComponents)
-				{
-					if (dynamic_cast<T*>(component.get()))
-					{
-						return true;
-					}
-				}
-			}
+			//}
 			return false;
 		}
 
@@ -176,10 +176,13 @@ namespace dae
 		GameObject* m_pParentObject{};
 		std::vector<GameObject*> m_pChildObjects{};
 
-		std::vector<std::shared_ptr<RenderComponent>> m_pRenderComponents{};
-		std::vector<std::shared_ptr<PhysicsComponent>> m_pPhysicsComponents{};
-		std::vector<std::shared_ptr<Component>> m_pMiscComponents{};
-		Transform m_Transform{};
+		//std::vector<std::shared_ptr<RenderComponent>> m_pRenderComponents{};
+		//std::vector<std::shared_ptr<PhysicsComponent>> m_pPhysicsComponents{};
+		std::vector<std::shared_ptr<Component>> m_pComponents{};
+
+		bool m_ShouldBeRemoved{ false };
+
+		//Transform m_Transform{};
 	};
 }
 

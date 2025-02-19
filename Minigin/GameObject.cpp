@@ -37,11 +37,15 @@ void dae::GameObject::SetParentObject(GameObject* parentObject)
 
 void dae::GameObject::Update(float const deltaTime)
 {
-	for (auto& component : m_pRenderComponents)
 	{
-		component->Update(deltaTime);
 	}
-	for (auto& component : m_pMiscComponents)
+void dae::GameObject::Update(float const deltaTime)
+{
+	//for (auto& component : m_pRenderComponents)
+	//{
+	//	component->Update(deltaTime);
+	//}
+	for (auto& component : m_pComponents)
 	{
 		component->Update(deltaTime);
 	}
@@ -49,17 +53,27 @@ void dae::GameObject::Update(float const deltaTime)
 
 void dae::GameObject::FixedUpdate(float const fixedTimeStep)
 {
-	for (auto& component : m_pPhysicsComponents)
+	for (auto& component : m_pComponents)
 	{
-		component->FixedUpdate(fixedTimeStep);
+		if (auto derivedComponent = dynamic_cast<dae::PhysicsComponent*>(component.get()))
+		{
+			derivedComponent->FixedUpdate(fixedTimeStep);
+		}
 	}	
 }
 
 void dae::GameObject::Render() const
 {
-	for (auto& component : m_pRenderComponents)
+	for (auto& component : m_pComponents)
 	{
-		component->Render();
+		if (auto derivedComponent = dynamic_cast<dae::RenderComponent*>(component.get()))
+		{
+			derivedComponent->Render();
+		}
+	}
+}
+
+	{
 	}
 }
 

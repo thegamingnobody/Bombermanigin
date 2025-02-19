@@ -10,19 +10,14 @@ void dae::FPSComponent::Update(float const deltaTime)
 
 	if (m_Delay >= m_MaxDelay)
 	{
-		if (m_pTextComponent)
-		{
-			std::stringstream stream;
-			stream << std::fixed << std::setprecision(1) << m_FrameCount / m_Delay << " FPS";
-			m_pTextComponent->SetText(stream.str());
-		}
-		else
-		{
-			std::cout << "[FPS COMPONENT] No TextComponent found on GameObject\n";
-		}
+		assert(m_pTextComponent && "No TextComponent found on GameObject");
+
+		std::stringstream stream;
+		stream << std::fixed << std::setprecision(1) << m_FrameCount / m_Delay << " FPS";
+		m_pTextComponent->SetText(stream.str());
 
 		m_FrameCount = 0;
-		m_Delay = 0;
+		m_Delay -= m_MaxDelay;
 	}
 }
 
@@ -31,6 +26,11 @@ dae::FPSComponent::FPSComponent(dae::GameObject* object)
 	, m_FrameCount(0)
 	, m_CurrentFPS(0.0f)
 	, m_Delay(0.0f)
+	, m_pTextComponent(nullptr)
+	, m_MaxDelay(0.10f)
 {
-	m_pTextComponent = object->GetComponent<dae::TextComponent>().value();
+	if (GetOwner()->HasComponent<dae::TextComponent>() and not(m_pTextComponent))
+	{
+		m_pTextComponent = object->GetComponent<dae::TextComponent>().value();
+	}
 }

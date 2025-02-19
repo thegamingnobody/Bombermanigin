@@ -20,11 +20,12 @@ namespace dae
 		FPSComponent(FPSComponent&& other) = delete;
 		FPSComponent& operator= (const FPSComponent& other) = delete;
 		FPSComponent& operator=(FPSComponent&& other) = delete;
+
 	private:
-		int m_FrameCount{};
-		float m_CurrentFPS{};
-		float m_Delay{};
-		float const m_MaxDelay{ 0.10f };
+		int m_FrameCount;
+		float m_CurrentFPS;
+		float m_Delay;
+		float const m_MaxDelay;
 		TextComponent* m_pTextComponent;
 
 	};
