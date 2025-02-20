@@ -1,4 +1,4 @@
 {
-  "targetFramerate": 60,
-  "fixedTimeStep": 0.0167
+  "targetFramerate": 165,
+	"fixedTimeStep": 0.006
 }
