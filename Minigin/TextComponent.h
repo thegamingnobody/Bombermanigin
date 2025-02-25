@@ -22,9 +22,9 @@ namespace dae
 		TextComponent& operator=(TextComponent&& other) = delete;
 
 	private:
-		bool m_needsUpdate;
 		std::string m_text;
 		std::shared_ptr<Font> m_font;
+		bool m_needsUpdate;
 	};
 }
 

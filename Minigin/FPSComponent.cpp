@@ -27,7 +27,7 @@ dae::FPSComponent::FPSComponent(dae::GameObject* object)
 	, m_CurrentFPS(0.0f)
 	, m_Delay(0.0f)
 	, m_pTextComponent(nullptr)
-	, m_MaxDelay(1.0f)
+	, m_MaxDelay(0.5f)
 {
 	if (GetOwner()->HasComponent<dae::TextComponent>() and not(m_pTextComponent))
 	{

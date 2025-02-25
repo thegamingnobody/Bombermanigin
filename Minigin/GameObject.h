@@ -192,9 +192,9 @@ namespace dae
 		//std::vector<std::shared_ptr<PhysicsComponent>> m_pPhysicsComponents{};
 		std::vector<std::shared_ptr<Component>> m_pComponents{};
 
-		bool m_ShouldBeRemoved{ false };
-
 		//Transform m_Transform{};
+
+		bool m_ShouldBeRemoved{ false };
 	};
 }
 

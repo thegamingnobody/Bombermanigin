@@ -15,6 +15,9 @@
 #include <iostream>
 using json = nlohmann::json;
 
+//TODO: IMGUI APARTE COMPONENT
+
+
 SDL_Window* g_window{};
 
 void PrintSDLVersion()
