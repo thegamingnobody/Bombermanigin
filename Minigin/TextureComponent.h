@@ -23,7 +23,7 @@ namespace dae
 
         glm::ivec2 GetSize() const { return m_pTextures[m_CurrentSpriteIndex]->GetSize(); }
 
-        TextureComponent(dae::GameObject* object);
+        TextureComponent(dae::GameObject& object);
         virtual ~TextureComponent() = default;
         TextureComponent(const TextureComponent& other) = delete;
         TextureComponent(TextureComponent&& other) = delete;

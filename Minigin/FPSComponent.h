@@ -14,7 +14,7 @@ namespace dae
 		int GetFrameCount() const { return m_FrameCount; }
 		float GetFPS() const { return m_CurrentFPS; }
 
-		FPSComponent(dae::GameObject* object);
+		FPSComponent(dae::GameObject& object);
 		virtual ~FPSComponent() override = default;
 		FPSComponent(const FPSComponent& other) = delete;
 		FPSComponent(FPSComponent&& other) = delete;

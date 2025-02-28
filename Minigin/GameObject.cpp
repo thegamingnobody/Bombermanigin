@@ -7,6 +7,7 @@
 dae::GameObject::GameObject(std::string name)
 	: m_Name(name)
 {
+	m_Transform = std::make_shared<Transform>(*this, 0.0f, 0.0f, 0.0f);
 }
 
 dae::GameObject::~GameObject() = default;
@@ -14,24 +15,20 @@ dae::GameObject::~GameObject() = default;
 void dae::GameObject::SetParentObject(GameObject* parentObject, bool keepWorldPos)
 {
 	//check if new parent is valid
-	if (parentObject == nullptr or parentObject == this) return;
+	if (parentObject == this or IsChild(parentObject)) return;
 
-	if (IsChild(parentObject)) return;
-
-	//todo: update position
+	//update position
 	if (m_pParentObject == nullptr)
 	{
-		SetLocalPosition(GetGlobalPosition());
+		m_Transform->SetLocalPosition(m_Transform->GetGlobalPosition());
 	}
 	else
 	{
 		if (keepWorldPos)
 		{
-			auto parentPos = m_pParentObject->GetGlobalPosition();
-			SetLocalPosition(GetGlobalPosition() - parentPos);
+			auto parentPos = m_pParentObject->GetTransform()->GetGlobalPosition();
+			m_Transform->SetLocalPosition(m_Transform->GetGlobalPosition() - parentPos);
 		}
-
-		//todo: set position dirty
 	}
 
 	//remove child from old parent
@@ -65,6 +62,15 @@ bool dae::GameObject::IsChild(GameObject* object)
 	return false;
 }
 
+void dae::GameObject::SetChildTransformsDirty()
+{
+	for (auto& child : m_pChildObjects)
+	{
+		child->GetTransform()->SetDirty();
+	}
+}
+
+
 void dae::GameObject::Update(float const deltaTime)
 {
 	for (auto& component : m_pComponents)
@@ -95,49 +101,4 @@ void dae::GameObject::RenderImGui() const
 	{
 		component->RenderImGui();
 	}
-}
-
-glm::vec3 dae::GameObject::GetGlobalPosition() const
-{
-	auto transformComp = GetComponent<Transform>();
-	if (transformComp.has_value())
-	{
-		return transformComp.value()->GetGlobalPosition();
-	}
-	else
-	{
-		return glm::vec3(0.0f, 0.0f, 0.0f);
-	}
-}
-
-glm::vec3 dae::GameObject::GetLocalPosition() const
-{
-	auto transformComp = GetComponent<Transform>();
-	if (transformComp.has_value())
-	{
-		return transformComp.value()->GetLocalPosition();
-	}
-	else
-	{
-		return glm::vec3(0.0f, 0.0f, 0.0f);
-	}
-}
-
-void dae::GameObject::SetLocalPosition(float x, float y)
-{
-	auto transformComp = GetComponent<Transform>();
-	if (transformComp.has_value())
-	{
-		transformComp.value()->SetLocalPosition(x, y, 0.0f);
-	}
-}
-
-void dae::GameObject::SetLocalPosition(glm::vec3 pos)
-{
-	SetLocalPosition(pos.x, pos.y);
-}
-
-void dae::GameObject::SetLocalPosition(glm::vec2 pos)
-{
-	SetLocalPosition(pos.x, pos.y);
 }

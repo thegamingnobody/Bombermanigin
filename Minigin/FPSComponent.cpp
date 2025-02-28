@@ -21,7 +21,7 @@ void dae::FPSComponent::Update(float const deltaTime)
 	}
 }
 
-dae::FPSComponent::FPSComponent(dae::GameObject* object)
+dae::FPSComponent::FPSComponent(dae::GameObject& object)
 	: Component(object)
 	, m_FrameCount(0)
 	, m_CurrentFPS(0.0f)
@@ -31,7 +31,7 @@ dae::FPSComponent::FPSComponent(dae::GameObject* object)
 {
 	if (GetOwner()->HasComponent<dae::TextComponent>() and not(m_pTextComponent))
 	{
-		m_pTextComponent = object->GetComponent<dae::TextComponent>().value();
+		m_pTextComponent = object.GetComponent<dae::TextComponent>().value();
 		m_pTextComponent->SetText("0 FPS");
 	}
 }

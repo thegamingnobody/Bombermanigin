@@ -4,7 +4,7 @@
 #include <imgui_impl_opengl3.h>
 #include <imgui_impl_sdl2.h>
 
-dae::ImGuiComponent::ImGuiComponent(dae::GameObject* object)
+dae::ImGuiComponent::ImGuiComponent(dae::GameObject& object)
 	: RenderComponent(object)
 {
 }
@@ -35,12 +35,10 @@ void dae::ImGuiComponent::HandleExcercise()
 
 void dae::ImGuiComponent::DrawMultiPlot(Trash::Graph& plot1, Trash::Graph& plot2)
 {
-    if (plot1.StepSizes.empty() || plot2.StepSizes.empty())
-        return;
+    if (plot1.StepSizes.empty() || plot2.StepSizes.empty()) return;
 
     size_t dataSize = std::min(plot1.StepSizes.size(), plot2.StepSizes.size());
-    if (dataSize == 0)
-        return;
+    if (dataSize == 0) return;
 
     static float xData[512];
     static float yData1[512];
@@ -48,7 +46,8 @@ void dae::ImGuiComponent::DrawMultiPlot(Trash::Graph& plot1, Trash::Graph& plot2
     static const float* yData[] = { yData1, yData2 };
     static ImU32 colors[2] = { ImColor(0, 255, 0), ImColor(255, 0, 0) };
 
-    for (size_t i = 0; i < dataSize && i < 512; ++i) {
+    for (size_t i = 0; i < dataSize && i < 512; ++i)
+    {
         xData[i] = plot1.StepSizes[i];
         yData1[i] = plot1.Timings[i];
         yData2[i] = plot2.Timings[i];

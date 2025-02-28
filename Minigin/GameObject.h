@@ -18,11 +18,27 @@ namespace dae
 	class GameObject final
 	{
 	public:
+		//*-----------------------------------------*
+		//|					Rule of 5				|
+		//*-----------------------------------------*
+		GameObject(std::string name = "");
+		~GameObject();
+		GameObject(const GameObject& other) = delete;
+		GameObject(GameObject&& other) = delete;
+		GameObject& operator=(const GameObject& other) = delete;
+		GameObject& operator=(GameObject&& other) = delete;
+		
+		//*-----------------------------------------*
+		//|				Basic Functions				|
+		//*-----------------------------------------*
 		void Update(float const deltaTime);
 		void FixedUpdate(float const fixedTimeStep);
 		void Render() const;
 		void RenderImGui() const;
 
+		//*-----------------------------------------*
+		//|			 Component Functions			|
+		//*-----------------------------------------*
 		template<std::derived_from<Component> T, class... Arguments>
 		T& AddComponent(Arguments&&... arguments)
 		{
@@ -32,18 +48,7 @@ namespace dae
 			}
 
 			std::shared_ptr<T> newComponent{ std::make_shared<T>(std::forward<Arguments>(arguments)...) };
-			//if constexpr (std::is_base_of_v<RenderComponent, T>)
-			//{
-			//	m_pRenderComponents.emplace_back(newComponent);
-			//}
-			//else if constexpr (std::is_base_of_v<PhysicsComponent, T>)
-			//{
-			//	m_pPhysicsComponents.emplace_back(newComponent);
-			//}
-			//else
-			//{
-				m_pComponents.emplace_back(newComponent);
-			//}
+			m_pComponents.emplace_back(newComponent);
 
 			return *newComponent;
 		}
@@ -51,148 +56,73 @@ namespace dae
 		template<std::derived_from<Component> T>
 		void RemoveComponent()
 		{
-			//if constexpr (std::is_base_of_v<RenderComponent, T>)
-			//{
-			//	for (auto& component : m_pRenderComponents)
-			//	{
-			//		if (dynamic_cast<T*>(component.get()))
-			//		{
-			//			component->SetShouldBeRemoved();
-			//			return;
-			//		}
-			//	}
-			//}
-			//else if constexpr (std::is_base_of_v<PhysicsComponent, T>)
-			//{
-			//	for (auto& component : m_pPhysicsComponents)
-			//	{
-			//		if (dynamic_cast<T*>(component.get()))
-			//		{
-			//			component->SetShouldBeRemoved();
-			//			return;
-			//		}
-			//	}
-			//}
-			//else
-			//{
-				for (auto& component : m_pComponents)
+			for (auto& component : m_pComponents)
+			{
+				if (dynamic_cast<T*>(component.get()))
 				{
-					if (dynamic_cast<T*>(component.get()))
-					{
-						component->SetShouldBeRemoved();
-						return;
-					}
+					component->SetShouldBeRemoved();
+					return;
 				}
-			//}
+			}
 		}
 
 		template<std::derived_from<Component> T>
 		std::optional<T*> GetComponent() const
 		{
-			//if constexpr (std::is_base_of_v<RenderComponent, T>)
-			//{
-			//	for (const auto& component : m_pRenderComponents)
-			//	{
-			//		if (auto derivedComponent = dynamic_cast<T*>(component.get()))
-			//		{
-			//			return derivedComponent;
-			//		}
-			//	}
-			//}
-			//else if constexpr (std::is_base_of_v<PhysicsComponent, T>)
-			//{
-			//	for (const auto& component : m_pPhysicsComponents)
-			//	{
-			//		if (auto derivedComponent = dynamic_cast<T*>(component.get()))
-			//		{
-			//			return derivedComponent;
-			//		}
-			//	}
-			//}
-			//else
-			//{
-				for (const auto& component : m_pComponents)
+			for (const auto& component : m_pComponents)
+			{
+				if (auto derivedComponent = dynamic_cast<T*>(component.get()))
 				{
-					if (auto derivedComponent = dynamic_cast<T*>(component.get()))
-					{
-						return derivedComponent;
-					}
+					return derivedComponent;
 				}
-			//}
+			}
 			return std::nullopt;
 		}
 
 		template<std::derived_from<Component> T>
 		bool HasComponent() const
 		{
-			//if constexpr (std::is_base_of_v<RenderComponent, T>)
-			//{
-			//	for (const auto& component : m_pRenderComponents)
-			//	{
-			//		if (dynamic_cast<T*>(component.get()))
-			//		{
-			//			return true;
-			//		}
-			//	}
-			//}
-			//else if constexpr (std::is_base_of_v<PhysicsComponent, T>)
-			//{
-			//	for (const auto& component : m_pPhysicsComponents)
-			//	{
-			//		if (dynamic_cast<T*>(component.get()))
-			//		{
-			//			return true;
-			//		}
-			//	}
-			//}
-			//else
-			//{
-				for (const auto& component : m_pComponents)
+			for (const auto& component : m_pComponents)
+			{
+				if (dynamic_cast<T*>(component.get()))
 				{
-					if (dynamic_cast<T*>(component.get()))
-					{
-						return true;
-					}
+					return true;
 				}
-			//}
+			}
 			return false;
 		}
 
-		glm::vec3 GetGlobalPosition() const;
-		glm::vec3 GetLocalPosition() const;
-		void SetLocalPosition(float x, float y);
-		void SetLocalPosition(glm::vec3 pos);
-		void SetLocalPosition(glm::vec2 pos);
+		//*-----------------------------------------*
+		//|			  Transform functions			|
+		//*-----------------------------------------*
+		Transform* GetTransform() { return m_Transform.get(); }
 
-		GameObject(std::string name = "");
-		~GameObject();
-		GameObject(const GameObject& other) = delete;
-		GameObject(GameObject&& other) = delete;
-		GameObject& operator=(const GameObject& other) = delete;
-		GameObject& operator=(GameObject&& other) = delete;
-
+		//*-----------------------------------------*
+		//|			Parent/Child Functions			|
+		//*-----------------------------------------*
 		void SetParentObject(GameObject* parentObject, bool keepWorldPos);
 		GameObject* GetParentObject() const { return m_pParentObject; }
 
 		int GetChildCount() const { return static_cast<int>(m_pChildObjects.size()); }
 		GameObject* GetChildObject(int index) const { return m_pChildObjects[index]; }
 
+
 		void SetShouldBeRemoved() { m_ShouldBeRemoved = true; }
 		bool GetSouldBeRemoved() const { return m_ShouldBeRemoved; }
 
+		std::string GetName() const { return m_Name; }
 	private:
 		bool IsChild(GameObject* object);
+		void SetChildTransformsDirty();
 
 		std::string m_Name;
 
-		GameObject* m_pParentObject{};
-		std::vector<GameObject*> m_pChildObjects{};
-
-		//std::vector<std::shared_ptr<RenderComponent>> m_pRenderComponents{};
-		//std::vector<std::shared_ptr<PhysicsComponent>> m_pPhysicsComponents{};
 		std::vector<std::shared_ptr<Component>> m_pComponents{};
 
-		//Transform m_Transform{};
+		std::shared_ptr<Transform> m_Transform;
+
+		GameObject* m_pParentObject{};
+		std::vector<GameObject*> m_pChildObjects{};
 
 		bool m_ShouldBeRemoved{ false };
 	};

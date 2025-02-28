@@ -28,7 +28,7 @@ namespace dae
 		GameObject* m_pOwnerObject{};
 
 	protected:
-		explicit Component(dae::GameObject* ownerObject);
+		explicit Component(dae::GameObject& ownerObject);
 
 		GameObject* GetOwner() const { return m_pOwnerObject; }
 		bool m_ShouldBeRemoved{ false };

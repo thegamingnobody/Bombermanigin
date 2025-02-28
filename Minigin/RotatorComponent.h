@@ -10,7 +10,7 @@ namespace dae
     class RotatorComponent : public PhysicsComponent
     {
     public:
-        RotatorComponent(GameObject* ownerObject, float speed = 1.0f, float radius = 10.0f);
+        RotatorComponent(GameObject& ownerObject, float speed = 1.0f, float radius = 10.0f);
 
         virtual ~RotatorComponent() = default;
         RotatorComponent(const RotatorComponent& other) = delete;
@@ -24,8 +24,6 @@ namespace dae
 		float m_Speed;
         float m_CurrentAngle;
         float m_Radius;
-		glm::vec2 m_Center;
-		//glm::vec2 m_CurrentOffset;
     };
 }
 

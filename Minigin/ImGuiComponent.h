@@ -107,7 +107,7 @@ namespace dae
 	public:
 		void RenderImGui() override;
 
-		ImGuiComponent(dae::GameObject* object);
+		ImGuiComponent(dae::GameObject& object);
 		virtual ~ImGuiComponent() = default;
 		ImGuiComponent(const ImGuiComponent& other) = delete;
 		ImGuiComponent(ImGuiComponent&& other) = delete;

@@ -11,7 +11,7 @@ void dae::TextureComponent::Render() const
 		throw std::invalid_argument("Texture does not exist");
 	}
 
-	auto position = GetOwner()->GetGlobalPosition();
+	auto position = GetOwner()->GetTransform()->GetGlobalPosition();
 	dae::Renderer::GetInstance().RenderTexture(*m_pTextures[m_CurrentSpriteIndex], position.x, position.y);
 }
 
@@ -55,7 +55,7 @@ void dae::TextureComponent::SetCurrentIndex(int const newIndex)
 	}
 }
 
-dae::TextureComponent::TextureComponent(dae::GameObject* object)
+dae::TextureComponent::TextureComponent(dae::GameObject& object)
 	: RenderComponent(object)
 	, m_CurrentSpriteIndex(0)
 {

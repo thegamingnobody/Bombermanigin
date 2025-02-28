@@ -33,7 +33,7 @@ void dae::TextComponent::SetText(const std::string& text)
 	m_needsUpdate = true;
 }
 
-dae::TextComponent::TextComponent(dae::GameObject* object, const std::string& text, std::shared_ptr<Font> font)
+dae::TextComponent::TextComponent(dae::GameObject& object, const std::string& text, std::shared_ptr<Font> font)
 	: TextureComponent(object)
 	, m_needsUpdate(true)
 	, m_text(text)
