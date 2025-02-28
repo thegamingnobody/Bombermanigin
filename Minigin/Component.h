@@ -13,7 +13,7 @@ namespace dae
 		virtual void Update(float const /*deltaTime*/) {};
 		virtual void FixedUpdate(float const /*fixedTimeStep*/) {};
 		virtual void Render() const {};
-		virtual void RenderImGui() const {};
+		virtual void RenderImGui() {};
 
 		virtual ~Component() = default;
 		Component(const Component& other) = delete;

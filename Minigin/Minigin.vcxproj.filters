@@ -141,6 +141,9 @@
     <ClInclude Include="ImGuiComponent.h">
       <Filter>Header Files\Components\RenderComponents</Filter>
     </ClInclude>
+    <ClInclude Include="..\3rdParty\Imgui\imgui_plot.h">
+      <Filter>Header Files\ImGui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameObject.cpp">
@@ -220,6 +223,9 @@
     </ClCompile>
     <ClCompile Include="TextureComponent.cpp">
       <Filter>Source Files\Components\RenderComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\Imgui\imgui_plot.cpp">
+      <Filter>Source Files\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

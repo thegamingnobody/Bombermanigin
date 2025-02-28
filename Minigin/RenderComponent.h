@@ -18,7 +18,7 @@ namespace dae
 
 		virtual void Update(float const /*deltaTime*/) override {};
 		virtual void Render() const {};
-		virtual void RenderImGui() const {};
+		virtual void RenderImGui() {};
 
 	private:
 	};
