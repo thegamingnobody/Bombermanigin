@@ -4,16 +4,6 @@
 #include "Renderer.h"
 #include "GameObject.h"
 
-//void dae::TextComponent::Render() const
-//{
-//	if (m_pTextures[m_CurrentSpriteIndex] == nullptr)
-//	{
-//		throw std::invalid_argument("Texture does not exist");
-//	}
-//	const auto& pos = GetOwner()->GetPosition().GetPosition();
-//	dae::Renderer::GetInstance().RenderTexture(*m_pTextures[m_CurrentSpriteIndex], pos.x, pos.y);
-//}
-
 void dae::TextComponent::Update(float const)
 {
 	if (m_needsUpdate)

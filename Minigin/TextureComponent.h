@@ -14,8 +14,6 @@ namespace dae
 	{
     public:
         void Render() const override;
-
-        void Update(float const deltaTime) override { deltaTime; }
                 
         int AddTexture(const std::string& filename);
         int AddTexture(const std::shared_ptr<Texture2D>& texture);

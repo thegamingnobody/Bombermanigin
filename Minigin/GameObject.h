@@ -21,6 +21,7 @@ namespace dae
 		void Update(float const deltaTime);
 		void FixedUpdate(float const fixedTimeStep);
 		void Render() const;
+		void RenderImGui() const;
 
 		template<std::derived_from<Component> T, class... Arguments>
 		T& AddComponent(Arguments&&... arguments)
@@ -180,8 +181,7 @@ namespace dae
 		bool GetSouldBeRemoved() const { return m_ShouldBeRemoved; }
 
 	private:
-		void AddChildObject(GameObject* childObject);
-		void RemoveChildObject(GameObject* childObject);
+		bool IsChild(GameObject* object);
 
 		std::string m_Name;
 

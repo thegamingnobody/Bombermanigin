@@ -58,3 +58,10 @@ void Scene::Render() const
 	}
 }
 
+void Scene::RenderImGui() const
+{
+	for (const auto& object : m_objects)
+	{
+		object->RenderImGui();
+	}
+}

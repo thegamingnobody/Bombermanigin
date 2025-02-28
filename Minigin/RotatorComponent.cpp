@@ -10,7 +10,7 @@ dae::RotatorComponent::RotatorComponent(GameObject* ownerObject, float speed, fl
 {
 }
 
-void dae::RotatorComponent::FixedUpdate(float const fixedTimeStep)
+void dae::RotatorComponent::Update(float const deltaTime)
 {
 	auto owner = GetOwner();
 	auto parentOfOwner = owner->GetParentObject();
@@ -21,11 +21,9 @@ void dae::RotatorComponent::FixedUpdate(float const fixedTimeStep)
 	}
 
 	float rotationSpeed = (m_Speed / 360.0f);
-	m_CurrentAngle += rotationSpeed * fixedTimeStep;
+	m_CurrentAngle += rotationSpeed * deltaTime;
 
 	glm::vec2 currentOffset = { (cosf(m_CurrentAngle) * m_Radius), -(sinf(m_CurrentAngle) * m_Radius) };
 	
 	owner->SetLocalPosition(m_Center.x + currentOffset.x, m_Center.y + currentOffset.y);
 }
-
-void dae::RotatorComponent::Update(float const){}

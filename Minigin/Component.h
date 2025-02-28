@@ -10,7 +10,10 @@ namespace dae
 	class Component
 	{
 	public:
-		virtual void Update(float const deltaTime) = 0;
+		virtual void Update(float const /*deltaTime*/) {};
+		virtual void FixedUpdate(float const /*fixedTimeStep*/) {};
+		virtual void Render() const {};
+		virtual void RenderImGui() const {};
 
 		virtual ~Component() = default;
 		Component(const Component& other) = delete;

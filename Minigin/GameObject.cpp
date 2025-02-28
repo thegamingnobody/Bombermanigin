@@ -16,6 +16,8 @@ void dae::GameObject::SetParentObject(GameObject* parentObject, bool keepWorldPo
 	//check if new parent is valid
 	if (parentObject == nullptr or parentObject == this) return;
 
+	if (IsChild(parentObject)) return;
+
 	//todo: update position
 	if (m_pParentObject == nullptr)
 	{
@@ -51,51 +53,20 @@ void dae::GameObject::SetParentObject(GameObject* parentObject, bool keepWorldPo
 
 }
 
-void dae::GameObject::AddChildObject(GameObject* childObject)
+bool dae::GameObject::IsChild(GameObject* object)
 {
-	if (childObject == nullptr or childObject == this) return;
-	
-	//todo: update position
-	//childObject->SetPosition(m_Transform.GetPosition().x, m_Transform.GetPosition().y);
-
-	//remove child from old parent
-	if (childObject)
+	for (auto& child : m_pChildObjects)
 	{
-		auto it = std::find(childObject->m_pParentObject->m_pChildObjects.begin(), childObject->m_pParentObject->m_pChildObjects.end(), childObject);
-		if (it != childObject->m_pParentObject->m_pChildObjects.end())
+		if (child == object)
 		{
-			RemoveChildObject(childObject);
+			return true;
 		}
 	}
-
-	//set new parent
-	childObject->m_pParentObject = this;
-
-	//add to parent as child
-	m_pChildObjects.emplace_back(childObject);
-}
-
-void dae::GameObject::RemoveChildObject(GameObject* childObject)
-{
-	if (childObject == nullptr or childObject == this) return;
-
-	auto it = std::find(m_pChildObjects.begin(), m_pChildObjects.end(), childObject);
-	if (it != m_pChildObjects.end())
-	{
-		m_pChildObjects.erase(it);
-	}
-
-	childObject->m_pParentObject = nullptr;
-
-	//todo: update position
+	return false;
 }
 
 void dae::GameObject::Update(float const deltaTime)
 {
-	//for (auto& component : m_pRenderComponents)
-	//{
-	//	component->Update(deltaTime);
-	//}
 	for (auto& component : m_pComponents)
 	{
 		component->Update(deltaTime);
@@ -106,10 +77,7 @@ void dae::GameObject::FixedUpdate(float const fixedTimeStep)
 {
 	for (auto& component : m_pComponents)
 	{
-		if (auto derivedComponent = dynamic_cast<dae::PhysicsComponent*>(component.get()))
-		{
-			derivedComponent->FixedUpdate(fixedTimeStep);
-		}
+		component->FixedUpdate(fixedTimeStep);
 	}	
 }
 
@@ -117,10 +85,15 @@ void dae::GameObject::Render() const
 {
 	for (auto& component : m_pComponents)
 	{
-		if (auto derivedComponent = dynamic_cast<dae::RenderComponent*>(component.get()))
-		{
-			derivedComponent->Render();
-		}
+		component->Render();
+	}
+}
+
+void dae::GameObject::RenderImGui() const
+{
+	for (auto& component : m_pComponents)
+	{
+		component->RenderImGui();
 	}
 }
 

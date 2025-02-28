@@ -8,8 +8,6 @@ namespace dae
 	class TextComponent : public TextureComponent
 	{
 	public:
-		//void Render() const override;
-
 		void Update(float const deltaTime) override;
 
 		void SetText(const std::string& text);

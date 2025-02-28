@@ -18,7 +18,6 @@ namespace dae
         RotatorComponent& operator= (const RotatorComponent& other) = delete;
         RotatorComponent& operator=(RotatorComponent&& other) = delete;
 
-        virtual void FixedUpdate(float const fixedTimeStep) override;
         virtual void Update(float const deltaTime) override;
 
     private:

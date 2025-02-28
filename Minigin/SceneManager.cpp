@@ -24,6 +24,13 @@ void dae::SceneManager::Render()
 		scene->Render();
 	}
 }
+void dae::SceneManager::RenderImGui()
+{
+	for (const auto& scene : m_scenes)
+	{
+		scene->RenderImGui();
+	}
+}
 
 dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 {
