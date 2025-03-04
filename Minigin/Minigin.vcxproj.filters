@@ -37,12 +37,6 @@
     <Filter Include="Source Files\Misc Classes">
       <UniqueIdentifier>{fa6cdb6f-172d-4844-a5ab-0bce7ba641fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\ImGui">
-      <UniqueIdentifier>{ac95a939-e90c-49f7-8f94-a292d45870a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\ImGui">
-      <UniqueIdentifier>{ea0c5687-a8ff-4c08-b033-60b88a36d0d6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Components\PhysicsComponents">
       <UniqueIdentifier>{195c55ce-f8f0-43c5-8548-5205cc9cb994}</UniqueIdentifier>
     </Filter>
@@ -54,6 +48,15 @@
     </Filter>
     <Filter Include="Source Files\Components\RenderComponents">
       <UniqueIdentifier>{b4061ac0-59e2-4a3e-be07-629d74a48811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGui">
+      <UniqueIdentifier>{8e78c63e-111f-4045-98d2-142152fdab9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{a196080a-228a-4b8c-afcd-1bc82aabfd5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{ccdbd1c9-c903-46b5-997c-a49e649d3edb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -102,33 +105,6 @@
     <ClInclude Include="Transform.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\3rdParty\Imgui\imgui.h">
-      <Filter>Header Files\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\Imgui\imgui_internal.h">
-      <Filter>Header Files\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\Imgui\imstb_rectpack.h">
-      <Filter>Header Files\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\Imgui\imstb_textedit.h">
-      <Filter>Header Files\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\Imgui\imstb_truetype.h">
-      <Filter>Header Files\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\Imgui\imconfig.h">
-      <Filter>Header Files\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\Imgui\backends\imgui_impl_opengl3.h">
-      <Filter>Header Files\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\Imgui\backends\imgui_impl_opengl3_loader.h">
-      <Filter>Header Files\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\3rdParty\Imgui\backends\imgui_impl_sdl2.h">
-      <Filter>Header Files\ImGui</Filter>
-    </ClInclude>
     <ClInclude Include="RotatorComponent.h">
       <Filter>Header Files\Components\PhysicsComponents</Filter>
     </ClInclude>
@@ -141,8 +117,47 @@
     <ClInclude Include="ImGuiComponent.h">
       <Filter>Header Files\Components\RenderComponents</Filter>
     </ClInclude>
+    <ClInclude Include="..\3rdParty\Imgui\imconfig.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\Imgui\imgui.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\Imgui\backends\imgui_impl_opengl3.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\Imgui\backends\imgui_impl_opengl3_loader.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\Imgui\backends\imgui_impl_sdl2.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\Imgui\imgui_internal.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
     <ClInclude Include="..\3rdParty\Imgui\imgui_plot.h">
-      <Filter>Header Files\ImGui</Filter>
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\Imgui\imstb_rectpack.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\Imgui\imstb_textedit.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\Imgui\imstb_truetype.h">
+      <Filter>ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandBase.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonEnums.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="InputDeviceBase.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="GamepadDevice.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -191,27 +206,6 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Source Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\3rdParty\Imgui\imgui.cpp">
-      <Filter>Source Files\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\Imgui\imgui_demo.cpp">
-      <Filter>Source Files\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\Imgui\imgui_draw.cpp">
-      <Filter>Source Files\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\Imgui\backends\imgui_impl_opengl3.cpp">
-      <Filter>Source Files\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\Imgui\backends\imgui_impl_sdl2.cpp">
-      <Filter>Source Files\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\Imgui\imgui_tables.cpp">
-      <Filter>Source Files\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\3rdParty\Imgui\imgui_widgets.cpp">
-      <Filter>Source Files\ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="RotatorComponent.cpp">
       <Filter>Source Files\Components\PhysicsComponents</Filter>
     </ClCompile>
@@ -224,8 +218,32 @@
     <ClCompile Include="TextureComponent.cpp">
       <Filter>Source Files\Components\RenderComponents</Filter>
     </ClCompile>
+    <ClCompile Include="..\3rdParty\Imgui\imgui.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\Imgui\imgui_demo.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\Imgui\imgui_draw.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\Imgui\backends\imgui_impl_opengl3.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\Imgui\backends\imgui_impl_sdl2.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
     <ClCompile Include="..\3rdParty\Imgui\imgui_plot.cpp">
-      <Filter>Source Files\ImGui</Filter>
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\Imgui\imgui_tables.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\Imgui\imgui_widgets.cpp">
+      <Filter>ImGui</Filter>
+    </ClCompile>
+    </ClCompile>
+    </ClCompile>
     </ClCompile>
   </ItemGroup>
 </Project>
