@@ -89,3 +89,21 @@ void dae::Transform::UpdateGlobalPosition()
 	m_GlobalPosition = m_ParentPosition + m_LocalPosition;
 	m_ShouldUpdatePosition = false;
 }
+
+void dae::Transform::Move(float x, float y, float z)
+{
+	m_LocalPosition.x += x;
+	m_LocalPosition.y += y;
+	m_LocalPosition.z += z;
+	m_ShouldUpdatePosition = true;
+}
+
+void dae::Transform::Move(glm::vec3 pos)
+{
+	Move(pos.x, pos.y, pos.z);
+}
+
+void dae::Transform::Move(glm::vec2 pos)
+{
+	Move(pos.x, pos.y, 0.0f);
+}

@@ -25,8 +25,12 @@ void dae::ImGuiComponent::HandleExcercise()
 	static int amountOfTestsEx2{ 10 };
 	ImGui::InputInt("amount of tests", &amountOfTestsEx2);
 
+    ImGui::PushID(0);
 	Trash::Graph gameObjectGraph = AddImguiPlotButton<Trash::GameObjectTrashCache>(amountOfTestsEx2, "Trash the cache (GameObject)");
+    ImGui::PopID();
+    ImGui::PushID(1);
 	Trash::Graph gameObjectGraphAlt = AddImguiPlotButton<Trash::GameObjectTrashCacheAlt>(amountOfTestsEx2, "Trash the cache (GameObject alt)");
+    ImGui::PopID();
 
     DrawMultiPlot(gameObjectGraph, gameObjectGraphAlt);
 
@@ -65,7 +69,8 @@ void dae::ImGuiComponent::DrawMultiPlot(Trash::Graph& plot1, Trash::Graph& plot2
     conf.tooltip.format = "x=%.0f, y=%.2f";
     conf.grid_x.show = true;
     conf.grid_y.show = true;
-    conf.frame_size = ImVec2(400, 200);
+    conf.grid_y.size = conf.scale.max / 5;
+    conf.frame_size = ImVec2(200, 100);
     conf.line_thickness = 2.f;
 
     ImGui::Plot("GameObject vs GameObject Alt", conf);

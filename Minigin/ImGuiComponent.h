@@ -155,23 +155,17 @@ namespace dae
 				std::copy(finishedTimings.StepSizes.begin(), finishedTimings.StepSizes.end(), xData);
 				std::copy(finishedTimings.Timings.begin(), finishedTimings.Timings.end(), yData);
 
-				float maxTime{};
-
-				for (auto& timing : finishedTimings.Timings)
-				{
-					if (timing > maxTime) maxTime = timing;
-				}
-
 				static ImGui::PlotConfig intPlot;
 				intPlot.values.xs = xData; // this line is optional
 				intPlot.values.ys = yData;
 				intPlot.values.count = valuesCount;
 				intPlot.scale.min = 0;
-				intPlot.scale.max = maxTime;
+				intPlot.scale.max = *std::max_element(finishedTimings.Timings.begin(), finishedTimings.Timings.end());
 				intPlot.tooltip.show = true;
 				intPlot.tooltip.format = "x=%.0f, y=%.2f";
 				intPlot.grid_x.show = true;
 				intPlot.grid_y.show = true;
+				intPlot.grid_y.size = intPlot.scale.max / 5;
 				intPlot.frame_size = ImVec2(200, 100);
 				intPlot.line_thickness = 2.f;
 

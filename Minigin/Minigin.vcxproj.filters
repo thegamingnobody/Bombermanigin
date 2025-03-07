@@ -157,6 +157,15 @@
       <Filter>Header Files\Input</Filter>
     </ClInclude>
     <ClInclude Include="GamepadDevice.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Action.h">
+      <Filter>Header Files\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -242,8 +251,23 @@
     <ClCompile Include="..\3rdParty\Imgui\imgui_widgets.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="CommandBase.cpp">
+      <Filter>Source Files\Input</Filter>
     </ClCompile>
+    <ClCompile Include="InputDeviceBase.cpp">
+      <Filter>Source Files\Input</Filter>
     </ClCompile>
+    <ClCompile Include="GamepadDevice.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Action.cpp">
+      <Filter>Source Files\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

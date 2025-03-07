@@ -21,7 +21,7 @@ namespace dae
 		//*-----------------------------------------*
 		//|					Rule of 5				|
 		//*-----------------------------------------*
-		GameObject(std::string name = "");
+		GameObject(std::string name = "", int inputDeviceId = -1);
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -123,6 +123,8 @@ namespace dae
 
 		GameObject* m_pParentObject{};
 		std::vector<GameObject*> m_pChildObjects{};
+
+		int m_InputDeviceID;
 
 		bool m_ShouldBeRemoved{ false };
 	};

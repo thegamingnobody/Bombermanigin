@@ -34,6 +34,10 @@ namespace dae
 
 		void UpdateGlobalPosition();
 
+		void Move(float x, float y, float z = 0.0f);
+		void Move(glm::vec3 pos);
+		void Move(glm::vec2 pos);
+
 	private:
 		glm::vec3 m_LocalPosition;
 		glm::vec3 m_ParentPosition;
