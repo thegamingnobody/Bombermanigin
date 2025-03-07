@@ -4,11 +4,11 @@
 #include "Renderer.h"
 
 
-dae::GameObject::GameObject(std::string name, int inputDeviceId)
+dae::GameObject::GameObject(std::string name, glm::vec3 startingPos, int inputDeviceId)
 	: m_Name(name)
 	, m_InputDeviceID(inputDeviceId)
 {
-	m_Transform = std::make_shared<Transform>(*this, 0.0f, 0.0f, 0.0f);
+	m_Transform = std::make_shared<Transform>(*this, startingPos.x, startingPos.y, startingPos.z);
 }
 
 dae::GameObject::~GameObject() = default;

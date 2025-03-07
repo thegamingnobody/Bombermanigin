@@ -21,7 +21,7 @@ namespace dae
 		//*-----------------------------------------*
 		//|					Rule of 5				|
 		//*-----------------------------------------*
-		GameObject(std::string name = "", int inputDeviceId = -1);
+		GameObject(std::string name = "", glm::vec3 startingPos = glm::vec3(0.0f, 0.0f, 0.0f), int inputDeviceId = -1);
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -96,6 +96,7 @@ namespace dae
 		//|			  Transform functions			|
 		//*-----------------------------------------*
 		Transform* GetTransform() { return m_Transform.get(); }
+		void SetChildTransformsDirty();
 
 		//*-----------------------------------------*
 		//|			Parent/Child Functions			|
@@ -111,9 +112,9 @@ namespace dae
 		bool GetSouldBeRemoved() const { return m_ShouldBeRemoved; }
 
 		std::string GetName() const { return m_Name; }
+
 	private:
 		bool IsChild(GameObject* object);
-		void SetChildTransformsDirty();
 
 		std::string m_Name;
 

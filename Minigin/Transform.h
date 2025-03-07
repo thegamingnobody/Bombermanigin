@@ -26,10 +26,6 @@ namespace dae
 		void SetLocalPosition(glm::vec3 pos);
 		void SetLocalPosition(glm::vec2 pos);
 
-		void SetParentPosition(float x, float y, float z = 0.0f);
-		void SetParentPosition(glm::vec3 pos);
-		void SetParentPosition(glm::vec2 pos);
-
 		void SetDirty();
 
 		void UpdateGlobalPosition();
@@ -40,7 +36,6 @@ namespace dae
 
 	private:
 		glm::vec3 m_LocalPosition;
-		glm::vec3 m_ParentPosition;
 		glm::vec3 m_GlobalPosition;
 
 		bool m_ShouldUpdatePosition{ false };
