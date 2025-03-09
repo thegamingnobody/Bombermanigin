@@ -26,10 +26,10 @@ void dae::ImGuiComponent::HandleExcercise()
 	ImGui::InputInt("amount of tests", &amountOfTestsEx2);
 
     ImGui::PushID(0);
-	Trash::Graph gameObjectGraph = AddImguiPlotButton<Trash::GameObjectTrashCache>(amountOfTestsEx2, "Trash the cache (GameObject)");
+	Thrash::Graph gameObjectGraph = AddImguiPlotButton<Thrash::GameObjectTrashCache>(amountOfTestsEx2, "Trash the cache (GameObject)");
     ImGui::PopID();
     ImGui::PushID(1);
-	Trash::Graph gameObjectGraphAlt = AddImguiPlotButton<Trash::GameObjectTrashCacheAlt>(amountOfTestsEx2, "Trash the cache (GameObject alt)");
+	Thrash::Graph gameObjectGraphAlt = AddImguiPlotButton<Thrash::GameObjectTrashCacheAlt>(amountOfTestsEx2, "Trash the cache (GameObject alt)");
     ImGui::PopID();
 
     DrawMultiPlot(gameObjectGraph, gameObjectGraphAlt);
@@ -37,7 +37,7 @@ void dae::ImGuiComponent::HandleExcercise()
 	ImGui::End();
 }
 
-void dae::ImGuiComponent::DrawMultiPlot(Trash::Graph& plot1, Trash::Graph& plot2)
+void dae::ImGuiComponent::DrawMultiPlot(Thrash::Graph& plot1, Thrash::Graph& plot2)
 {
     if (plot1.StepSizes.empty() || plot2.StepSizes.empty()) return;
 
@@ -78,20 +78,9 @@ void dae::ImGuiComponent::DrawMultiPlot(Trash::Graph& plot1, Trash::Graph& plot2
 
 void dae::ImGuiComponent::RenderImGui()
 {
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame();
-
-	ImGui::NewFrame();
-
 	//ImGui::Begin("DemoWindow", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 	//ImGui::ShowDemoWindow();
 	//ImGui::End();
 
 	HandleExcercise();
-
-
-	ImGui::Render();
-
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
 }

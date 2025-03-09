@@ -1,16 +1,15 @@
-#ifndef GAMEPADDEVICE
-#define GAMEPADDEVICE
-
+#pragma once
 #include "InputDeviceBase.h"
 #include <memory>
 
 namespace dae
 {
-    class GamepadDevice final : public InputDeviceBase
+    class KeyboardDevice final : public InputDeviceBase
     {
 	public:
-		GamepadDevice(int const index);
-		~GamepadDevice();
+
+		KeyboardDevice(int const index);
+		~KeyboardDevice();
 
 		void Update() override;
 
@@ -23,9 +22,9 @@ namespace dae
 		void SetInUse(bool newUseState);
 
 	private:
-		class GamepadImpl;
-		std::unique_ptr<GamepadImpl> m_Impl;
-	};
+		class KeyboardImpl;
+		std::unique_ptr<KeyboardImpl> m_Impl;
+
+    };
 }
 
-#endif

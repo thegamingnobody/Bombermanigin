@@ -199,6 +199,7 @@
     <ClInclude Include="ImGuiComponent.h" />
     <ClInclude Include="InputDeviceBase.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="KeyboardDevice.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="PhysicsComponent.h" />
@@ -212,6 +213,7 @@
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TextureComponent.h" />
+    <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <ItemGroup>
@@ -234,6 +236,7 @@
     <ClCompile Include="ImGuiComponent.cpp" />
     <ClCompile Include="InputDeviceBase.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="KeyboardDevice.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
@@ -247,6 +250,7 @@
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="TextureComponent.cpp" />
+    <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

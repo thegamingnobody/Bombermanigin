@@ -17,7 +17,7 @@ namespace dae
 		};
 
 		Action(const GamepadButtons& gamepadButton, const InputType& inputType, std::shared_ptr<Command> command, int const deviceID);
-		//Action(const KeyboardKeys& keyboardKey, const InputType& inputType, std::shared_ptr<Command> command, int const playerNumber);
+		Action(const KeyboardKeys& keyboardKey, const InputType& inputType, std::shared_ptr<Command> command, int const deviceID);
 
 		void Execute();
 

@@ -11,7 +11,7 @@
 #include <imgui_plot.h>
 
 
-namespace Trash
+namespace Thrash
 {
 	struct TransformTrashCache
 	{
@@ -28,12 +28,6 @@ namespace Trash
 	public:
 		TransformTrashCache local;
 		int id;
-
-		GameObjectTrashCache operator*=(int value)
-		{
-			id *= value;
-			return *this;
-		}
 	};
 
 	class GameObjectTrashCacheAlt
@@ -41,12 +35,6 @@ namespace Trash
 	public:
 		TransformTrashCache* local;
 		int id;
-
-		GameObjectTrashCacheAlt operator*=(int value)
-		{
-			id *= value;
-			return *this;
-		}
 	};
 
 	struct Graph
@@ -56,9 +44,9 @@ namespace Trash
 	};
 
 	template<class T>
-	Trash::Graph TrashTheCache(int const nrOfTestsPerStep)
+	Thrash::Graph ThrashTheCache(int const nrOfTestsPerStep)
 	{
-		Trash::Graph result{};
+		Thrash::Graph result{};
 
 		int const arrSize{ 100'000'000 };
 		std::vector<T> arr{};
@@ -84,11 +72,9 @@ namespace Trash
 				currentStepTimings.push_back(elapsedTime);
 			}
 
-			std::sort(currentStepTimings.begin(), currentStepTimings.end());
-			currentStepTimings.erase(currentStepTimings.begin());
-			currentStepTimings.pop_back();
+			auto minmax = std::minmax_element(currentStepTimings.begin(), currentStepTimings.end());
 
-			auto sum = std::accumulate(currentStepTimings.begin(), currentStepTimings.end(), 0.0f);
+			auto sum = std::accumulate(currentStepTimings.begin(), currentStepTimings.end(), 0.0f) - *minmax.first - *minmax.second;
 			auto average = sum / currentStepTimings.size();
 
 			result.StepSizes.push_back(static_cast<float>(stepSize));
@@ -116,15 +102,15 @@ namespace dae
 
 	private:
 		void HandleExcercise();
-		void DrawMultiPlot(Trash::Graph& plot1, Trash::Graph& plot2);
+		void DrawMultiPlot(Thrash::Graph& plot1, Thrash::Graph& plot2);
 
 		template<class T>
-		Trash::Graph AddImguiPlotButton(int numberOfTests, std::string buttonContent)
+		Thrash::Graph AddImguiPlotButton(int numberOfTests, std::string buttonContent)
 		{
 			static bool isCalculating{ false };
 			static bool displayGraph{ false };
-			static std::future<Trash::Graph> futureTimings{};
-			static Trash::Graph finishedTimings{};
+			static std::future<Thrash::Graph> futureTimings{};
+			static Thrash::Graph finishedTimings{};
 
 			if (isCalculating)
 			{
@@ -142,7 +128,7 @@ namespace dae
 			{
 				isCalculating = true;
 
-				futureTimings = std::async(std::launch::async, &Trash::TrashTheCache<int>, numberOfTests);
+				futureTimings = std::async(std::launch::async, &Thrash::ThrashTheCache<int>, numberOfTests);
 			}
 
 			if (displayGraph)

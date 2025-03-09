@@ -11,12 +11,8 @@
 #include "ResourceManager.h"
 #include <thread>
 #include <fstream>
-#include <json.hpp>
 #include <iostream>
-using json = nlohmann::json;
-
-//TODO: IMGUI APARTE COMPONENT
-
+#include "Time.h"
 
 SDL_Window* g_window{};
 
@@ -75,6 +71,8 @@ dae::Minigin::Minigin(const std::string &dataPath)
 	ResourceManager::GetInstance().Init(dataPath);
 
 	InputManager::GetInstance().Init();
+
+	TimeManager::GetInstance().Init();
 }
 
 dae::Minigin::~Minigin()
@@ -92,21 +90,15 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& renderer = Renderer::GetInstance();
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
-
-	std::ifstream f("../config.json");
-	json data = json::parse(f);
+	auto& time = dae::TimeManager::GetInstance();
 
 	bool doContinue = true;
-	int const targetFramerate{ data["targetFramerate"] };
-	float const fixedTimeStep{ data["fixedTimeStep"] };
-	long long const msPerFrame = 1000 / targetFramerate;
-	auto lastTime = std::chrono::high_resolution_clock::now();
+	float const fixedTimeStep = time.GetFixedTimeStep();
 	float lag = 0.0f;
 	while (doContinue)
 	{
-		auto const currentTime = std::chrono::high_resolution_clock::now();
-		float const deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
-		lastTime = currentTime;
+		time.Update();
+		float deltaTime = time.GetDeltaTime();
 		lag += deltaTime;
 
 		doContinue = input.ProcessInput();
@@ -119,8 +111,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		sceneManager.Update(deltaTime);
 		renderer.Render();
 
-		auto const sleepTime = std::chrono::milliseconds(msPerFrame) - (std::chrono::high_resolution_clock::now() - currentTime);
-
+		auto const sleepTime = time.GetSleepTime();
 		std::this_thread::sleep_for(sleepTime);
 	}
 }

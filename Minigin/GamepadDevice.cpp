@@ -25,6 +25,7 @@ public:
 
 	void Update()
 	{
+		//todo: detect if controller disconected?
 		CopyMemory(&m_LastState, &m_CurrentState, sizeof(XINPUT_STATE));
 		ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
 		/*auto result = */XInputGetState(m_DeviceID, &m_CurrentState);

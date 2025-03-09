@@ -1,4 +1,5 @@
 #include "MoveCommand.h"
+#include "Time.h"
 
 dae::MoveCommand::MoveCommand(GameObject& controllingObject, glm::vec3 direction) 
 	: m_pControllingObject(&controllingObject)
@@ -10,6 +11,7 @@ dae::MoveCommand::MoveCommand(GameObject& controllingObject, glm::vec3 direction
 void dae::MoveCommand::Execute()
 {
 	auto transform = m_pControllingObject->GetTransform();
-
-	transform->Move(m_Direction);
+	//todo: DELTA TIME!!!!!
+	auto deltaTime = dae::TimeManager::GetInstance().GetDeltaTime();
+	transform->Move(m_Direction * deltaTime);
 }

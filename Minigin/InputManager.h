@@ -17,14 +17,16 @@ namespace dae
 
 		bool ProcessInput();
 
-		int AddInputDevice();
+		int AddInputDevice(const Action::DeviceType& deviceType);
 		void AddAction(const GamepadButtons& gamepadButton, const InputType& inputType, std::shared_ptr<Command> command, int const deviceID);
+		void AddAction(const KeyboardKeys& keyboardKey, const InputType& inputType, std::shared_ptr<Command> command, int const deviceID);
 
 
 	private:
 		int GetAvailableGamepadIndex();
 		std::vector<std::unique_ptr<InputDeviceBase>> m_InputDevices;
 		std::vector<std::unique_ptr<Action>> m_Actions;
+		int const m_KeyboardId{4};
 	};
 
 }
