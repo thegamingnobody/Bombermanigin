@@ -150,6 +150,9 @@
     <ClInclude Include="HealthComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Observer.h" />
+    <ClInclude Include="Subject.h" />
+    <ClInclude Include="Event.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\Imgui\imgui.cpp">
@@ -260,5 +263,7 @@
     <ClCompile Include="HealthComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="Observer.cpp" />
+    <ClCompile Include="Subject.cpp" />
   </ItemGroup>
 </Project>

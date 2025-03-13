@@ -1,4 +1,6 @@
-#pragma once
+#ifndef HEALTHCOMPONENT
+#define HEALTHCOMPONENT
+
 #include "Component.h"
 
 namespace dae
@@ -20,3 +22,5 @@ namespace dae
 		bool m_CanSurpassMax;
 	};
 }
+
+#endif
