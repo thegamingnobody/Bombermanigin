@@ -17,7 +17,12 @@ namespace dae
 
 		bool ProcessInput();
 
+
+		//Todo: Add Remove input device
 		int AddInputDevice(const Action::DeviceType& deviceType);
+
+		//Todo: Add Remove action
+		//Todo: moet command een shared pointer zijn?
 		void AddAction(const GamepadButtons& gamepadButton, const InputType& inputType, std::shared_ptr<Command> command, int const deviceID);
 		void AddAction(const KeyboardKeys& keyboardKey, const InputType& inputType, std::shared_ptr<Command> command, int const deviceID);
 
