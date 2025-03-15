@@ -188,11 +188,14 @@
     <ClInclude Include="..\3rdParty\Imgui\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\Imgui\imstb_truetype.h" />
     <ClInclude Include="Action.h" />
+    <ClInclude Include="AttackCommand.h" />
     <ClInclude Include="ButtonEnums.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="CommandBase.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="EventManager.h" />
+    <ClInclude Include="EventTypes.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameObject.h" />
@@ -230,9 +233,11 @@
     <ClCompile Include="..\3rdParty\Imgui\imgui_tables.cpp" />
     <ClCompile Include="..\3rdParty\Imgui\imgui_widgets.cpp" />
     <ClCompile Include="Action.cpp" />
+    <ClCompile Include="AttackCommand.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="CommandBase.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />

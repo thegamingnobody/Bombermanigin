@@ -1,7 +1,8 @@
 #ifndef DAE_OBSERVER
 #define DAE_OBSERVER
 
-#include <string>
+#include <tuple>
+#include <any>
 #include "Event.h"
 
 namespace dae

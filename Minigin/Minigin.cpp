@@ -13,6 +13,7 @@
 #include <fstream>
 #include <iostream>
 #include "Time.h"
+#include "EventManager.h"
 
 SDL_Window* g_window{};
 
@@ -73,6 +74,8 @@ dae::Minigin::Minigin(const std::string &dataPath)
 	InputManager::GetInstance().Init();
 
 	TimeManager::GetInstance().Init();
+
+	EventManager::GetInstance().Init();
 }
 
 dae::Minigin::~Minigin()
@@ -91,6 +94,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& sceneManager = SceneManager::GetInstance();
 	auto& input = InputManager::GetInstance();
 	auto& time = dae::TimeManager::GetInstance();
+	auto& eventManager = EventManager::GetInstance();
 
 	bool doContinue = true;
 	float const fixedTimeStep = time.GetFixedTimeStep();
@@ -102,6 +106,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		lag += deltaTime;
 
 		doContinue = input.ProcessInput();
+		eventManager.ProcessQueue();
 		while (lag > fixedTimeStep)
 		{
 			sceneManager.FixedUpdate(fixedTimeStep);

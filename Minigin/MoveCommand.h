@@ -1,4 +1,6 @@
-#pragma once
+#ifndef DAE_MOVECOMMAND
+#define DAE_MOVECOMMAND
+
 #include "Command.h"
 #include <glm.hpp>
 #include "GameObject.h"
@@ -18,3 +20,5 @@ namespace dae
 
     };
 }
+
+#endif

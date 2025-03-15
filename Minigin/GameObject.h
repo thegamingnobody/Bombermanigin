@@ -1,6 +1,7 @@
 #ifndef GAMEOBJECT
 #define GAMEOBJECT
 
+#include "Observer.h"
 #include <memory>
 #include "Transform.h"
 #include <string>
@@ -10,6 +11,7 @@
 #include "Component.h"
 #include <iostream>
 #include <optional>
+#include "Event.h"
 
 namespace dae
 {

@@ -153,6 +153,11 @@
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="EventManager.h" />
+    <ClInclude Include="AttackCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="EventTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\Imgui\imgui.cpp">
@@ -265,5 +270,9 @@
     </ClCompile>
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="Subject.cpp" />
+    <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="AttackCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

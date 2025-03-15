@@ -4,30 +4,29 @@
 #include <string>
 #include <any>
 #include <iostream>
+#include "EventTypes.h"
+
 
 namespace dae
 {
-	enum class EventType
-	{
-		BOMB_EXPLODED
-	};
-
 	struct Event
 	{
 		template<class... EventArguments>
-		Event(const EventType& eventType, std::tuple<EventArguments...> arguments, int const playerNumber)
+		Event(const EventType& eventType, std::tuple<EventArguments...> arguments)
 			: m_EventType(eventType)
 			, m_Args(arguments)
-			//, m_playerNumber(playerNumber)
 		{
 		}
 
-		template<class... EventArguments>
-		std::tuple<EventArguments...> GetArgumentsAsTuple() const
+		
+		template<EventType T>
+		typename EventArgumentMasks<T>::Args GetArgumentsAsTuple() const
 		{
+			using returnType = typename EventArgumentMasks<T>::Args;
+
 			try
 			{
-				return std::any_cast<std::tuple<EventArguments...>>(m_Args);
+				return std::any_cast<returnType>(m_Args);
 			}
 			catch (const std::bad_any_cast& e)
 			{
@@ -35,7 +34,7 @@ namespace dae
 				throw e;
 			}
 		}
-	
+
 		const EventType m_EventType;
 	private:
 		std::any m_Args;

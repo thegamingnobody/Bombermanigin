@@ -2,6 +2,8 @@
 #include "GameObject.h"
 #include "ResourceManager.h"
 #include "Renderer.h"
+#include "EventManager.h"
+#include "HealthComponent.h"
 
 
 dae::GameObject::GameObject(std::string name, glm::vec3 startingPos, int inputDeviceId)
@@ -70,7 +72,6 @@ void dae::GameObject::SetChildTransformsDirty()
 		child->GetTransform()->SetDirty();
 	}
 }
-
 
 void dae::GameObject::Update(float const deltaTime)
 {

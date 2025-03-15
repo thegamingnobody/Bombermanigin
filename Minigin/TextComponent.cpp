@@ -3,6 +3,7 @@
 #include "TextComponent.h"
 #include "Renderer.h"
 #include "GameObject.h"
+#include "EventManager.h"
 
 void dae::TextComponent::Update(float const)
 {
@@ -39,4 +40,18 @@ dae::TextComponent::TextComponent(dae::GameObject& object, const std::string& te
 	, m_text(text)
 	, m_font(std::move(font))
 {
+}
+
+void dae::TextComponent::Notify(const Event& event)
+{
+	switch (event.m_EventType)
+	{
+	case EventType::OBJECT_DAMAGED:
+		auto [object, newHealth] = event.GetArgumentsAsTuple<EventType::OBJECT_DAMAGED>();
+
+		SetText("# Lives: " + std::to_string(newHealth));
+		break;
+	default:
+		break;
+	}
 }

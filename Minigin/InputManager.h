@@ -27,6 +27,8 @@ namespace dae
 		void AddAction(const KeyboardKeys& keyboardKey, const InputType& inputType, std::shared_ptr<Command> command, int const deviceID);
 
 
+		
+
 	private:
 		int GetAvailableGamepadIndex();
 		std::vector<std::unique_ptr<InputDeviceBase>> m_InputDevices;

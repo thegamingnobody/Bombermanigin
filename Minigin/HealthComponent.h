@@ -2,10 +2,11 @@
 #define HEALTHCOMPONENT
 
 #include "Component.h"
+#include "Observer.h"
 
 namespace dae
 {
-	class HealthComponent : public Component
+	class HealthComponent : public Component, public Observer
 	{
 	public:
 		HealthComponent(GameObject& ownerObject, int maxHealth, bool canSurpassMax = false);
@@ -15,6 +16,8 @@ namespace dae
 
 		void Heal(int amount);
 		void Damage(int amount);
+
+		void Notify(const Event& event) override;
 
 	private:
 		int m_MaxHealth;

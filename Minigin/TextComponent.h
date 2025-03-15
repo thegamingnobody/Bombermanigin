@@ -2,10 +2,11 @@
 #define TEXTCOMPONENT
 #include "TextureComponent.h"
 #include "Font.h"
+#include "Observer.h"
 
 namespace dae
 {
-	class TextComponent : public TextureComponent
+	class TextComponent : public TextureComponent, public Observer
 	{
 	public:
 		void Update(float const deltaTime) override;
@@ -19,6 +20,8 @@ namespace dae
 		TextComponent& operator=(const TextComponent& other) = delete;
 		TextComponent& operator=(TextComponent&& other) = delete;
 
+		void Notify(const Event& event) override;
+
 	private:
 		std::string m_text;
 		std::shared_ptr<Font> m_font;
@@ -26,4 +29,4 @@ namespace dae
 	};
 }
 
-#endif
+#endif 
