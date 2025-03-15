@@ -34,11 +34,12 @@ void dae::TextComponent::SetText(const std::string& text)
 	m_needsUpdate = true;
 }
 
-dae::TextComponent::TextComponent(dae::GameObject& object, const std::string& text, std::shared_ptr<Font> font)
+dae::TextComponent::TextComponent(dae::GameObject& object, const std::string& text, std::shared_ptr<Font> font, GameObject* objectToTakeStatsFrom)
 	: TextureComponent(object)
 	, m_needsUpdate(true)
 	, m_text(text)
 	, m_font(std::move(font))
+	, m_ObjectToTakeStatsFrom(objectToTakeStatsFrom)
 {
 }
 
@@ -47,11 +48,22 @@ void dae::TextComponent::Notify(const Event& event)
 	switch (event.m_EventType)
 	{
 	case EventType::OBJECT_DAMAGED:
+	{
 		auto [object, newHealth] = event.GetArgumentsAsTuple<EventType::OBJECT_DAMAGED>();
 
+		if (object != m_ObjectToTakeStatsFrom) break;
+
 		SetText("# Lives: " + std::to_string(newHealth));
+	}
 		break;
-	default:
+	case EventType::SCORE_ADDED:
+	{
+		auto [objectScoreAdded, newScoreValue] = event.GetArgumentsAsTuple<EventType::SCORE_ADDED>();
+
+		if (objectScoreAdded != m_ObjectToTakeStatsFrom) break;
+
+		SetText("Score: " + std::to_string(newScoreValue));
+	}
 		break;
 	}
 }

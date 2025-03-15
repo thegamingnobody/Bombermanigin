@@ -14,7 +14,8 @@ namespace dae
 	{
 		BOMB_EXPLODED,
 		OBJECT_DAMAGED,
-		PLAYER_DIED,
+		SCORE_ADDED,
+		PLAYER_DIED
 	};
 
 	template<EventType>
@@ -42,8 +43,16 @@ namespace dae
 		}
 	};
 
-	//using BombExploded = std::tuple<glm::vec3, float, GameObject*>;
-	//using ObjectDamaged = std::tuple<GameObject*, int>;
+	template<>
+	struct EventArgumentMasks<EventType::SCORE_ADDED>
+	{
+		using Args = std::tuple<GameObject*, int>;
+
+		static Args Create(GameObject* objectScoreAdded, int newScoreValue)
+		{
+			return std::make_tuple(objectScoreAdded, newScoreValue);
+		}
+	};
 
 }
 

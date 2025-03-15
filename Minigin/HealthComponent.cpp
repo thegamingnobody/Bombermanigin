@@ -1,5 +1,6 @@
 #include "HealthComponent.h"
 #include "Event.h"
+#include "EventManager.h"
 
 dae::HealthComponent::HealthComponent(GameObject& ownerObject, int maxHealth, bool canSurpassMax)
 	: Component(ownerObject)
@@ -30,6 +31,7 @@ void dae::HealthComponent::Damage(int amount)
 	assert(owner != nullptr);
 
 	Event event{ EventType::OBJECT_DAMAGED, EventArgumentMasks<EventType::OBJECT_DAMAGED>::Create(owner, m_CurrentHealth) };
+	EventManager::GetInstance().BroadcastEvent(event);	
 }
 
 void dae::HealthComponent::Notify(const Event& event)
