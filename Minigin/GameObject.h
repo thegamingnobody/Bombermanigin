@@ -1,17 +1,13 @@
-#ifndef GAMEOBJECT
-#define GAMEOBJECT
+#pragma once
 
-#include "Observer.h"
-#include <memory>
+#include <glm.hpp>
+#include "Component.h"
+#include <optional>
 #include "Transform.h"
 #include <string>
 #include <vector>
-#include "RenderComponent.h"
-#include "PhysicsComponent.h"
-#include "Component.h"
-#include <iostream>
-#include <optional>
-#include "Event.h"
+#include <memory>
+#include  <stdexcept>
 
 namespace dae
 {
@@ -132,5 +128,3 @@ namespace dae
 		bool m_ShouldBeRemoved{ false };
 	};
 }
-
-#endif

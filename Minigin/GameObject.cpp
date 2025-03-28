@@ -1,9 +1,9 @@
-#include <string>
 #include "GameObject.h"
-#include "ResourceManager.h"
-#include "Renderer.h"
-#include "EventManager.h"
-#include "HealthComponent.h"
+//#include <string>
+//#include "ResourceManager.h"
+//#include "Renderer.h"
+//#include "EventManager.h"
+//#include "HealthComponent.h"
 
 
 dae::GameObject::GameObject(std::string name, glm::vec3 startingPos, int inputDeviceId)

@@ -1,5 +1,5 @@
 #include "MoveCommand.h"
-#include "Time.h"
+#include "TimeManager.h"
 
 dae::MoveCommand::MoveCommand(GameObject& controllingObject, glm::vec3 direction) 
 	: m_pControllingObject(&controllingObject)

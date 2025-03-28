@@ -34,6 +34,9 @@
     <Filter Include="Components\StandardComponents">
       <UniqueIdentifier>{93d6619b-a397-4672-b325-5b2d556f6bf8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Event related classes">
+      <UniqueIdentifier>{2e665e84-5477-48e0-b7b2-81188a58eaca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RenderComponent.h">
@@ -114,7 +117,7 @@
     <ClInclude Include="SceneManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="Time.h">
+    <ClInclude Include="TimeManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
@@ -144,14 +147,9 @@
     <ClInclude Include="Minigin.h">
       <Filter>Main Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Observer.h" />
-    <ClInclude Include="Subject.h" />
-    <ClInclude Include="Event.h" />
-    <ClInclude Include="EventManager.h" />
     <ClInclude Include="AttackCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
-    <ClInclude Include="EventTypes.h" />
     <ClInclude Include="FPSComponent.h">
       <Filter>Components\StandardComponents</Filter>
     </ClInclude>
@@ -161,7 +159,24 @@
     <ClInclude Include="Transform.h">
       <Filter>Components\StandardComponents</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreComponent.h" />
+    <ClInclude Include="ScoreComponent.h">
+      <Filter>Components\StandardComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Event related classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Event related classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Event related classes</Filter>
+    </ClInclude>
+    <ClInclude Include="EventTypes.h">
+      <Filter>Event related classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\Imgui\imgui.cpp">
@@ -233,7 +248,7 @@
     <ClCompile Include="SceneManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="Time.cpp">
+    <ClCompile Include="TimeManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
@@ -257,15 +272,9 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Main Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Main Classes</Filter>
-    </ClCompile>
     <ClCompile Include="Minigin.cpp">
       <Filter>Main Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Observer.cpp" />
-    <ClCompile Include="Subject.cpp" />
-    <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="AttackCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
@@ -278,6 +287,17 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Components\StandardComponents</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreComponent.cpp" />
+    <ClCompile Include="ScoreComponent.cpp">
+      <Filter>Components\StandardComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>Event related classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Event related classes</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

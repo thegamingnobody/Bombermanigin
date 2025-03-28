@@ -12,14 +12,8 @@
 #include <thread>
 #include <fstream>
 #include <iostream>
-#include "Time.h"
+#include "TimeManager.h"
 #include "EventManager.h"
-
-#pragma warning (push)
-#pragma warning (disable: 4996)
-#include <steam/steam_api.h>
-#define STEAM_INCLUDED
-#pragma warning (pop)
 
 SDL_Window* g_window{};
 
@@ -110,11 +104,6 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		time.Update();
 		float deltaTime = time.GetDeltaTime();
 		lag += deltaTime;
-
-#ifdef STEAM_INCLUDED
-		SteamAPI_RunCallbacks();
-#endif 
-
 
 		doContinue = input.ProcessInput();
 		eventManager.ProcessQueue();
