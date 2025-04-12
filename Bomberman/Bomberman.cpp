@@ -14,11 +14,16 @@
 #include <Scene.h>
 #include <ResourceManager.h>
 #include <TextComponent.h>
-#include <FPSComponent.h>
-#include <HealthComponent.h>
-#include <ScoreComponent.h>
-#include <MoveCommand.h>
-#include <AttackCommand.h>
+#include "FPSComponent.h"
+#include "HealthComponent.h"
+#include "AttackCommand.h"
+#include "MoveCommand.h"
+#include "ScoreComponent.h"
+//#include "FPSComponent.h"
+//#include "HealthComponent.h"
+//#include "ScoreComponent.h"
+//#include "MoveCommand.h"
+//#include "AttackCommand.h"
 
 void load()
 {
@@ -55,7 +60,7 @@ void load()
 
 	go = std::make_shared<dae::GameObject>("FPS Counter");
 	go->AddComponent<dae::TextComponent>(*go.get(), " ", font);
-	go->AddComponent<dae::FPSComponent>(*go.get());
+	go->AddComponent<bomberman::FPSComponent>(*go.get());
 	go->GetTransform()->SetLocalPosition(20.0f, 430.0f);
 	scene.Add(go);
 
@@ -70,9 +75,9 @@ void load()
 	{
 		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
 		textureComponent.AddTexture("Bomberman_S_1.png");
-		auto& healthComponent = go->AddComponent<dae::HealthComponent>(*go.get(), 3);
+		auto& healthComponent = go->AddComponent<bomberman::HealthComponent>(*go.get(), 3);
 		eventManager.AddObserver(healthComponent, dae::EventType::BOMB_EXPLODED);
-		auto& scoreComponent = go->AddComponent<dae::ScoreComponent>(*go.get());
+		auto& scoreComponent = go->AddComponent<bomberman::ScoreComponent>(*go.get());
 		eventManager.AddObserver(scoreComponent, dae::EventType::OBJECT_DAMAGED);
 	}
 
@@ -81,11 +86,11 @@ void load()
 	float const player1Movespeed{ 100 };
 	float const player2Movespeed{ player1Movespeed * 2 };
 
-	inputManager.AddAction(dae::GamepadButtons::DpadUp, dae::InputType::Held, std::make_shared<dae::MoveCommand>(*go.get(), glm::vec3(0.0f, -1.0f, 0.0f) * player1Movespeed), player1InputID);
-	inputManager.AddAction(dae::GamepadButtons::DpadDown, dae::InputType::Held, std::make_shared<dae::MoveCommand>(*go.get(), glm::vec3(0.0f, 1.0f, 0.0f) * player1Movespeed), player1InputID);
-	inputManager.AddAction(dae::GamepadButtons::DpadLeft, dae::InputType::Held, std::make_shared<dae::MoveCommand>(*go.get(), glm::vec3(-1.0f, 0.0f, 0.0f) * player1Movespeed), player1InputID);
-	inputManager.AddAction(dae::GamepadButtons::DpadRight, dae::InputType::Held, std::make_shared<dae::MoveCommand>(*go.get(), glm::vec3(1.0f, 0.0f, 0.0f) * player1Movespeed), player1InputID);
-	inputManager.AddAction(dae::GamepadButtons::FaceButtonLeft, dae::InputType::PressedThisFrame, std::make_shared<dae::AttackCommand>(*go.get()), player1InputID);
+	inputManager.AddAction(dae::GamepadButtons::DpadUp, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, -1.0f, 0.0f) * player1Movespeed), player1InputID);
+	inputManager.AddAction(dae::GamepadButtons::DpadDown, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, 1.0f, 0.0f) * player1Movespeed), player1InputID);
+	inputManager.AddAction(dae::GamepadButtons::DpadLeft, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(-1.0f, 0.0f, 0.0f) * player1Movespeed), player1InputID);
+	inputManager.AddAction(dae::GamepadButtons::DpadRight, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(1.0f, 0.0f, 0.0f) * player1Movespeed), player1InputID);
+	inputManager.AddAction(dae::GamepadButtons::FaceButtonLeft, dae::InputType::PressedThisFrame, std::make_shared<bomberman::AttackCommand>(*go.get()), player1InputID);
 
 	auto goDisplay = std::make_shared<dae::GameObject>("Player 1 Health Display", glm::vec3(10.0f, 150.0f, 0.0f));
 	{
@@ -105,18 +110,18 @@ void load()
 	{
 		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
 		textureComponent.AddTexture("Balloom_E_1.png");
-		auto& healthComponent = go->AddComponent<dae::HealthComponent>(*go.get(), 3);
+		auto& healthComponent = go->AddComponent<bomberman::HealthComponent>(*go.get(), 3);
 		eventManager.AddObserver(healthComponent, dae::EventType::BOMB_EXPLODED);
-		auto& scoreComponent = go->AddComponent<dae::ScoreComponent>(*go.get());
+		auto& scoreComponent = go->AddComponent<bomberman::ScoreComponent>(*go.get());
 		eventManager.AddObserver(scoreComponent, dae::EventType::OBJECT_DAMAGED);
 	}
 	scene.Add(go);
 
-	inputManager.AddAction(dae::KeyboardKeys::W, dae::InputType::Held, std::make_shared<dae::MoveCommand>(*go.get(), glm::vec3(0.0f, -1.0f, 0.0f) * player2Movespeed), player2InputID);
-	inputManager.AddAction(dae::KeyboardKeys::S, dae::InputType::Held, std::make_shared<dae::MoveCommand>(*go.get(), glm::vec3(0.0f, 1.0f, 0.0f) * player2Movespeed), player2InputID);
-	inputManager.AddAction(dae::KeyboardKeys::A, dae::InputType::Held, std::make_shared<dae::MoveCommand>(*go.get(), glm::vec3(-1.0f, 0.0f, 0.0f) * player2Movespeed), player2InputID);
-	inputManager.AddAction(dae::KeyboardKeys::D, dae::InputType::Held, std::make_shared<dae::MoveCommand>(*go.get(), glm::vec3(1.0f, 0.0f, 0.0f) * player2Movespeed), player2InputID);
-	inputManager.AddAction(dae::KeyboardKeys::C, dae::InputType::PressedThisFrame, std::make_shared<dae::AttackCommand>(*go.get()), player2InputID);
+	inputManager.AddAction(dae::KeyboardKeys::W, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, -1.0f, 0.0f) * player2Movespeed), player2InputID);
+	inputManager.AddAction(dae::KeyboardKeys::S, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, 1.0f, 0.0f) * player2Movespeed), player2InputID);
+	inputManager.AddAction(dae::KeyboardKeys::A, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(-1.0f, 0.0f, 0.0f) * player2Movespeed), player2InputID);
+	inputManager.AddAction(dae::KeyboardKeys::D, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(1.0f, 0.0f, 0.0f) * player2Movespeed), player2InputID);
+	inputManager.AddAction(dae::KeyboardKeys::C, dae::InputType::PressedThisFrame, std::make_shared<bomberman::AttackCommand>(*go.get()), player2InputID);
 
 	goDisplay = std::make_shared<dae::GameObject>("Player 2 Health Display", glm::vec3(10.0f, 200.0f, 0.0f));
 	{

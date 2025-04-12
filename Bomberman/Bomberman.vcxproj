@@ -179,7 +179,24 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AttackCommand.cpp" />
     <ClCompile Include="Bomberman.cpp" />
+    <ClCompile Include="FPSComponent.cpp" />
+    <ClCompile Include="HealthComponent.cpp" />
+    <ClCompile Include="MoveCommand.cpp" />
+    <ClCompile Include="RotatorComponent.cpp" />
+    <ClCompile Include="ScoreComponent.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AttackCommand.h" />
+    <ClInclude Include="FPSComponent.h" />
+    <ClInclude Include="HealthComponent.h" />
+    <ClInclude Include="MoveCommand.h" />
+    <ClInclude Include="RotatorComponent.h" />
+    <ClInclude Include="ScoreComponent.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="imgui.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -5,12 +5,12 @@
 #include <glm.hpp>
 #include "GameObject.h"
 
-namespace dae
+namespace bomberman
 {
-    class RotatorComponent : public PhysicsComponent
+    class RotatorComponent : public dae::PhysicsComponent
     {
     public:
-        RotatorComponent(GameObject& ownerObject, float speed = 1.0f, float radius = 10.0f);
+        RotatorComponent(dae::GameObject& ownerObject, float speed = 1.0f, float radius = 10.0f);
 
         virtual ~RotatorComponent() = default;
         RotatorComponent(const RotatorComponent& other) = delete;

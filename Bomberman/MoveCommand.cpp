@@ -1,14 +1,14 @@
 #include "MoveCommand.h"
 #include "TimeManager.h"
 
-dae::MoveCommand::MoveCommand(GameObject& controllingObject, glm::vec3 direction) 
+bomberman::MoveCommand::MoveCommand(dae::GameObject& controllingObject, glm::vec3 direction)
 	: m_pControllingObject(&controllingObject)
 	, m_Direction(direction)
 {
 
 }
 
-void dae::MoveCommand::Execute()
+void bomberman::MoveCommand::Execute()
 {
 	auto transform = m_pControllingObject->GetTransform();
 	//todo: DELTA TIME!!!!!

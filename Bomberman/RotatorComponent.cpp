@@ -1,14 +1,14 @@
 #include "RotatorComponent.h"
 
-dae::RotatorComponent::RotatorComponent(GameObject& ownerObject, float speed, float radius)
-	: PhysicsComponent(ownerObject)
+bomberman::RotatorComponent::RotatorComponent(dae::GameObject& ownerObject, float speed, float radius)
+	: dae::PhysicsComponent(ownerObject)
 	, m_Speed(speed)
 	, m_CurrentAngle(0.0f)
 	, m_Radius(radius)
 {
 }
 
-void dae::RotatorComponent::Update(float const deltaTime)
+void bomberman::RotatorComponent::Update(float const deltaTime)
 {
 	auto owner = GetOwner();
 

@@ -5,12 +5,12 @@
 #include "Observer.h"
 
 
-namespace dae
+namespace bomberman
 {
-    class ScoreComponent : public Component, public Observer
+    class ScoreComponent : public dae::Component, public dae::Observer
     {
     public:
-        ScoreComponent(GameObject& ownerObject);
+        ScoreComponent(dae::GameObject& ownerObject);
 
         void SetScore(int newScore) { m_Score = newScore; }
         int GetScore() const { return m_Score; }
@@ -18,7 +18,7 @@ namespace dae
         void AddScore(int addedScore);
         void RemoveScore(int removedScore);
 
-        void Notify(const Event& event) override;
+        void Notify(const dae::Event& event) override;
 
     private:
         int m_Score;

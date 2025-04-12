@@ -4,17 +4,17 @@
 #include "Command.h"
 #include "GameObject.h"
 
-namespace dae
+namespace bomberman
 {
-    class AttackCommand final : public Command
+    class AttackCommand final : public dae::Command
     {
 	public:
-		AttackCommand(GameObject& controllingObject);
+		AttackCommand(dae::GameObject& controllingObject);
 
 		void Execute() override;
 
 	private:
-		GameObject* m_pControllingObject;
+		dae::GameObject* m_pControllingObject;
     };
 }
 

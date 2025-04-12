@@ -3,7 +3,7 @@
 #include <sstream>
 #include <chrono>
 
-void dae::FPSComponent::Update(float const deltaTime)
+void bomberman::FPSComponent::Update(float const deltaTime)
 {
 	m_FrameCount++;
 	m_Delay += deltaTime;
@@ -21,8 +21,8 @@ void dae::FPSComponent::Update(float const deltaTime)
 	}
 }
 
-dae::FPSComponent::FPSComponent(dae::GameObject& object)
-	: Component(object)
+bomberman::FPSComponent::FPSComponent(dae::GameObject& object)
+	: dae::Component(object)
 	, m_FrameCount(0)
 	, m_CurrentFPS(0.0f)
 	, m_Delay(0.0f)

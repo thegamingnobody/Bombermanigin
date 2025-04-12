@@ -4,9 +4,9 @@
 #include "Component.h"
 #include "TextComponent.h"
 
-namespace dae
+namespace bomberman
 {
-	class FPSComponent : public Component
+	class FPSComponent : public dae::Component
 	{
 	public:
 		void Update(float const deltaTime) override;
@@ -26,7 +26,7 @@ namespace dae
 		float m_CurrentFPS;
 		float m_Delay;
 		float const m_MaxDelay;
-		TextComponent* m_pTextComponent;
+		dae::TextComponent* m_pTextComponent;
 
 	};
 }
