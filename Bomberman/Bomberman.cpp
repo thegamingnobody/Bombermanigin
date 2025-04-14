@@ -94,7 +94,7 @@ void load()
 		auto& scoreComponent = go->AddComponent<bomberman::ScoreComponent>(*go.get());
 		eventManager.AddObserver(scoreComponent, dae::EventType::OBJECT_DAMAGED);
 		float const hitboxOffset{ 2.0f };
-		go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::Box(hitboxOffset, hitboxOffset, static_cast<float>(textureSize.x) - hitboxOffset * 2, static_cast<float>(textureSize.y) - hitboxOffset * 2));
+		go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Entity, bomberman::Box(hitboxOffset, hitboxOffset, static_cast<float>(textureSize.x) - hitboxOffset * 2, static_cast<float>(textureSize.y) - hitboxOffset * 2));
 	}
 	scene.Add(go);
 	camera.SetTrackingTarget(*go.get());
@@ -108,20 +108,20 @@ void load()
 	////*-----------------------------------------*
 	////|				   Map					  |
 	////*-----------------------------------------*
-	go = std::make_shared<dae::GameObject>("LeftWall");
-	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::Box(0.0f, 0.0f, static_cast<float>(tileSizeScaled), static_cast<float>(tileSizeScaled * tilesAmountVertical)));
+	go = std::make_shared<dae::GameObject>("LeftWall", glm::vec3(0.0f, 0.0f, 0.0f));
+	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Wall, bomberman::Box(0.0f, 0.0f, static_cast<float>(tileSizeScaled), static_cast<float>(tileSizeScaled * tilesAmountVertical)));
 	scene.Add(go);
 
-	go = std::make_shared<dae::GameObject>("RightWall");
-	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::Box((tileSizeScaled * (tilesAmountHorizontal - 1)), 0.0f, static_cast<float>(tileSizeScaled), static_cast<float>(tileSizeScaled * tilesAmountVertical)));
+	go = std::make_shared<dae::GameObject>("RightWall", glm::vec3((tileSizeScaled * (tilesAmountHorizontal - 1)), 0.0f, 0.0f));
+	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Wall, bomberman::Box(0.0f, 0.0f, static_cast<float>(tileSizeScaled), static_cast<float>(tileSizeScaled * tilesAmountVertical)));
 	scene.Add(go);
 
-	go = std::make_shared<dae::GameObject>("TopWall");
-	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::Box(0.0f, 0.0f, static_cast<float>(tileSizeScaled * (tilesAmountHorizontal - 1)), static_cast<float>(tileSizeScaled)));
+	go = std::make_shared<dae::GameObject>("TopWall", glm::vec3(0.0f, 0.0f, 0.0f));
+	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Wall, bomberman::Box(0.0f, 0.0f, static_cast<float>(tileSizeScaled * (tilesAmountHorizontal - 1)), static_cast<float>(tileSizeScaled)));
 	scene.Add(go);
 
-	go = std::make_shared<dae::GameObject>("BottomWall");
-	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::Box(0.0f, static_cast<float>(tileSizeScaled * (tilesAmountVertical - 1)), static_cast<float>(tileSizeScaled * (tilesAmountHorizontal - 1)), static_cast<float>(tileSizeScaled)));
+	go = std::make_shared<dae::GameObject>("BottomWall", glm::vec3(0.0f, static_cast<float>(tileSizeScaled * (tilesAmountVertical - 1)), 0.0f));
+	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Wall, bomberman::Box(0.0f, 0.0f, static_cast<float>(tileSizeScaled * (tilesAmountHorizontal - 1)), static_cast<float>(tileSizeScaled)));
 	scene.Add(go);
 
 

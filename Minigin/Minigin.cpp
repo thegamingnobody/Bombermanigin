@@ -113,7 +113,6 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		lag += deltaTime;
 
 		doContinue = input.ProcessInput();
-		eventManager.ProcessQueue();
 		while (lag > fixedTimeStep)
 		{
 			sceneManager.FixedUpdate(fixedTimeStep);
@@ -122,6 +121,9 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 		sceneManager.Update(deltaTime);
 		camera.Update();
+		
+		eventManager.ProcessQueue();
+
 		sceneManager.LateUpdate();
 
 		renderer.Render();

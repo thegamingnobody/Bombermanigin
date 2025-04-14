@@ -16,17 +16,31 @@ namespace bomberman
 		}
 	};
 
+	enum class CollisionType
+	{
+		None,
+		Wall,
+		Entity
+	};
+
     class BoxCollider : public dae::Component
     {
 	public:
-		BoxCollider(dae::GameObject& gameObject, Box hitBox = Box());
+		BoxCollider(dae::GameObject& gameObject, CollisionType collisionType = CollisionType::None, Box hitBox = Box());
 		~BoxCollider() override = default;
 
-		//void Update() override;
+		void Update(float const deltaTime) override;
 		void Render() const override;
 	
+		Box GetHitBox() const { return m_HitBox; }
+
+		bool IsOverlapping(Box other) const;
 	private:
-		Box m_HitBox{};		
+		//Checks if this object should check for collisions
+		bool ShouldCheckCollision() const;
+
+		Box m_HitBox;
+		CollisionType m_CollisionType;
 	};
 }
 

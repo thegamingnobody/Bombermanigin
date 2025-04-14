@@ -16,6 +16,9 @@
     <Filter Include="Components\StandardComponents">
       <UniqueIdentifier>{dad0329e-6334-49cf-bd18-2c9c1500fb01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{b8056ef8-2c66-4df7-8402-8e866fc2476c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AttackCommand.cpp">
@@ -40,6 +43,7 @@
       <Filter>Components\StandardComponents</Filter>
     </ClCompile>
     <ClCompile Include="Bomberman.cpp" />
+    <ClCompile Include="CollidersManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -63,6 +67,7 @@
     <ClInclude Include="BoxCollider.h">
       <Filter>Components\StandardComponents</Filter>
     </ClInclude>
+    <ClInclude Include="CollidersManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
