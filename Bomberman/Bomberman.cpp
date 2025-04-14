@@ -20,6 +20,7 @@
 #include "MoveCommand.h"
 #include "ScoreComponent.h"
 #include <Camera.h>
+#include "BoxCollider.h"
 //#include "FPSComponent.h"
 //#include "HealthComponent.h"
 //#include "ScoreComponent.h"
@@ -33,6 +34,12 @@ void load()
 	auto& eventManager = dae::EventManager::GetInstance();
 	auto& resourceManager = dae::ResourceManager::GetInstance();
 	auto& camera = dae::Camera::GetInstance();
+
+	float const tileScale{ camera.GetWindowScale() };
+	float const tileSize{ 16.0f };
+	float const tileSizeScaled{ tileSize * tileScale };
+	int const tilesAmountVertical{ 13 };
+	int const tilesAmountHorizontal{ 31 };
 
 	//*-----------------------------------------*
 	//|				Background stuff			|
@@ -77,14 +84,17 @@ void load()
 	inputManager.AddAction(dae::GamepadButtons::DpadRight, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(1.0f, 0.0f, 0.0f) * player1Movespeed), player1InputID);
 	inputManager.AddAction(dae::GamepadButtons::FaceButtonLeft, dae::InputType::PressedThisFrame, std::make_shared<bomberman::AttackCommand>(*go.get()), player1InputID);
 
-	go = std::make_shared<dae::GameObject>("Player2", glm::vec3(50.0f, 50.0f, 0.0f), player2InputID);
+	go = std::make_shared<dae::GameObject>("Player2", glm::vec3(48.0f, 48.0f, 0.0f), player2InputID);
 	{
 		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
 		textureComponent.AddTexture("Balloom_E_1.png");
+		auto textureSize = textureComponent.GetSize();
 		auto& healthComponent = go->AddComponent<bomberman::HealthComponent>(*go.get(), 3);
 		eventManager.AddObserver(healthComponent, dae::EventType::BOMB_EXPLODED);
 		auto& scoreComponent = go->AddComponent<bomberman::ScoreComponent>(*go.get());
 		eventManager.AddObserver(scoreComponent, dae::EventType::OBJECT_DAMAGED);
+		float const hitboxOffset{ 2.0f };
+		go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::Box(hitboxOffset, hitboxOffset, static_cast<float>(textureSize.x) - hitboxOffset * 2, static_cast<float>(textureSize.y) - hitboxOffset * 2));
 	}
 	scene.Add(go);
 	camera.SetTrackingTarget(*go.get());
@@ -96,7 +106,27 @@ void load()
 	inputManager.AddAction(dae::KeyboardKeys::C, dae::InputType::PressedThisFrame, std::make_shared<bomberman::AttackCommand>(*go.get()), player2InputID);
 
 	////*-----------------------------------------*
-	////|				     ImGui				  |
+	////|				   Map					  |
+	////*-----------------------------------------*
+	go = std::make_shared<dae::GameObject>("LeftWall");
+	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::Box(0.0f, 0.0f, static_cast<float>(tileSizeScaled), static_cast<float>(tileSizeScaled * tilesAmountVertical)));
+	scene.Add(go);
+
+	go = std::make_shared<dae::GameObject>("RightWall");
+	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::Box((tileSizeScaled * (tilesAmountHorizontal - 1)), 0.0f, static_cast<float>(tileSizeScaled), static_cast<float>(tileSizeScaled * tilesAmountVertical)));
+	scene.Add(go);
+
+	go = std::make_shared<dae::GameObject>("TopWall");
+	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::Box(0.0f, 0.0f, static_cast<float>(tileSizeScaled * (tilesAmountHorizontal - 1)), static_cast<float>(tileSizeScaled)));
+	scene.Add(go);
+
+	go = std::make_shared<dae::GameObject>("BottomWall");
+	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::Box(0.0f, static_cast<float>(tileSizeScaled * (tilesAmountVertical - 1)), static_cast<float>(tileSizeScaled * (tilesAmountHorizontal - 1)), static_cast<float>(tileSizeScaled)));
+	scene.Add(go);
+
+
+	////*-----------------------------------------*
+	////|				  ImGui 				  |
 	////*-----------------------------------------*
 	//go = std::make_shared<dae::GameObject>("ImGui");
 	//go->AddComponent<dae::ImGuiComponent>(*go.get());

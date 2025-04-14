@@ -34,6 +34,8 @@ namespace dae
 		void Move(glm::vec3 pos);
 		void Move(glm::vec2 pos);
 
+		void LateUpdate();
+
 	private:
 		glm::vec3 m_LocalPosition;
 		glm::vec3 m_GlobalPosition;

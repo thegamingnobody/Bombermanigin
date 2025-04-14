@@ -66,7 +66,7 @@ void dae::Transform::UpdateGlobalPosition()
 	{
 		parentOfOwnerPosition = parentOfOwner->GetTransform()->GetGlobalPosition();
 	}
-
+	
 	m_GlobalPosition = parentOfOwnerPosition + m_LocalPosition;
 	owner->SetChildTransformsDirty();
 	m_ShouldUpdatePosition = false;
@@ -74,9 +74,9 @@ void dae::Transform::UpdateGlobalPosition()
 
 void dae::Transform::Move(float x, float y, float z)
 {
-	m_LocalPosition.x += x;
-	m_LocalPosition.y += y;
-	m_LocalPosition.z += z;
+	m_MovementThisFrame.x += x;
+	m_MovementThisFrame.y += y;
+	m_MovementThisFrame.z += z;
 	m_ShouldUpdatePosition = true;
 }
 void dae::Transform::Move(glm::vec3 pos)
@@ -86,4 +86,10 @@ void dae::Transform::Move(glm::vec3 pos)
 void dae::Transform::Move(glm::vec2 pos)
 {
 	Move(pos.x, pos.y, 0.0f);
+}
+
+void dae::Transform::LateUpdate()
+{
+	m_LocalPosition += m_MovementThisFrame;
+	m_MovementThisFrame = glm::vec3(0.0f, 0.0f, 0.0f);
 }

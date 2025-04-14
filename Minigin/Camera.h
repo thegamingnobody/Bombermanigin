@@ -35,6 +35,7 @@ namespace dae
 		bool IsInView(const glm::vec3& position) const;
 
 		glm::vec2 GetWindowSize() const;
+		float GetWindowScale() const { return m_WindowScale; }
 	private:
 		void TrackTarget();
 		void Clamp();
