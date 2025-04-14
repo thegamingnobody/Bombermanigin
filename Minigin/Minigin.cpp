@@ -101,6 +101,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 	auto& input = InputManager::GetInstance();
 	auto& time = dae::TimeManager::GetInstance();
 	auto& eventManager = EventManager::GetInstance();
+	auto& camera = Camera::GetInstance();
 
 	bool doContinue = true;
 	float const fixedTimeStep = time.GetFixedTimeStep();
@@ -120,6 +121,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 		}
 
 		sceneManager.Update(deltaTime);
+		camera.Update();
 		renderer.Render();
 
 		auto const sleepTime = time.GetSleepTime();

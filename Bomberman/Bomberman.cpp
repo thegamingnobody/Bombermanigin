@@ -19,6 +19,7 @@
 #include "AttackCommand.h"
 #include "MoveCommand.h"
 #include "ScoreComponent.h"
+#include <Camera.h>
 //#include "FPSComponent.h"
 //#include "HealthComponent.h"
 //#include "ScoreComponent.h"
@@ -31,6 +32,7 @@ void load()
 	auto& inputManager = dae::InputManager::GetInstance();
 	auto& eventManager = dae::EventManager::GetInstance();
 	auto& resourceManager = dae::ResourceManager::GetInstance();
+	auto& camera = dae::Camera::GetInstance();
 
 	//*-----------------------------------------*
 	//|				Background stuff			|
@@ -83,6 +85,7 @@ void load()
 		eventManager.AddObserver(scoreComponent, dae::EventType::OBJECT_DAMAGED);
 	}
 	scene.Add(go);
+	camera.SetTrackingTarget(*go.get());
 
 	inputManager.AddAction(dae::KeyboardKeys::W, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, -1.0f, 0.0f) * player2Movespeed), player2InputID);
 	inputManager.AddAction(dae::KeyboardKeys::S, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, 1.0f, 0.0f) * player2Movespeed), player2InputID);
