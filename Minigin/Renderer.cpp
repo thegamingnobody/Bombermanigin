@@ -92,6 +92,40 @@ void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
+void dae::Renderer::RenderPoint(float x, float y, const SDL_Color& color) const
+{
+	auto& camera = Camera::GetInstance();
+	glm::vec3 transformedPos = camera.TransformPosition(glm::vec3(x, y, 0));
+
+	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
+	SDL_RenderDrawPoint(m_renderer, static_cast<int>(transformedPos.x), static_cast<int>(transformedPos.y));
+}
+
+void dae::Renderer::RenderLine(float x1, float y1, float x2, float y2, const SDL_Color& color) const
+{
+	auto& camera = Camera::GetInstance();
+	glm::vec3 transformedPos1 = camera.TransformPosition(glm::vec3(x1, y1, 0));
+	glm::vec3 transformedPos2 = camera.TransformPosition(glm::vec3(x2, y2, 0));
+	
+	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
+	SDL_RenderDrawLine(m_renderer, transformedPos1.x, transformedPos1.y, transformedPos2.x, transformedPos2.y);
+}
+
+void dae::Renderer::RenderRect(float x, float y, float width, float height, const SDL_Color& color) const
+{
+	auto& camera = Camera::GetInstance();
+	glm::vec3 transformedPos = camera.TransformPosition(glm::vec3(x, y, 0));
+
+	SDL_Rect rect{};
+	rect.x = static_cast<int>(transformedPos.x);
+	rect.y = static_cast<int>(transformedPos.y);
+	rect.w = static_cast<int>(width);
+	rect.h = static_cast<int>(height);
+
+	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
+	SDL_RenderDrawRect(m_renderer, &rect);
+}
+
 SDL_Renderer* dae::Renderer::GetSDLRenderer() const { return m_renderer; }
 
 SDL_Window* dae::Renderer::GetSDLWindow() const { return m_window; }
