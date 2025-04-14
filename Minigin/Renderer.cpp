@@ -108,7 +108,7 @@ void dae::Renderer::RenderLine(float x1, float y1, float x2, float y2, const SDL
 	glm::vec3 transformedPos2 = camera.TransformPosition(glm::vec3(x2, y2, 0));
 	
 	SDL_SetRenderDrawColor(m_renderer, color.r, color.g, color.b, color.a);
-	SDL_RenderDrawLine(m_renderer, transformedPos1.x, transformedPos1.y, transformedPos2.x, transformedPos2.y);
+	SDL_RenderDrawLine(m_renderer, static_cast<int>(transformedPos1.x), static_cast<int>(transformedPos1.y), static_cast<int>(transformedPos2.x), static_cast<int>(transformedPos2.y));
 }
 
 void dae::Renderer::RenderRect(float x, float y, float width, float height, const SDL_Color& color) const
