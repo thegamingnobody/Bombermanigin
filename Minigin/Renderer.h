@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include "Singleton.h"
+#include "Camera.h"
 
 namespace dae
 {

@@ -156,6 +156,9 @@
     <ClInclude Include="ImGuiComponent.h">
       <Filter>Components\RenderComponents</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Misc Classes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\Imgui\imgui.cpp">
@@ -259,6 +262,9 @@
     </ClCompile>
     <ClCompile Include="ImGuiComponent.cpp">
       <Filter>Components\RenderComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Misc Classes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

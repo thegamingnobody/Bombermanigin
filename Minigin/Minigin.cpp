@@ -14,6 +14,7 @@
 #include <iostream>
 #include "TimeManager.h"
 #include "EventManager.h"
+#include "Camera.h"
 
 SDL_Window* g_window{};
 
@@ -47,6 +48,9 @@ void PrintSDLVersion()
 
 dae::Minigin::Minigin(const std::string &dataPath)
 {
+	Camera::GetInstance().Init();
+	glm::vec2 windowSize = Camera::GetInstance().GetWindowSize();
+	
 	PrintSDLVersion();
 	
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
@@ -58,8 +62,8 @@ dae::Minigin::Minigin(const std::string &dataPath)
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		static_cast<int>(m_windowWidthBase * m_windowScale),
-		static_cast<int>(m_windowHeightBase * m_windowScale),
+		static_cast<int>(windowSize.x),
+		static_cast<int>(windowSize.y),
 		SDL_WINDOW_OPENGL
 	);
 	if (g_window == nullptr) 
@@ -76,6 +80,8 @@ dae::Minigin::Minigin(const std::string &dataPath)
 	TimeManager::GetInstance().Init();
 
 	EventManager::GetInstance().Init();
+
+
 }
 
 dae::Minigin::~Minigin()

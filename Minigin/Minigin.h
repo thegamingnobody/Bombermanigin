@@ -15,10 +15,5 @@ namespace dae
 		Minigin(Minigin&& other) = delete;
 		Minigin& operator=(const Minigin& other) = delete;
 		Minigin& operator=(Minigin&& other) = delete;
-	private:
-		int const m_windowWidthBase{ 256 };
-		int const m_windowHeightBase{ 240 };
-		//makes the window bigger but doesn't scale any of the sprites
-		float const m_windowScale{ 3.0f };
 	};
 }
