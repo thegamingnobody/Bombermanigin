@@ -122,6 +122,8 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 		sceneManager.Update(deltaTime);
 		camera.Update();
+		sceneManager.LateUpdate();
+
 		renderer.Render();
 
 		auto const sleepTime = time.GetSleepTime();

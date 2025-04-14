@@ -89,6 +89,14 @@ void dae::GameObject::FixedUpdate(float const fixedTimeStep)
 	}	
 }
 
+void dae::GameObject::LateUpdate()
+{
+	for (auto& component : m_pComponents)
+	{
+		component->LateUpdate();
+	}
+}
+
 void dae::GameObject::Render() const
 {
 	for (auto& component : m_pComponents)

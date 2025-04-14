@@ -38,6 +38,8 @@ namespace dae
 		glm::vec3 m_LocalPosition;
 		glm::vec3 m_GlobalPosition;
 
+		glm::vec3 m_MovementThisFrame;
+
 		bool m_ShouldUpdatePosition{ false };
 	};
 }

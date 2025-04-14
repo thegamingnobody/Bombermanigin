@@ -12,6 +12,7 @@ namespace dae
 	public:
 		virtual void Update(float const /*deltaTime*/) {};
 		virtual void FixedUpdate(float const /*fixedTimeStep*/) {};
+		virtual void LateUpdate() {};
 		virtual void Render() const {};
 		virtual void RenderImGui() {};
 
