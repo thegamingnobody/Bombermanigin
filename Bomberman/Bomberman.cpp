@@ -93,6 +93,8 @@ void load()
 	inputManager.AddAction(dae::KeyboardKeys::D, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(1.0f, 0.0f, 0.0f) * player2Movespeed), player2InputID);
 	inputManager.AddAction(dae::KeyboardKeys::C, dae::InputType::PressedThisFrame, std::make_shared<bomberman::AttackCommand>(*go.get()), player2InputID);
 
+	camera.SetCameraLimits(dae::CameraLimits(0.0f, 1488.0f, 0.0f, 624.0f));
+
 	////*-----------------------------------------*
 	////|				     ImGui				  |
 	////*-----------------------------------------*
