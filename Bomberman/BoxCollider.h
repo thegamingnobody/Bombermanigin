@@ -1,5 +1,7 @@
 #pragma once
-#include <Component.h>
+#include "BaseCollider.h"
+#include <GameObject.h>
+#include "Grid.h"
 
 namespace bomberman
 {
@@ -16,31 +18,18 @@ namespace bomberman
 		}
 	};
 
-	enum class CollisionType
-	{
-		None,
-		Wall,
-		Entity
-	};
-
-    class BoxCollider : public dae::Component
+    class BoxCollider : public BaseCollider
     {
 	public:
-		BoxCollider(dae::GameObject& gameObject, CollisionType collisionType = CollisionType::None, Box hitBox = Box());
+		BoxCollider(dae::GameObject& gameObject, CollisionType collisionType = CollisionType::None, Box hitBox = Box(0.0f, 0.0f, TILE_SIZE, TILE_SIZE));
 		~BoxCollider() override = default;
 
 		void Update(float const deltaTime) override;
 		void Render() const override;
-	
-		Box GetHitBox() const { return m_HitBox; }
 
-		bool IsOverlapping(Box other) const;
 	private:
-		//Checks if this object should check for collisions
-		bool ShouldCheckCollision() const;
-
-		Box m_HitBox;
-		CollisionType m_CollisionType;
+		polygon CreateVerts(Box hitbox) const;
+		//std::vector<glm::vec2> CreateOctagon(float x, float y, float size) const;
 	};
 }
 

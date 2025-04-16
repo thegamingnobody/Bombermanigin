@@ -1,20 +1,21 @@
 #include "BoxCollider.h"
-#include <GameObject.h>
 #include <Renderer.h>
 #include "CollidersManager.h"
-
+#include "Grid.h"
 #include <iostream>
 
 bomberman::BoxCollider::BoxCollider(dae::GameObject& gameObject, CollisionType collisionType, Box hitBox)
-	: dae::Component(gameObject)
-	, m_HitBox(hitBox)
-	, m_CollisionType(collisionType)
+	: BaseCollider(gameObject, collisionType)
 {
 	CollidersManager::GetInstance().AddCollider(*this);
+	m_Polygon = CreateVerts(hitBox);
+	m_Axes = CalculateAxes(m_Polygon);
 }
 
 void bomberman::BoxCollider::Update(float const /*deltaTime*/)
 {
+	if (!ShouldCheckCollision()) return;
+
 	auto& collidersManager = CollidersManager::GetInstance();
 	auto colliders = collidersManager.GetColliders();
 
@@ -22,19 +23,13 @@ void bomberman::BoxCollider::Update(float const /*deltaTime*/)
 	{
 		if (collider == this) continue;
 
-		if (!collider->ShouldCheckCollision()) continue;
-
-		Box other = collider->GetHitBox();
+		polygon other = collider->GetHitBox();
 		auto otherPosition = collider->GetOwner()->GetTransform()->GetGlobalPosition();
-		other.x += otherPosition.x;
-		other.y += otherPosition.y;
 
-		if (IsOverlapping(other))
+		if (IsOverlapping(other, otherPosition))
 		{
 			std::cout << "Collision\n";
-			// Handle collision
-			// For example, you can call a method on the other collider or trigger an event
-			// collider->OnCollision(this);
+			GetOwner()->GetTransform()->ResetMovementThisFrame();
 		}
 	}
 }
@@ -42,36 +37,45 @@ void bomberman::BoxCollider::Update(float const /*deltaTime*/)
 void bomberman::BoxCollider::Render() const
 {
 	glm::vec3 position = GetOwner()->GetTransform()->GetGlobalPosition();
-	glm::vec2 size = { m_HitBox.width, m_HitBox.height };
+	glm::vec2 size = { (m_Polygon[0] - m_Polygon[1]).length(), (m_Polygon[1] - m_Polygon[2]).length() };
 	//glm::vec3 color = { 1.0f, 0.0f, 0.0f }; // Red color
 	auto& renderer = dae::Renderer::GetInstance();
 
-	renderer.RenderRect(position.x + m_HitBox.x, position.y + m_HitBox.y, size.x, size.y);
-
-}
-
-bool bomberman::BoxCollider::ShouldCheckCollision() const
-{
-	//Todo: Add collision type functionality
-	switch (m_CollisionType)
+	for (int vert = 0; vert < m_Polygon.size(); vert++)
 	{
-	case bomberman::CollisionType::None:
-		return false;
-	case bomberman::CollisionType::Wall:
-		return false;
-	case bomberman::CollisionType::Entity:
-		return true;
-	default:
-		return false;
+		glm::vec2 p1 = m_Polygon[vert];
+		glm::vec2 p2 = m_Polygon[(vert + 1) % m_Polygon.size()];
+		glm::vec3 center = glm::vec3(position.x, position.y, position.z);
+		renderer.RenderLine(center.x + p1.x, center.y + p1.y, center.x + p2.x, center.y + p2.y);
 	}
 }
 
-bool bomberman::BoxCollider::IsOverlapping(Box other) const
+//std::vector<glm::vec2> bomberman::BoxCollider::CreateOctagon(float x, float y, float size) const
+//{
+//	int const bevelInset{ 2 };
+//	float cx = x + size / 2;
+//	float cy = y + size / 2;
+//
+//	return {
+//		{cx - bevelInset, cy - size / 2},
+//		{cx + bevelInset, cy - size / 2},
+//		{cx + size / 2, cy - bevelInset},
+//		{cx + size / 2, cy + bevelInset},
+//		{cx + bevelInset, cy + size / 2},
+//		{cx - bevelInset, cy + size / 2},
+//		{cx - size / 2, cy + bevelInset},
+//		{cx - size / 2, cy - bevelInset}
+//	};
+//}
+
+polygon bomberman::BoxCollider::CreateVerts(Box hitbox) const
 {
-	auto position = GetOwner()->GetTransform()->GetGlobalPosition();
+	polygon result;
 
-	if (position.x + m_HitBox.x > other.x + other.width or other.x > position.x + m_HitBox.x + m_HitBox.width) return false;
-	if (position.y + m_HitBox.y > other.y + other.height or other.y > position.y + m_HitBox.y + m_HitBox.height) return false;
+	result.emplace_back(hitbox.x, hitbox.y);
+	result.emplace_back(hitbox.x + hitbox.width, hitbox.y);
+	result.emplace_back(hitbox.x + hitbox.width, hitbox.y + hitbox.height);
+	result.emplace_back(hitbox.x, hitbox.y + hitbox.height);
 
-	return true;
+	return result;
 }

@@ -95,6 +95,8 @@ void dae::GameObject::LateUpdate()
 	{
 		component->LateUpdate();
 	}
+
+	m_Transform->LateUpdate();
 }
 
 void dae::GameObject::Render() const

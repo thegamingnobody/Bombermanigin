@@ -1,7 +1,6 @@
 #pragma once
 #include "Singleton.h"
 #include <glm.hpp>
-#include "Transform.h"
 #include "GameObject.h"
 
 namespace dae

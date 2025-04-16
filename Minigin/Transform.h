@@ -21,6 +21,7 @@ namespace dae
 
 		const glm::vec3& GetLocalPosition() const;
 		const glm::vec3& GetGlobalPosition();
+		glm::vec3 GetPredictedPosition();
 
 		void SetLocalPosition(float x, float y, float z = 0.0f);
 		void SetLocalPosition(glm::vec3 pos);
@@ -34,9 +35,12 @@ namespace dae
 		void Move(glm::vec3 pos);
 		void Move(glm::vec2 pos);
 
-		void LateUpdate();
+		void LateUpdate() override;
+		void ResetMovementThisFrame();
 
 	private:
+		glm::vec3 CalculateGlobalPosition() const;
+
 		glm::vec3 m_LocalPosition;
 		glm::vec3 m_GlobalPosition;
 
