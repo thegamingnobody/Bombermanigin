@@ -34,6 +34,12 @@
     <Filter Include="Command">
       <UniqueIdentifier>{8891e9e7-c645-4ed0-a404-e19e943a97e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Managers\ServiceLocator">
+      <UniqueIdentifier>{48112453-e0a3-4f1c-80a4-f26c1700fe46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\ServiceLocator\Sound">
+      <UniqueIdentifier>{dad25ade-8211-4e2e-ae01-3bfd8e80254d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdParty\Imgui\imconfig.h">
@@ -159,6 +165,13 @@
     <ClInclude Include="Camera.h">
       <Filter>Misc Classes</Filter>
     </ClInclude>
+    <ClInclude Include="ServiceLocator.h">
+      <Filter>Managers\ServiceLocator</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundSystemBase.h">
+      <Filter>Managers\ServiceLocator\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="NullSoundSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\Imgui\imgui.cpp">
@@ -266,5 +279,12 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Misc Classes</Filter>
     </ClCompile>
+    <ClCompile Include="ServiceLocator.cpp">
+      <Filter>Managers\ServiceLocator</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSystemBase.cpp">
+      <Filter>Managers\ServiceLocator\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="NullSoundSystem.cpp" />
   </ItemGroup>
 </Project>
