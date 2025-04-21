@@ -187,6 +187,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
+    <ClCompile Include="OctagonCollider.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
   </ItemGroup>
@@ -199,6 +200,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="Grid.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="MoveCommand.h" />
+    <ClInclude Include="OctagonCollider.h" />
     <ClInclude Include="RotatorComponent.h" />
     <ClInclude Include="ScoreComponent.h" />
   </ItemGroup>

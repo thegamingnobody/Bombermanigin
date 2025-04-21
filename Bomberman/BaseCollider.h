@@ -20,8 +20,8 @@ namespace bomberman
 		BaseCollider(dae::GameObject& gameObject, CollisionType collisionType = CollisionType::None);
 		virtual ~BaseCollider() override = default;
 
-		virtual void Update(float const deltaTime) override = 0;
-		virtual void Render() const override = 0;
+		void Update(float const deltaTime) override;
+		void Render() const override;
 
 		polygon GetHitBox() const { return m_Polygon; }
 

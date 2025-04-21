@@ -1,10 +1,91 @@
 #include "BaseCollider.h"
 #include "CollidersManager.h"
+#include <Renderer.h>
+#include <iostream>
+
 
 bomberman::BaseCollider::BaseCollider(dae::GameObject& gameObject, CollisionType collisionType)
 	: dae::Component(gameObject)
 	, m_CollisionType(collisionType)
 {
+}
+
+void bomberman::BaseCollider::Update(float const /*deltaTime*/)
+{
+	if (!ShouldCheckCollision()) return;
+
+	auto& collidersManager = CollidersManager::GetInstance();
+	auto colliders = collidersManager.GetColliders();
+
+	auto& camera = dae::Camera::GetInstance();
+	float tileScale{ camera.GetWindowScale() };
+
+	for (const auto& collider : colliders)
+	{
+		if (collider == this) continue;
+
+		auto otherPosition = collider->GetOwner()->GetTransform()->GetGlobalPosition();
+
+		if (IsOverlapping(collider->GetHitBox(), otherPosition))
+		{
+			std::cout << "Collision\n";
+			auto transform = GetOwner()->GetTransform();
+			auto direction = transform->GetMovementThisFrame();
+
+			float tileStep{ 1.0f * tileScale };
+
+			if (static_cast<int>(direction.x) != 0)
+			{
+				transform->Move(glm::vec2(0.0f, -2*tileStep));
+				if (!IsOverlapping(collider->GetHitBox(), otherPosition))
+				{
+					transform->Move(glm::vec2(0.0f, tileStep));
+					continue;
+				}
+
+				transform->Move(glm::vec2(0.0f, 4.0f * tileStep));
+				if (!IsOverlapping(collider->GetHitBox(), otherPosition))
+				{
+					transform->Move(glm::vec2(0.0f, -1.0f * tileStep));
+					continue;
+				}
+			}
+			else if (static_cast<int>(direction.y) != 0)
+			{
+				transform->Move(glm::vec2(-2*tileStep, 0.0f));
+				if (!IsOverlapping(collider->GetHitBox(), otherPosition))
+				{
+					transform->Move(glm::vec2(tileStep, 0.0f));
+					continue;
+				}
+
+				transform->Move(glm::vec2(4.0f * tileStep, 0.0f));
+				if (!IsOverlapping(collider->GetHitBox(), otherPosition))
+				{
+					transform->Move(glm::vec2(-1.0f * tileStep, 0.0f));
+					continue;
+				}
+			}
+			
+			transform->ResetMovementThisFrame();
+		}
+	}
+}
+
+void bomberman::BaseCollider::Render() const
+{
+	glm::vec3 position = GetOwner()->GetTransform()->GetGlobalPosition();
+	glm::vec2 size = { (m_Polygon[0] - m_Polygon[1]).length(), (m_Polygon[1] - m_Polygon[2]).length() };
+	//glm::vec3 color = { 1.0f, 0.0f, 0.0f }; // Red color
+	auto& renderer = dae::Renderer::GetInstance();
+
+	for (int vert = 0; vert < m_Polygon.size(); vert++)
+	{
+		glm::vec2 p1 = m_Polygon[vert];
+		glm::vec2 p2 = m_Polygon[(vert + 1) % m_Polygon.size()];
+		glm::vec3 center = glm::vec3(position.x, position.y, position.z);
+		renderer.RenderLine(center.x + p1.x, center.y + p1.y, center.x + p2.x, center.y + p2.y);
+	}
 }
 
 bool bomberman::BaseCollider::IsOverlapping(polygon other, glm::vec3 otherPosition)

@@ -45,6 +45,7 @@
     <ClCompile Include="Bomberman.cpp" />
     <ClCompile Include="CollidersManager.cpp" />
     <ClCompile Include="BaseCollider.cpp" />
+    <ClCompile Include="OctagonCollider.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -71,6 +72,7 @@
     <ClInclude Include="CollidersManager.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="BaseCollider.h" />
+    <ClInclude Include="OctagonCollider.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

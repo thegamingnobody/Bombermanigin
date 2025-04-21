@@ -22,6 +22,7 @@
 #include <Camera.h>
 #include "BoxCollider.h"
 #include "Grid.h"
+#include "OctagonCollider.h"
 
 
 
@@ -67,7 +68,7 @@ void load()
 		auto& scoreComponent = go->AddComponent<bomberman::ScoreComponent>(*go.get());
 		eventManager.AddObserver(scoreComponent, dae::EventType::OBJECT_DAMAGED);
 		//float const hitboxOffset{ 2.0f };
-		go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Entity, bomberman::Box(4 * tileScale, 0, 8 * tileScale, 16 * tileScale));
+		go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Entity, bomberman::Box(4 * tileScale, 1 * tileScale, 8 * tileScale, 14 * tileScale));
 	}
 	scene.Add(go);
 	camera.SetTrackingTarget(*go.get());
@@ -121,16 +122,16 @@ void load()
 	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Wall, bomberman::Box(0.0f, 0.0f, TILE_SIZE * (TILES_AMOUNT_HORIZONTAL - 1), TILE_SIZE));
 	scene.Add(go);
 
-	//bomberman::GridCell startCell{ 2, 2 };
-	//for (int col = 0; col < (TILES_AMOUNT_HORIZONTAL - 4)/2; col++)
-	//{
-	//	for (int row = 0; row < (TILES_AMOUNT_VERTICAL - 4)/2+1; row++)
-	//	{
-	//		go = std::make_shared<dae::GameObject>("StaticWall_" + std::to_string(col) + "_" + std::to_string(row), bomberman::Grid::GridCoordToWorldPos(startCell.x + col * 2, startCell.y + row * 2));
-	//		go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Wall, bomberman::Box(0.0f, 0.0f, tileSizeScaled, tileSizeScaled));
-	//		scene.Add(go);
-	//	}
-	//}
+	bomberman::GridCell startCell{ 2, 2 };
+	for (int col = 0; col < (TILES_AMOUNT_HORIZONTAL - 4)/2; col++)
+	{
+		for (int row = 0; row < (TILES_AMOUNT_VERTICAL - 4)/2+1; row++)
+		{
+			go = std::make_shared<dae::GameObject>("StaticWall_" + std::to_string(col) + "_" + std::to_string(row), bomberman::Grid::GridCoordToWorldPos(startCell.x + col * 2, startCell.y + row * 2));
+			go->AddComponent<bomberman::OctagonCollider>(*go.get(), bomberman::CollisionType::Wall);
+			scene.Add(go);
+		}
+	}
 
 	////*-----------------------------------------*
 	////|				  ImGui 				  |

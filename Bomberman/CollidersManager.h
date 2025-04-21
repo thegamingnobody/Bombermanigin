@@ -1,7 +1,7 @@
 #pragma once
 #include <Singleton.h>
 #include <vector>
-#include "BoxCollider.h"
+#include "BaseCollider.h"
 
 namespace bomberman
 {
@@ -9,13 +9,13 @@ namespace bomberman
     {
     public:
 
-        void AddCollider(bomberman::BoxCollider& collider);
-		void RemoveCollider(bomberman::BoxCollider& collider);
+        void AddCollider(bomberman::BaseCollider& collider);
+		void RemoveCollider(bomberman::BaseCollider& collider);
 
-		const std::vector<bomberman::BoxCollider*>& GetColliders() const { return m_Colliders; }
+		const std::vector<bomberman::BaseCollider*>& GetColliders() const { return m_Colliders; }
 
     private:
-		std::vector<bomberman::BoxCollider*> m_Colliders{};
+		std::vector<bomberman::BaseCollider*> m_Colliders{};
 		//std::vector<std::shared_ptr<dae::GameObject>> m_Triggers{};
     };
 }

@@ -24,9 +24,6 @@ namespace bomberman
 		BoxCollider(dae::GameObject& gameObject, CollisionType collisionType = CollisionType::None, Box hitBox = Box(0.0f, 0.0f, TILE_SIZE, TILE_SIZE));
 		~BoxCollider() override = default;
 
-		void Update(float const deltaTime) override;
-		void Render() const override;
-
 	private:
 		polygon CreateVerts(Box hitbox) const;
 		//std::vector<glm::vec2> CreateOctagon(float x, float y, float size) const;
