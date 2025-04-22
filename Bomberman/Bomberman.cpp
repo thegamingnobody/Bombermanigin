@@ -123,7 +123,7 @@ void load()
 	scene.Add(go);
 
 	bomberman::GridCell startCell{ 2, 2 };
-	for (int col = 0; col < (TILES_AMOUNT_HORIZONTAL - 4)/2; col++)
+	for (int col = 0; col < (TILES_AMOUNT_HORIZONTAL - 4)/2+1; col++)
 	{
 		for (int row = 0; row < (TILES_AMOUNT_VERTICAL - 4)/2+1; row++)
 		{

@@ -28,7 +28,6 @@ void bomberman::BaseCollider::Update(float const /*deltaTime*/)
 
 		if (IsOverlapping(collider->GetHitBox(), otherPosition))
 		{
-			std::cout << "Collision\n";
 			auto transform = GetOwner()->GetTransform();
 			auto direction = transform->GetMovementThisFrame();
 
