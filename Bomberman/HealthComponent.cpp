@@ -1,6 +1,9 @@
 #include "HealthComponent.h"
-#include "Event.h"
 #include "EventManager.h"
+#include <cassert>
+#include "ObjectDamagedEvent.h"
+#include "BombExplodedEventTest.h"
+#include "EventTypes.h"
 
 bomberman::HealthComponent::HealthComponent(dae::GameObject& ownerObject, int maxHealth, bool canSurpassMax)
 	: dae::Component(ownerObject)
@@ -30,29 +33,34 @@ void bomberman::HealthComponent::Damage(int amount)
 	auto owner = GetOwner();
 	assert(owner != nullptr);
 
-	dae::Event event{ dae::EventType::OBJECT_DAMAGED, dae::EventArgumentMasks<dae::EventType::OBJECT_DAMAGED>::Create(owner, m_CurrentHealth) };
+	bomberman::ObjectDamagedEvent event{ owner, m_CurrentHealth };
 	dae::EventManager::GetInstance().BroadcastEvent(event);
 }
 
 void bomberman::HealthComponent::Notify(const dae::Event& event)
 {
-	switch (event.m_EventType)
-	{
-	case dae::EventType::BOMB_EXPLODED:
-	{
-		auto [position, radius, attackingObject] = event.GetArgumentsAsTuple<dae::EventType::BOMB_EXPLODED>();
+    switch (static_cast<EventType>(event.GetEventType()))
+    {
+    case EventType::BOMB_EXPLODED:
+    {
+        const auto castedEvent = dynamic_cast<const BombExplodedEventTest*>(&event);
+        assert(castedEvent != nullptr); // Ensure the cast is valid
+
+		auto position = castedEvent->GetPosition();
+		auto radius = castedEvent->GetRadius();
+		auto attackingObject = castedEvent->GetOwnerOfBomb();
 
 		auto owner = GetOwner();
 		assert(owner != nullptr);
 
 		auto distanceToBomb = glm::distance(owner->GetTransform()->GetGlobalPosition(), position);
 
-		if (distanceToBomb > radius or attackingObject == owner) break;
+		if (distanceToBomb > radius || attackingObject == owner) break;
 
 		Damage(1);
 		break;
-	}
-	default:
+    }
+    default:
 		break;
-	}
+    }
 }

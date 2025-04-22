@@ -20,7 +20,7 @@ namespace dae
 		TextComponent& operator=(const TextComponent& other) = delete;
 		TextComponent& operator=(TextComponent&& other) = delete;
 
-		void Notify(const Event& event) override;
+		virtual void Notify(const Event&) override {};
 
 	private:
 		std::string m_text;

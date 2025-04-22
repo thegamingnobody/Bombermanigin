@@ -135,9 +135,6 @@
     <ClInclude Include="Event.h">
       <Filter>Event related classes</Filter>
     </ClInclude>
-    <ClInclude Include="EventTypes.h">
-      <Filter>Event related classes</Filter>
-    </ClInclude>
     <ClInclude Include="Component.h">
       <Filter>Components\Base Component Interfaces</Filter>
     </ClInclude>
@@ -171,7 +168,9 @@
     <ClInclude Include="SoundSystemBase.h">
       <Filter>Managers\ServiceLocator\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="NullSoundSystem.h" />
+    <ClInclude Include="NullSoundSystem.h">
+      <Filter>Managers\ServiceLocator\Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\Imgui\imgui.cpp">
@@ -285,6 +284,8 @@
     <ClCompile Include="SoundSystemBase.cpp">
       <Filter>Managers\ServiceLocator\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="NullSoundSystem.cpp" />
+    <ClCompile Include="NullSoundSystem.cpp">
+      <Filter>Managers\ServiceLocator\Sound</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

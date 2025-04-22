@@ -42,28 +42,3 @@ dae::TextComponent::TextComponent(dae::GameObject& object, const std::string& te
 	, m_ObjectToTakeStatsFrom(objectToTakeStatsFrom)
 {
 }
-
-void dae::TextComponent::Notify(const Event& event)
-{
-	switch (event.m_EventType)
-	{
-	case EventType::OBJECT_DAMAGED:
-	{
-		auto [object, newHealth] = event.GetArgumentsAsTuple<EventType::OBJECT_DAMAGED>();
-
-		if (object != m_ObjectToTakeStatsFrom) break;
-
-		SetText("# Lives: " + std::to_string(newHealth));
-	}
-		break;
-	case EventType::SCORE_ADDED:
-	{
-		auto [objectScoreAdded, newScoreValue] = event.GetArgumentsAsTuple<EventType::SCORE_ADDED>();
-
-		if (objectScoreAdded != m_ObjectToTakeStatsFrom) break;
-
-		SetText("Score: " + std::to_string(newScoreValue));
-	}
-		break;
-	}
-}

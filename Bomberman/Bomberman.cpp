@@ -23,6 +23,7 @@
 #include "BoxCollider.h"
 #include "Grid.h"
 #include "OctagonCollider.h"
+#include "EventTypes.h"
 
 
 
@@ -64,9 +65,9 @@ void load()
 		textureComponent.AddTexture("Bomberman_S_1.png");
 		auto textureSize = textureComponent.GetSize();
 		auto& healthComponent = go->AddComponent<bomberman::HealthComponent>(*go.get(), 3);
-		eventManager.AddObserver(healthComponent, dae::EventType::BOMB_EXPLODED);
+		eventManager.AddObserver(healthComponent, static_cast<int>(bomberman::EventType::BOMB_EXPLODED));
 		auto& scoreComponent = go->AddComponent<bomberman::ScoreComponent>(*go.get());
-		eventManager.AddObserver(scoreComponent, dae::EventType::OBJECT_DAMAGED);
+		eventManager.AddObserver(scoreComponent, static_cast<int>(bomberman::EventType::OBJECT_DAMAGED));
 		//float const hitboxOffset{ 2.0f };
 		go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Entity, bomberman::Box(4 * tileScale, 1 * tileScale, 8 * tileScale, 14 * tileScale));
 	}
@@ -89,9 +90,9 @@ void load()
 		textureComponent.AddTexture("Balloom_E_1.png");
 		auto textureSize = textureComponent.GetSize();
 		auto& healthComponent = go->AddComponent<bomberman::HealthComponent>(*go.get(), 3);
-		eventManager.AddObserver(healthComponent, dae::EventType::BOMB_EXPLODED);
+		eventManager.AddObserver(healthComponent, static_cast<int>(bomberman::EventType::BOMB_EXPLODED));
 		auto& scoreComponent = go->AddComponent<bomberman::ScoreComponent>(*go.get());
-		eventManager.AddObserver(scoreComponent, dae::EventType::OBJECT_DAMAGED);
+		eventManager.AddObserver(scoreComponent, static_cast<int>(bomberman::EventType::OBJECT_DAMAGED));
 		float const hitboxOffset{ 2.0f };
 		go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Entity, bomberman::Box(hitboxOffset, hitboxOffset, static_cast<float>(textureSize.x) - hitboxOffset * 2, static_cast<float>(textureSize.y) - hitboxOffset * 2));
 	}

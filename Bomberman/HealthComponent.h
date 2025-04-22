@@ -3,6 +3,7 @@
 
 #include "Component.h"
 #include "Observer.h"
+#include <Event.h>
 
 namespace bomberman
 {

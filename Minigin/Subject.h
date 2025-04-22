@@ -12,7 +12,7 @@ namespace dae
 	public:
 		Subject() = default;
 
-		void AddObserver(Observer& observer, EventType eventType)
+		void AddObserver(Observer& observer, int eventType)
 		{
 			auto newObserver = std::make_pair(&observer, eventType);
 			m_Observers.emplace_back(newObserver);
@@ -20,7 +20,7 @@ namespace dae
 
 		void RemoveObserver(Observer& observer)
 		{
-			auto it = std::find_if(m_Observers.begin(), m_Observers.end(), [&observer](const std::pair<Observer*, EventType>& pair) -> bool
+			auto it = std::find_if(m_Observers.begin(), m_Observers.end(), [&observer](const std::pair<Observer*, int>& pair) -> bool
 				{
 					return (pair.first == &observer);
 				});
@@ -35,14 +35,14 @@ namespace dae
 		{
 			for (auto& observer : m_Observers)
 			{
-				if (event.m_EventType != observer.second) continue;
+				if (event.GetEventType() != observer.second) continue;
 				
 				observer.first->Notify(event);
 			}
 
 		}
 	private:
-		std::vector<std::pair<Observer*, EventType>> m_Observers;
+		std::vector<std::pair<Observer*, int>> m_Observers;
 	};
 }
 #endif

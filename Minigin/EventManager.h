@@ -17,7 +17,7 @@ namespace dae
 
 		void BroadcastEvent(const Event& event);
 
-		void AddObserver(Observer& observer, EventType eventType);
+		void AddObserver(Observer& observer, int eventType);
 		void RemoveObserver(Observer& observer);
 
 

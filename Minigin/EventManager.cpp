@@ -19,7 +19,7 @@ void dae::EventManager::BroadcastEvent(const Event& event)
 	m_EventQueue.push(event);
 }
 
-void dae::EventManager::AddObserver(Observer& observer, EventType eventType)
+void dae::EventManager::AddObserver(Observer& observer, int eventType)
 {
 	m_Subject->AddObserver(observer, eventType);
 }
