@@ -1,5 +1,5 @@
 #include "AttackCommand.h"
-#include "BombExplodedEventTest.h"
+#include "BombExplodedEvent.h"
 #include "EventManager.h"
 
 bomberman::AttackCommand::AttackCommand(dae::GameObject& controllingObject)
@@ -15,7 +15,7 @@ void bomberman::AttackCommand::Execute()
 	//auto arguments = dae::EventArgumentMasks<dae::EventType::BOMB_EXPLODED>::Create(position, radius, m_pControllingObject);
 
 	//Todo: actually spawn a bomb instead of just broadcasting an event
-	BombExplodedEventTest event{ position, radius, m_pControllingObject };
+	BombExplodedEvent event{ position, radius, m_pControllingObject };
 
 	dae::EventManager::GetInstance().BroadcastEvent(event);
 }

@@ -2,7 +2,7 @@
 #include "EventManager.h"
 #include <cassert>
 #include "ObjectDamagedEvent.h"
-#include "BombExplodedEventTest.h"
+#include "BombExplodedEvent.h"
 #include "EventTypes.h"
 
 bomberman::HealthComponent::HealthComponent(dae::GameObject& ownerObject, int maxHealth, bool canSurpassMax)
@@ -43,7 +43,7 @@ void bomberman::HealthComponent::Notify(const dae::Event& event)
     {
     case EventType::BOMB_EXPLODED:
     {
-        const auto castedEvent = dynamic_cast<const BombExplodedEventTest*>(&event);
+        const auto castedEvent = dynamic_cast<const BombExplodedEvent*>(&event);
         assert(castedEvent != nullptr); // Ensure the cast is valid
 
 		auto position = castedEvent->GetPosition();

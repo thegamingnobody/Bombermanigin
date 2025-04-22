@@ -19,6 +19,12 @@
     <Filter Include="Managers">
       <UniqueIdentifier>{b8056ef8-2c66-4df7-8402-8e866fc2476c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\StandardComponents\Colliders">
+      <UniqueIdentifier>{befaf220-5df9-44aa-95a4-0e74005f98e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Events">
+      <UniqueIdentifier>{c0250f49-672a-463c-9585-a67a5f40710d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AttackCommand.cpp">
@@ -39,13 +45,28 @@
     <ClCompile Include="RotatorComponent.cpp">
       <Filter>Components\PhysicsComponents</Filter>
     </ClCompile>
-    <ClCompile Include="BoxCollider.cpp">
-      <Filter>Components\StandardComponents</Filter>
-    </ClCompile>
     <ClCompile Include="Bomberman.cpp" />
-    <ClCompile Include="CollidersManager.cpp" />
-    <ClCompile Include="BaseCollider.cpp" />
-    <ClCompile Include="OctagonCollider.cpp" />
+    <ClCompile Include="BaseCollider.cpp">
+      <Filter>Components\StandardComponents\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="CollidersManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="OctagonCollider.cpp">
+      <Filter>Components\StandardComponents\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="BoxCollider.cpp">
+      <Filter>Components\StandardComponents\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="BombExplodedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectDamagedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreAddedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -66,13 +87,31 @@
     <ClInclude Include="RotatorComponent.h">
       <Filter>Components\PhysicsComponents</Filter>
     </ClInclude>
-    <ClInclude Include="BoxCollider.h">
-      <Filter>Components\StandardComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="CollidersManager.h" />
     <ClInclude Include="Grid.h" />
-    <ClInclude Include="BaseCollider.h" />
-    <ClInclude Include="OctagonCollider.h" />
+    <ClInclude Include="BaseCollider.h">
+      <Filter>Components\StandardComponents\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="CollidersManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="OctagonCollider.h">
+      <Filter>Components\StandardComponents\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollider.h">
+      <Filter>Components\StandardComponents\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="BombExplodedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="EventTypes.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectDamagedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreAddedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

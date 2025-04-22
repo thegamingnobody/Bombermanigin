@@ -182,7 +182,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="AttackCommand.cpp" />
     <ClCompile Include="BaseCollider.cpp" />
     <ClCompile Include="Bomberman.cpp" />
-    <ClCompile Include="BombExplodedEventTest.cpp" />
+    <ClCompile Include="BombExplodedEvent.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CollidersManager.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
@@ -191,12 +191,13 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="ObjectDamagedEvent.cpp" />
     <ClCompile Include="OctagonCollider.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
+    <ClCompile Include="ScoreAddedEvent.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h" />
     <ClInclude Include="BaseCollider.h" />
-    <ClInclude Include="BombExplodedEventTest.h" />
+    <ClInclude Include="BombExplodedEvent.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CollidersManager.h" />
     <ClInclude Include="EventTypes.h" />
@@ -207,6 +208,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="ObjectDamagedEvent.h" />
     <ClInclude Include="OctagonCollider.h" />
     <ClInclude Include="RotatorComponent.h" />
+    <ClInclude Include="ScoreAddedEvent.h" />
     <ClInclude Include="ScoreComponent.h" />
   </ItemGroup>
   <ItemGroup>
