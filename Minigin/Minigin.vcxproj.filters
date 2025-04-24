@@ -171,6 +171,7 @@
     <ClInclude Include="NullSoundSystem.h">
       <Filter>Managers\ServiceLocator\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="DAE_SDL_Soundsystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\Imgui\imgui.cpp">
@@ -287,5 +288,6 @@
     <ClCompile Include="NullSoundSystem.cpp">
       <Filter>Managers\ServiceLocator\Sound</Filter>
     </ClCompile>
+    <ClCompile Include="DAE_SDL_Soundsystem.cpp" />
   </ItemGroup>
 </Project>

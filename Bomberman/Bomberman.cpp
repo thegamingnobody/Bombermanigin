@@ -24,11 +24,14 @@
 #include "Grid.h"
 #include "OctagonCollider.h"
 #include "EventTypes.h"
-
+#include <DAE_SDL_Soundsystem.h>
+#include <ServiceLocator.h>
 
 
 void load()
 {
+	dae::ServiceLocator::RegisterSoundSystem(std::make_unique<dae::DAE_SDL_Soundsystem>());
+
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
 	auto& inputManager = dae::InputManager::GetInstance();
 	auto& eventManager = dae::EventManager::GetInstance();

@@ -1,0 +1,45 @@
+#ifndef SDL_SOUNDSYSTEM
+#define SDL_SOUNDSYSTEM
+
+#include "SoundSystemBase.h"
+#include <memory>
+
+namespace dae
+{
+    class DAE_SDL_Soundsystem final : public SoundSystemBase
+    {
+	public:
+		DAE_SDL_Soundsystem();
+		virtual ~DAE_SDL_Soundsystem();
+
+		DAE_SDL_Soundsystem(const DAE_SDL_Soundsystem& other) = delete;
+		DAE_SDL_Soundsystem(DAE_SDL_Soundsystem&& other) = delete;
+		DAE_SDL_Soundsystem& operator=(const DAE_SDL_Soundsystem& other) = delete;
+		DAE_SDL_Soundsystem& operator=(DAE_SDL_Soundsystem&& other) = delete;
+
+		void PlaySound(const SoundId soundId, const float volume) override;
+		void StopSound(const SoundId soundId) override;
+		void StopAllSounds() override;
+
+		void QuitThread();
+
+	private:
+		class SDLSoundImpl;
+		std::unique_ptr<SDLSoundImpl> m_Impl;
+
+		struct SoundInfo
+		{
+			SoundInfo(const SoundId& soundId, float const volume)
+				: m_SoundId(soundId)
+				, m_Volume(volume)
+			{
+			}
+
+			SoundId m_SoundId{};
+			float m_Volume{};
+		};
+
+    };
+}
+
+#endif

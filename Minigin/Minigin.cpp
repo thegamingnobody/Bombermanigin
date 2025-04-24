@@ -15,6 +15,11 @@
 #include "TimeManager.h"
 #include "EventManager.h"
 #include "Camera.h"
+#include "SoundSystemBase.h"
+#include "ServiceLocator.h"
+#include "DAE_SDL_Soundsystem.h"
+
+std::unique_ptr<dae::SoundSystemBase> dae::ServiceLocator::m_SoundSystemInstance{ std::make_unique<dae::NullSoundSystem>() };
 
 SDL_Window* g_window{};
 
