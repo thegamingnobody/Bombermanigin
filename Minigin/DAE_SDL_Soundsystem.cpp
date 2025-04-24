@@ -108,7 +108,6 @@ private:
 		if (it != m_Sounds.end() and it->second.isLoaded)
 			return it->second;
 
-		//todo: file path generator based on sound id (user geeft map mee met de id en een std string file naam?
 		std::string baseFilePath{ "../Data/" };
 		std::string filePath = baseFilePath + m_Sounds[soundID].m_SoundPath;
 
@@ -131,6 +130,7 @@ private:
 	std::queue<SoundInfo> m_SoundQueue;
 	std::mutex m_Mutex;
 	bool m_RunThread;
+	//Todo: vector of channels of zo iets anders idk
 	int m_SoundChannel{ 1 };
 	std::unordered_map<SoundId, SDL_SoundInfo> m_Sounds{};
 };
