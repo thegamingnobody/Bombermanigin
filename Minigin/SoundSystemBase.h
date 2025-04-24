@@ -1,6 +1,8 @@
 #ifndef DAE_SOUNDSYSTEM
 #define DAE_SOUNDSYSTEM
 
+#include <string>
+
 namespace dae
 {
 	using SoundId = unsigned short;
@@ -19,6 +21,8 @@ namespace dae
 		virtual void PlaySound(const SoundId soundId, const float volume) = 0;
 		virtual void StopSound(const SoundId soundId) = 0;
 		virtual void StopAllSounds() = 0;
+
+		virtual void AddSound(const SoundId soundId, const std::string& filePath) = 0;
 	};
 
 }

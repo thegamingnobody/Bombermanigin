@@ -23,6 +23,8 @@ namespace dae
 
 		void QuitThread();
 
+		void AddSound(const SoundId soundId, const std::string& filePath) override;
+
 	private:
 		class SDLSoundImpl;
 		std::unique_ptr<SDLSoundImpl> m_Impl;

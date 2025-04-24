@@ -26,11 +26,20 @@
 #include "EventTypes.h"
 #include <DAE_SDL_Soundsystem.h>
 #include <ServiceLocator.h>
-
+#include "SoundIds.h"
 
 void load()
 {
 	dae::ServiceLocator::RegisterSoundSystem(std::make_unique<dae::DAE_SDL_Soundsystem>());
+
+	std::vector<std::string> SoundPaths =
+	{
+		"WalkHorizontal.wav",
+		"WalkVertical.wav"
+	};
+
+	dae::ServiceLocator::GetSoundSystem().AddSound(static_cast<int>(bomberman::SoundId::WalkHorizontal), SoundPaths[static_cast<int>(bomberman::SoundId::WalkHorizontal)]);
+	dae::ServiceLocator::GetSoundSystem().AddSound(static_cast<int>(bomberman::SoundId::WalkVertical), SoundPaths[static_cast<int>(bomberman::SoundId::WalkVertical)]);
 
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
 	auto& inputManager = dae::InputManager::GetInstance();

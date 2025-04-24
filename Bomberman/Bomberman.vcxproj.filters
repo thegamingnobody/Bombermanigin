@@ -112,6 +112,7 @@
     <ClInclude Include="ScoreAddedEvent.h">
       <Filter>Events</Filter>
     </ClInclude>
+    <ClInclude Include="SoundIds.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

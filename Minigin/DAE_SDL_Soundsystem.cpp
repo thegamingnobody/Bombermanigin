@@ -30,7 +30,7 @@ public:
 	{
 		for (auto& sound : m_Sounds)
 		{
-			Mix_FreeChunk(sound.second);
+			Mix_FreeChunk(sound.second.m_Sound);
 		}
 		QuitThread();
 		Mix_CloseAudio();
@@ -72,49 +72,67 @@ public:
 		m_RunThread = false;
 	}
 
+	void AddSound(const SoundId soundId, const std::string& filePath)
+	{
+		SDL_SoundInfo sound;
+		sound.m_SoundPath = filePath;
+		sound.isLoaded = false;
+
+		m_Sounds[soundId] = sound;
+	}
+
 private:
+	struct SDL_SoundInfo
+	{
+		std::string m_SoundPath;
+		Mix_Chunk* m_Sound{ nullptr };
+		bool isLoaded{ false };
+
+		SDL_SoundInfo() = default;
+	};
+	
 	void ProcessSound(SoundInfo soundInfo)
 	{
-		Mix_Chunk* sound = GetSound(soundInfo.m_SoundId);
+		SDL_SoundInfo sound = GetSound(soundInfo.m_SoundId);
 
 		if (Mix_Playing(m_SoundChannel) == 0)
 		{
-			Mix_VolumeChunk(sound, static_cast<int>(soundInfo.m_Volume * MIX_MAX_VOLUME));
-			Mix_PlayChannel(m_SoundChannel, sound, 0);
-			//Mix_FreeChunk(m_Chunk);
+			Mix_VolumeChunk(sound.m_Sound, static_cast<int>(soundInfo.m_Volume * MIX_MAX_VOLUME));
+			Mix_PlayChannel(m_SoundChannel, sound.m_Sound, 0);
 		}
-
 	}
 
-	Mix_Chunk* GetSound(SoundId soundID)
+	SDL_SoundInfo GetSound(SoundId soundID)
 	{
 		auto it = m_Sounds.find(soundID);
-		if (it != m_Sounds.end())
+		if (it != m_Sounds.end() and it->second.isLoaded)
 			return it->second;
 
 		//todo: file path generator based on sound id (user geeft map mee met de id en een std string file naam?
-		std::string filePath{ "../Data/Walk.wav" };
-		Mix_Chunk* sound = Mix_LoadWAV(filePath.c_str());
+		std::string baseFilePath{ "../Data/" };
+		std::string filePath = baseFilePath + m_Sounds[soundID].m_SoundPath;
 
-		if (sound)
+		Mix_Chunk* chunk = Mix_LoadWAV(filePath.c_str());
+
+		if (chunk)
 		{
-			m_Sounds[soundID] = sound;
-			return sound;
+			m_Sounds[soundID].m_Sound = chunk;
+			m_Sounds[soundID].isLoaded = true;
+			return m_Sounds[soundID];
 		}
 		else
 		{
 			std::cout << "Failed to load sound: " << filePath << ": " << Mix_GetError() << "\n";
-			return nullptr;
+			return SDL_SoundInfo();
 		}
 	}
-
 
 	std::jthread m_SoundThread;
 	std::queue<SoundInfo> m_SoundQueue;
 	std::mutex m_Mutex;
 	bool m_RunThread;
 	int m_SoundChannel{ 1 };
-	std::unordered_map<SoundId, Mix_Chunk*> m_Sounds{};
+	std::unordered_map<SoundId, SDL_SoundInfo> m_Sounds{};
 };
 
 
@@ -145,4 +163,9 @@ void dae::DAE_SDL_Soundsystem::StopAllSounds()
 void dae::DAE_SDL_Soundsystem::QuitThread()
 {
 	m_Impl->QuitThread();
+}
+
+void dae::DAE_SDL_Soundsystem::AddSound(const SoundId soundId, const std::string& filePath)
+{
+	m_Impl->AddSound(soundId, filePath);
 }

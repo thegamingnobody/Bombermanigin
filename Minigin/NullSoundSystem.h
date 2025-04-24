@@ -19,6 +19,8 @@ namespace dae
 		void PlaySound(const SoundId, const float) override {};
 		void StopSound(const SoundId) override {};
 		void StopAllSounds() override {};
+
+		void AddSound(const SoundId, const std::string&) override {};
 	};
 }
 
