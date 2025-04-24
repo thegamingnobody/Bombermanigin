@@ -18,6 +18,6 @@ void bomberman::MoveCommand::Execute()
 	auto deltaTime = dae::TimeManager::GetInstance().GetDeltaTime();
 	transform->Move(m_Direction * deltaTime);
 
-	dae::ServiceLocator::GetSoundSystem().PlaySound(0, 0.5f);
+	dae::ServiceLocator::GetSoundSystem().PlaySound(0, 1.0f);
 
 }
