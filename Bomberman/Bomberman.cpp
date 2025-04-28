@@ -102,16 +102,16 @@ void LoadMap(dae::Scene& scene)
 	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Wall, bomberman::Box(0.0f, 0.0f, TILE_SIZE * (TILES_AMOUNT_HORIZONTAL - 1), TILE_SIZE));
 	scene.Add(go);
 
-	//bomberman::GridCell startCell{ 2, 2 };
-	//for (int col = 0; col < (TILES_AMOUNT_HORIZONTAL - 4) / 2 + 1; col++)
-	//{
-	//	for (int row = 0; row < (TILES_AMOUNT_VERTICAL - 4) / 2 + 1; row++)
-	//	{
-	//		go = std::make_shared<dae::GameObject>("StaticWall_" + std::to_string(col) + "_" + std::to_string(row), bomberman::Grid::GridCoordToWorldPos(startCell.x + col * 2, startCell.y + row * 2));
-	//		go->AddComponent<bomberman::OctagonCollider>(*go.get(), bomberman::CollisionType::Wall);
-	//		scene.Add(go);
-	//	}
-	//}
+	bomberman::GridCell startCell{ 2, 2 };
+	for (int col = 0; col < (TILES_AMOUNT_HORIZONTAL - 4) / 2 + 1; col++)
+	{
+		for (int row = 0; row < (TILES_AMOUNT_VERTICAL - 4) / 2 + 1; row++)
+		{
+			go = std::make_shared<dae::GameObject>("StaticWall_" + std::to_string(col) + "_" + std::to_string(row), bomberman::Grid::GridCoordToWorldPos(startCell.x + col * 2, startCell.y + row * 2));
+			go->AddComponent<bomberman::OctagonCollider>(*go.get(), bomberman::CollisionType::Wall);
+			scene.Add(go);
+		}
+	}
 
 
 }

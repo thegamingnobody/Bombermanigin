@@ -73,6 +73,12 @@ void bomberman::BaseCollider::Update(float const /*deltaTime*/)
 
 void bomberman::BaseCollider::Render() const
 {
+	//Todo: Copilot suggested this, could be worth looking into
+	//bool shouldRenderHitboxes{ dae::ServiceLocator::GetConfig().GetBool("RenderHitboxes") };
+	bool shouldRenderHitboxes{ false };
+
+	if (!shouldRenderHitboxes) return;
+
 	glm::vec3 position = GetOwner()->GetTransform()->GetGlobalPosition();
 	glm::vec2 size = { (m_Polygon[0] - m_Polygon[1]).length(), (m_Polygon[1] - m_Polygon[2]).length() };
 	//glm::vec3 color = { 1.0f, 0.0f, 0.0f }; // Red color
