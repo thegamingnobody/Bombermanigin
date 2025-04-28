@@ -31,7 +31,7 @@ void bomberman::AttackCommand::SpawnBombObject(glm::vec3 position)
 	textureComponent.AddTexture("Bomb_2.png");
 	textureComponent.AddTexture("Bomb_3.png");
 	textureComponent.SetCurrentIndex(0);
-	bomb->AddComponent<bomberman::BombComponent>(*bomb.get(), 1, 3.0f);
+	bomb->AddComponent<bomberman::BombComponent>(*bomb.get(), 1, 3.0f, 0.5f);
 
 	activeScene->Add(bomb);
 }

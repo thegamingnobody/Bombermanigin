@@ -73,18 +73,18 @@ void bomberman::BaseCollider::Update(float const /*deltaTime*/)
 
 void bomberman::BaseCollider::Render() const
 {
-	//glm::vec3 position = GetOwner()->GetTransform()->GetGlobalPosition();
-	//glm::vec2 size = { (m_Polygon[0] - m_Polygon[1]).length(), (m_Polygon[1] - m_Polygon[2]).length() };
-	////glm::vec3 color = { 1.0f, 0.0f, 0.0f }; // Red color
-	//auto& renderer = dae::Renderer::GetInstance();
+	glm::vec3 position = GetOwner()->GetTransform()->GetGlobalPosition();
+	glm::vec2 size = { (m_Polygon[0] - m_Polygon[1]).length(), (m_Polygon[1] - m_Polygon[2]).length() };
+	//glm::vec3 color = { 1.0f, 0.0f, 0.0f }; // Red color
+	auto& renderer = dae::Renderer::GetInstance();
 
-	//for (int vert = 0; vert < static_cast<int>(m_Polygon.size()); vert++)
-	//{
-	//	glm::vec2 p1 = m_Polygon[vert];
-	//	glm::vec2 p2 = m_Polygon[(vert + 1) % m_Polygon.size()];
-	//	glm::vec3 center = glm::vec3(position.x, position.y, position.z);
-	//	renderer.RenderLine(center.x + p1.x, center.y + p1.y, center.x + p2.x, center.y + p2.y);
-	//}
+	for (int vert = 0; vert < static_cast<int>(m_Polygon.size()); vert++)
+	{
+		glm::vec2 p1 = m_Polygon[vert];
+		glm::vec2 p2 = m_Polygon[(vert + 1) % m_Polygon.size()];
+		glm::vec3 center = glm::vec3(position.x, position.y, position.z);
+		renderer.RenderLine(center.x + p1.x, center.y + p1.y, center.x + p2.x, center.y + p2.y);
+	}
 }
 
 bool bomberman::BaseCollider::IsOverlapping(polygon other, glm::vec3 otherPosition)

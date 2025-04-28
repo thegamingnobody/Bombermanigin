@@ -11,7 +11,8 @@ namespace bomberman
 	{
 		None,
 		Wall,
-		Entity
+		Entity,
+		Bomb
 	};
 
     class BaseCollider : public dae::Component
