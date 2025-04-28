@@ -17,6 +17,9 @@ namespace dae
 		void LateUpdate();
 		void Render();
 		void RenderImGui();
+
+		std::shared_ptr<Scene> GetScene(const std::string& name) const;
+
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;

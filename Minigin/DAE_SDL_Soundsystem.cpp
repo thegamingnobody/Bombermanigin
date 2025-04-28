@@ -59,8 +59,12 @@ public:
 
 			if (not m_RunThread) continue;
 
+			std::unique_lock<std::mutex> lock(m_Mutex);
+
 			auto& soundRequest{ m_SoundQueue.front() };
 			m_SoundQueue.pop();
+
+			lock.unlock();
 
 			ProcessSound(soundRequest);
 		}

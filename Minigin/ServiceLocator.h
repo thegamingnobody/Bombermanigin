@@ -11,6 +11,7 @@ namespace dae
 	{
 	public:
 		static SoundSystemBase& GetSoundSystem() { return *m_SoundSystemInstance; }
+		//Todo: delete old system when registering a new one
 		static void RegisterSoundSystem(std::unique_ptr<SoundSystemBase>&& soundSystem)
 		{
 			if (soundSystem != nullptr)
