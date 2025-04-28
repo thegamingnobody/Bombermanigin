@@ -181,6 +181,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
   <ItemGroup>
     <ClCompile Include="AttackCommand.cpp" />
     <ClCompile Include="BaseCollider.cpp" />
+    <ClCompile Include="BombComponent.cpp" />
     <ClCompile Include="Bomberman.cpp" />
     <ClCompile Include="BombExplodedEvent.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
@@ -197,6 +198,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
   <ItemGroup>
     <ClInclude Include="AttackCommand.h" />
     <ClInclude Include="BaseCollider.h" />
+    <ClInclude Include="BombComponent.h" />
     <ClInclude Include="BombExplodedEvent.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CollidersManager.h" />

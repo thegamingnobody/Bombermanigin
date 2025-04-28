@@ -15,6 +15,8 @@ namespace bomberman
 
 	private:
 		dae::GameObject* m_pControllingObject;
+
+		void SpawnBombObject(glm::vec3 position);
     };
 }
 

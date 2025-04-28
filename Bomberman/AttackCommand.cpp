@@ -1,6 +1,11 @@
 #include "AttackCommand.h"
 #include "BombExplodedEvent.h"
 #include "EventManager.h"
+#include "SceneManager.h"
+#include "Scene.h"
+#include "GameObject.h"
+#include "TextureComponent.h"
+#include "BombComponent.h"
 
 bomberman::AttackCommand::AttackCommand(dae::GameObject& controllingObject)
 	: m_pControllingObject(&controllingObject)
@@ -10,12 +15,23 @@ bomberman::AttackCommand::AttackCommand(dae::GameObject& controllingObject)
 void bomberman::AttackCommand::Execute()
 {
 	glm::vec3 position = m_pControllingObject->GetTransform()->GetGlobalPosition();
-	float radius = 50.0f;
+	SpawnBombObject(position);
+}
 
-	//auto arguments = dae::EventArgumentMasks<dae::EventType::BOMB_EXPLODED>::Create(position, radius, m_pControllingObject);
+void bomberman::AttackCommand::SpawnBombObject(glm::vec3 position)
+{
+	//Todo: spawn bomb
+	auto activeScene = dae::SceneManager::GetInstance().GetScene("Game");
 
-	//Todo: actually spawn a bomb instead of just broadcasting an event
-	BombExplodedEvent event{ position, radius, m_pControllingObject };
+	if (!activeScene) return;
 
-	dae::EventManager::GetInstance().BroadcastEvent(event);
+	auto bomb = std::make_shared<dae::GameObject>("Bomb", position);
+	auto& textureComponent = bomb->AddComponent<dae::TextureComponent>(*bomb.get());
+	textureComponent.AddTexture("Bomb_1.png");
+	textureComponent.AddTexture("Bomb_2.png");
+	textureComponent.AddTexture("Bomb_3.png");
+	textureComponent.SetCurrentIndex(0);
+	bomb->AddComponent<bomberman::BombComponent>(*bomb.get(), 1, 3.0f);
+
+	activeScene->Add(bomb);
 }

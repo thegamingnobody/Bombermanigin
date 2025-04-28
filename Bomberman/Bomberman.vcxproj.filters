@@ -67,6 +67,7 @@
     <ClCompile Include="ScoreAddedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
+    <ClCompile Include="BombComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -113,6 +114,7 @@
       <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="SoundIds.h" />
+    <ClInclude Include="BombComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

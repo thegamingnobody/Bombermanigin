@@ -36,7 +36,7 @@ void load()
 {
 	LoadSounds();
 
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
+	auto& scene = dae::SceneManager::GetInstance().CreateScene("Game");
 
 	LoadMap(scene);
 
