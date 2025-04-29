@@ -11,6 +11,10 @@ dae::GameObject::GameObject(std::string name, glm::vec3 startingPos, int inputDe
 	, m_InputDeviceID(inputDeviceId)
 {
 	m_Transform = std::make_shared<Transform>(*this, startingPos.x, startingPos.y, startingPos.z);
+	
+	int nameNumber = rand() % 100000;
+	m_Name += "_";
+	m_Name += std::to_string(nameNumber);
 }
 
 dae::GameObject::~GameObject() = default;
