@@ -73,3 +73,20 @@ void Scene::RenderImGui() const
 		object->RenderImGui();
 	}
 }
+
+std::shared_ptr<GameObject> dae::Scene::GetObject(const std::string& name) const
+{
+	auto it = std::find_if(m_objects.begin(), m_objects.end(), [&name](const std::shared_ptr<GameObject>& object)
+		{
+			return object->GetName() == name;
+		});
+
+	if (it != m_objects.end())
+	{
+		return *it;
+	}
+	else
+	{
+		return nullptr;
+	}
+}
