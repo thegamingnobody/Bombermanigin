@@ -19,7 +19,7 @@ namespace bomberman
     {
 	public:
 		BaseCollider(dae::GameObject& gameObject, CollisionType collisionType = CollisionType::None);
-		virtual ~BaseCollider() override = default;
+		virtual ~BaseCollider();
 
 		void Update(float const deltaTime) override;
 		void Render() const override;

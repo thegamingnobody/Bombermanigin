@@ -11,6 +11,12 @@ bomberman::BaseCollider::BaseCollider(dae::GameObject& gameObject, CollisionType
 {
 }
 
+bomberman::BaseCollider::~BaseCollider()
+{
+	auto& collidersManager = CollidersManager::GetInstance();
+	collidersManager.RemoveCollider(*this);
+}
+
 void bomberman::BaseCollider::Update(float const /*deltaTime*/)
 {
 	if (!ShouldCheckCollision()) return;
