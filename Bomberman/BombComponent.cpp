@@ -1,14 +1,14 @@
 #include "BombComponent.h"
 #include "GameObject.h"
 #include "CrossCollider.h"
+#include <SceneManager.h>
+#include <Scene.h>
+#include "ExplosionComponent.h"
+#include <TextureComponent.h>
 
 void bomberman::BombComponent::Update(float deltaTime)
 {
-	if (m_Exploded)
-	{
-		m_TimeToDespawn -= deltaTime;
-	}
-	else
+	if (!m_Exploded)
 	{
 		m_TimeToExplode -= deltaTime;
 	}
@@ -20,7 +20,19 @@ void bomberman::BombComponent::Update(float deltaTime)
 
 		m_Exploded = true;
 
-		//Todo: Trigger explosion
-		GetOwner()->AddComponent<bomberman::CrossCollider>(*GetOwner(), bomberman::CollisionType::Bomb);
+		SpawnExplosion(m_ExplosionSize);
+		GetOwner()->SetShouldBeRemoved();
 	}
+}
+
+void bomberman::BombComponent::SpawnExplosion(int size)
+{
+	auto activeScene = dae::SceneManager::GetInstance().GetScene("Game");
+	if (!activeScene) return;
+	auto explosion = std::make_shared<dae::GameObject>("Explosion", GetOwner()->GetTransform()->GetGlobalPosition());
+	explosion->AddComponent<bomberman::ExplosionComponent>(*explosion.get(), size, m_ExplosionTime);
+	explosion->AddComponent<bomberman::CrossCollider>(*explosion.get(), bomberman::CollisionType::Bomb);
+	auto& textureComponent = explosion->AddComponent<dae::TextureComponent>(*explosion.get());
+	textureComponent.AddTexture("Explosion_1_1.png");
+	activeScene->Add(explosion);
 }

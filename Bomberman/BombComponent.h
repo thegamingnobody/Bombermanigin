@@ -6,20 +6,23 @@ namespace bomberman
 	class BombComponent : public dae::Component
 	{
 	public:
-		BombComponent(dae::GameObject& gameObject, int radius, float timeToExplode, float timeToDespawn)
+		BombComponent(dae::GameObject& gameObject, int explosionSize, float timeToExplode, float explosionTime)
 			: dae::Component(gameObject)
-			, m_Radius(radius)
+			, m_ExplosionSize(explosionSize)
 			, m_TimeToExplode(timeToExplode)
-			, m_TimeToDespawn(timeToDespawn)
+			, m_ExplosionTime(explosionTime)
 		{
 		}
 
 		void Update(float deltaTime) override;
 
 	private:
-		int m_Radius;
+
+		void SpawnExplosion(int size);
+
+		int m_ExplosionSize;
 		float m_TimeToExplode;
-		float m_TimeToDespawn;
+		float m_ExplosionTime;
 		bool m_Exploded{ false };
 	};
 }

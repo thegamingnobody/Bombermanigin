@@ -68,7 +68,10 @@
       <Filter>Events</Filter>
     </ClCompile>
     <ClCompile Include="BombComponent.cpp" />
-    <ClCompile Include="CrossCollider.cpp" />
+    <ClCompile Include="CrossCollider.cpp">
+      <Filter>Components\StandardComponents\Colliders</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -116,7 +119,10 @@
     </ClInclude>
     <ClInclude Include="SoundIds.h" />
     <ClInclude Include="BombComponent.h" />
-    <ClInclude Include="CrossCollider.h" />
+    <ClInclude Include="CrossCollider.h">
+      <Filter>Components\StandardComponents\Colliders</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
