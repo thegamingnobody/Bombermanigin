@@ -23,12 +23,15 @@ namespace bomberman
 
 		void Update(float const deltaTime) override;
 		void Render() const override;
+		void RenderImGui() override;
 
 		polygon GetHitBox() const { return m_Polygon; }
 
 		bool IsOverlapping(polygon other, glm::vec3 otherPosition);
 
 		void SetPolygon(polygon polygon) { m_Polygon = polygon; CalculateAxes(m_Polygon); }
+
+		void ToggleRender() { m_ShouldRender = !m_ShouldRender; }
 
 	protected:
 		//Checks if this object should check for collisions
@@ -43,6 +46,7 @@ namespace bomberman
 		polygon m_Polygon;
 		polygon m_Axes;
 		CollisionType m_CollisionType;
+		bool m_ShouldRender{ true };
     };
 }
 

@@ -27,6 +27,7 @@
 #include <DAE_SDL_Soundsystem.h>
 #include <ServiceLocator.h>
 #include "SoundIds.h"
+#include <ImGuiComponent.h>
 
 void LoadSounds();
 void LoadMap(dae::Scene& scene);
@@ -48,7 +49,7 @@ void load()
 	////*-----------------------------------------*
 	////|				  ImGui 				  |
 	////*-----------------------------------------*
-	//go = std::make_shared<dae::GameObject>("ImGui");
+	//auto go = std::make_shared<dae::GameObject>("ImGui");
 	//go->AddComponent<dae::ImGuiComponent>(*go.get());
 	//scene.Add(go);
 }
@@ -112,8 +113,6 @@ void LoadMap(dae::Scene& scene)
 			scene.Add(go);
 		}
 	}
-
-
 }
 
 void LoadPlayer(dae::Scene& scene)

@@ -16,6 +16,5 @@ namespace bomberman
 
     private:
 		std::vector<bomberman::BaseCollider*> m_Colliders{};
-		//std::vector<std::shared_ptr<dae::GameObject>> m_Triggers{};
     };
 }

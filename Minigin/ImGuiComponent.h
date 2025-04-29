@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <functional>
 #include <future>
-#include <imgui_plot.h>
+//#include <imgui_plot.h>
 
 
 namespace Thrash
@@ -101,65 +101,65 @@ namespace dae
 		ImGuiComponent& operator=(ImGuiComponent&& other) = delete;
 
 	private:
-		void HandleExcercise();
-		void DrawMultiPlot(Thrash::Graph& plot1, Thrash::Graph& plot2);
+		//void HandleExcercise();
+		//void DrawMultiPlot(Thrash::Graph& plot1, Thrash::Graph& plot2);
 
-		template<class T>
-		Thrash::Graph AddImguiPlotButton(int numberOfTests, std::string buttonContent)
-		{
-			static bool isCalculating{ false };
-			static bool displayGraph{ false };
-			static std::future<Thrash::Graph> futureTimings{};
-			static Thrash::Graph finishedTimings{};
+		//template<class T>
+		//Thrash::Graph AddImguiPlotButton(int numberOfTests, std::string buttonContent)
+		//{
+		//	static bool isCalculating{ false };
+		//	static bool displayGraph{ false };
+		//	static std::future<Thrash::Graph> futureTimings{};
+		//	static Thrash::Graph finishedTimings{};
 
-			if (isCalculating)
-			{
-				ImGui::Text("Calculating...");
+		//	if (isCalculating)
+		//	{
+		//		ImGui::Text("Calculating...");
 
-				if (futureTimings.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
-				{
-					finishedTimings = futureTimings.get();
-					isCalculating = false;
-					displayGraph = true;
-				}
+		//		if (futureTimings.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
+		//		{
+		//			finishedTimings = futureTimings.get();
+		//			isCalculating = false;
+		//			displayGraph = true;
+		//		}
 
-			}
-			else if (ImGui::Button(buttonContent.c_str()))
-			{
-				isCalculating = true;
+		//	}
+		//	else if (ImGui::Button(buttonContent.c_str()))
+		//	{
+		//		isCalculating = true;
 
-				futureTimings = std::async(std::launch::async, &Thrash::ThrashTheCache<int>, numberOfTests);
-			}
+		//		futureTimings = std::async(std::launch::async, &Thrash::ThrashTheCache<int>, numberOfTests);
+		//	}
 
-			if (displayGraph)
-			{
-				int const valuesCount{ 11 };
+		//	if (displayGraph)
+		//	{
+		//		int const valuesCount{ 11 };
 
-				float xData[valuesCount]{};
-				float yData[valuesCount]{};
+		//		float xData[valuesCount]{};
+		//		float yData[valuesCount]{};
 
-				std::copy(finishedTimings.StepSizes.begin(), finishedTimings.StepSizes.end(), xData);
-				std::copy(finishedTimings.Timings.begin(), finishedTimings.Timings.end(), yData);
+		//		std::copy(finishedTimings.StepSizes.begin(), finishedTimings.StepSizes.end(), xData);
+		//		std::copy(finishedTimings.Timings.begin(), finishedTimings.Timings.end(), yData);
 
-				static ImGui::PlotConfig intPlot;
-				intPlot.values.xs = xData; // this line is optional
-				intPlot.values.ys = yData;
-				intPlot.values.count = valuesCount;
-				intPlot.scale.min = 0;
-				intPlot.scale.max = *std::max_element(finishedTimings.Timings.begin(), finishedTimings.Timings.end());
-				intPlot.tooltip.show = true;
-				intPlot.tooltip.format = "x=%.0f, y=%.2f";
-				intPlot.grid_x.show = true;
-				intPlot.grid_y.show = true;
-				intPlot.grid_y.size = intPlot.scale.max / 5;
-				intPlot.frame_size = ImVec2(200, 100);
-				intPlot.line_thickness = 2.f;
+		//		static ImGui::PlotConfig intPlot;
+		//		intPlot.values.xs = xData; // this line is optional
+		//		intPlot.values.ys = yData;
+		//		intPlot.values.count = valuesCount;
+		//		intPlot.scale.min = 0;
+		//		intPlot.scale.max = *std::max_element(finishedTimings.Timings.begin(), finishedTimings.Timings.end());
+		//		intPlot.tooltip.show = true;
+		//		intPlot.tooltip.format = "x=%.0f, y=%.2f";
+		//		intPlot.grid_x.show = true;
+		//		intPlot.grid_y.show = true;
+		//		intPlot.grid_y.size = intPlot.scale.max / 5;
+		//		intPlot.frame_size = ImVec2(200, 100);
+		//		intPlot.line_thickness = 2.f;
 
-				ImGui::Plot("plot", intPlot);
-			}
+		//		ImGui::Plot("plot", intPlot);
+		//	}
 
-			return finishedTimings;
-		}
+		//	return finishedTimings;
+		//}
 
 	};
 }

@@ -6,8 +6,10 @@ bomberman::CrossCollider::CrossCollider(dae::GameObject& gameObject, CollisionTy
 	: BaseCollider(gameObject, collisionType)
 {
 	CollidersManager::GetInstance().AddCollider(*this);
-	Box horizontalLine{ -2 * TILE_SIZE, 0.0f, 5 * TILE_SIZE, TILE_SIZE };
-	Box verticalLine{ 0.0f, -2 * TILE_SIZE, TILE_SIZE, 5 * TILE_SIZE };
+	int crossSize = 3;
+
+	Box horizontalLine{ -((crossSize - 1) / 2) * TILE_SIZE, 0.0f, crossSize * TILE_SIZE, TILE_SIZE };
+	Box verticalLine{ 0.0f, -((crossSize - 1) / 2) * TILE_SIZE, TILE_SIZE, crossSize * TILE_SIZE };
 	m_Polygon = CreateCross(Cross(horizontalLine, verticalLine));
 	m_Axes = CalculateAxes(m_Polygon);
 }

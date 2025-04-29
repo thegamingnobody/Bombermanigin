@@ -2,6 +2,7 @@
 #include "CollidersManager.h"
 #include <Renderer.h>
 #include <iostream>
+#include "..\3rdParty\Imgui\imgui.h"
 
 
 bomberman::BaseCollider::BaseCollider(dae::GameObject& gameObject, CollisionType collisionType)
@@ -75,9 +76,8 @@ void bomberman::BaseCollider::Render() const
 {
 	//Todo: Copilot suggested this, could be worth looking into
 	//bool shouldRenderHitboxes{ dae::ServiceLocator::GetConfig().GetBool("RenderHitboxes") };
-	bool shouldRenderHitboxes{ false };
-
-	if (!shouldRenderHitboxes) return;
+	
+	if (!m_ShouldRender) return;
 
 	glm::vec3 position = GetOwner()->GetTransform()->GetGlobalPosition();
 	glm::vec2 size = { (m_Polygon[0] - m_Polygon[1]).length(), (m_Polygon[1] - m_Polygon[2]).length() };
@@ -91,6 +91,13 @@ void bomberman::BaseCollider::Render() const
 		glm::vec3 center = glm::vec3(position.x, position.y, position.z);
 		renderer.RenderLine(center.x + p1.x, center.y + p1.y, center.x + p2.x, center.y + p2.y);
 	}
+}
+
+void bomberman::BaseCollider::RenderImGui()
+{
+	//ImGui::Begin("Colliders");
+	//ImGui::Checkbox("Render Collider", &m_ShouldRender);
+	//ImGui::End();
 }
 
 bool bomberman::BaseCollider::IsOverlapping(polygon other, glm::vec3 otherPosition)
