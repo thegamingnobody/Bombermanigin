@@ -23,6 +23,9 @@ namespace dae
 
         glm::ivec2 GetSize() const { return m_pTextures[m_CurrentSpriteIndex]->GetSize(); }
 
+		glm::vec2 GetOffset() const { return m_Offset; }
+		void SetOffset(glm::vec2 offset) { m_Offset = offset; }
+
         TextureComponent(dae::GameObject& object);
         virtual ~TextureComponent() = default;
         TextureComponent(const TextureComponent& other) = delete;
@@ -33,6 +36,7 @@ namespace dae
     protected:
         std::vector<std::shared_ptr<Texture2D>> m_pTextures{};
         int m_CurrentSpriteIndex{};
+        glm::vec2 m_Offset{};
 	};
 }
 

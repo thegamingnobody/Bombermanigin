@@ -1,13 +1,29 @@
 #include "TimeManager.h"
 #include <json.hpp>
 #include <fstream>
+#include <iostream>
 
 using json = nlohmann::json;
 
 void dae::TimeManager::Init()
 {
-	std::ifstream f("../config.json");
-	json data = json::parse(f);
+	std::filesystem::path filePath = __FILE__;
+	std::filesystem::path fileDir = filePath.parent_path();
+
+	auto configPath = "Config\\config.json";
+
+	fileDir.append(configPath);
+	std::ifstream f(fileDir.c_str());
+	std::ifstream f2(configPath);
+	json data;
+	try
+	{
+		data = json::parse(f);
+	}
+	catch (...)
+	{
+		data = json::parse(f2);
+	}
 
 	int const targetFramerate{ data["targetFramerate"] };
 	m_FixedTimeStep = data["fixedTimeStep"];

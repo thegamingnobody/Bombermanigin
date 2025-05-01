@@ -1,6 +1,7 @@
 #include "CrossCollider.h"
 #include "CollidersManager.h"
 #include "Grid.h"
+#include "..\3rdParty\Imgui\imgui.h"
 
 bomberman::CrossCollider::CrossCollider(dae::GameObject& gameObject, CollisionType collisionType)
 	: BaseCollider(gameObject, collisionType)
@@ -8,10 +9,25 @@ bomberman::CrossCollider::CrossCollider(dae::GameObject& gameObject, CollisionTy
 	CollidersManager::GetInstance().AddCollider(*this);
 	int crossSize = 3;
 
-	Box horizontalLine{ -((crossSize - 1) / 2) * TILE_SIZE, 0.0f, crossSize * TILE_SIZE, TILE_SIZE };
-	Box verticalLine{ 0.0f, -((crossSize - 1) / 2) * TILE_SIZE, TILE_SIZE, crossSize * TILE_SIZE };
+	float lineWidth = crossSize * TILE_SIZE * 0.8f;
+	float lineHeight = TILE_SIZE / 2;
+	float lineX = -((crossSize - 1) / 2) * TILE_SIZE * m_Modifier;
+
+	Box horizontalLine{ lineX, (TILE_SIZE * 0.5f), lineWidth, lineHeight };
+	Box verticalLine{ (TILE_SIZE * 0.5f), lineX, lineHeight, lineWidth };
+
+	//Box horizontalLine{ -((crossSize - 1) / 2) * TILE_SIZE, 0.0f, crossSize * TILE_SIZE, TILE_SIZE};
+	//Box verticalLine{ 0.0f, -((crossSize - 1) / 2) * TILE_SIZE, TILE_SIZE, crossSize * TILE_SIZE };
+
 	m_Polygon = CreateCross(Cross(horizontalLine, verticalLine));
 	m_Axes = CalculateAxes(m_Polygon);
+}
+
+void bomberman::CrossCollider::RenderImGui()
+{
+	ImGui::Begin("Debug");
+	ImGui::SliderFloat("modifier", &m_Modifier, 0.0f, 1.0f);
+	ImGui::End();
 }
 
 polygon bomberman::CrossCollider::CreateCross(Cross cross) const
@@ -40,17 +56,17 @@ polygon bomberman::CrossCollider::CreateCross(Cross cross) const
 
 	return 
 	{
-		{0.0f,						0.0f},
-		{0.0f,						-c},
-		{cross.verticalWidth,		-c},
-		{cross.verticalWidth,		0.0f},
-		{cross.verticalWidth + b,	0.0f},
-		{cross.verticalWidth + b,	cross.horizontalHeight},
-		{cross.verticalWidth,		cross.horizontalHeight},
-		{cross.verticalWidth,		cross.horizontalHeight + d},
-		{0.0f,						cross.horizontalHeight + d},
-		{0.0f,						cross.horizontalHeight},
-		{-a,						cross.horizontalHeight},
-		{-a,						0.0f}
+		{a,			c},
+		{a,			0.0f},
+		{a + cross.verticalWidth,		0.0f},
+		{a + cross.verticalWidth,		c},
+		{a + cross.verticalWidth + b,		c},
+		{a + cross.verticalWidth + b,		c + cross.horizontalHeight},
+		{a + cross.verticalWidth,		c + cross.horizontalHeight},
+		{a + cross.verticalWidth,		c + cross.horizontalHeight + d},
+		{a,		c + cross.horizontalHeight + d},
+		{a,		c + cross.horizontalHeight},
+		{0.0f,		c + cross.horizontalHeight},
+		{0.0f,		c},
 	};														 
 }

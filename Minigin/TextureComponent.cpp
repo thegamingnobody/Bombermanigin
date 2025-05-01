@@ -12,7 +12,7 @@ void dae::TextureComponent::Render() const
 	}
 
 	auto position = GetOwner()->GetTransform()->GetGlobalPosition();
-	dae::Renderer::GetInstance().RenderTexture(*m_pTextures[m_CurrentSpriteIndex], position.x, position.y);
+	dae::Renderer::GetInstance().RenderTexture(*m_pTextures[m_CurrentSpriteIndex], position.x + m_Offset.x, position.y + m_Offset.y);
 }
 
 int dae::TextureComponent::AddTexture(const std::string& filename)

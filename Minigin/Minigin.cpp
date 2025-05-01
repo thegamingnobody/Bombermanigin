@@ -86,7 +86,6 @@ dae::Minigin::Minigin(const std::string &dataPath)
 
 	EventManager::GetInstance().Init();
 
-
 }
 
 dae::Minigin::~Minigin()

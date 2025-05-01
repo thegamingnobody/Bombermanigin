@@ -176,7 +176,25 @@ void LoadPlayer(dae::Scene& scene)
 
 int main(int, char* []) 
 {
-    dae::Minigin engine("../Data/");
+	std::filesystem::path dataPath = "../Data/";
+	std::filesystem::path dataPath2 = "Data/";
+	std::string actualPath{};
+
+	if (std::filesystem::exists(dataPath))
+	{
+		actualPath = dataPath.string();
+	}
+	else if (std::filesystem::exists(dataPath2))
+	{
+		actualPath = dataPath2.string();
+	}
+	else
+	{
+		std::cerr << "Data path not found!" << std::endl;
+		return -1;
+	}
+
+	dae::Minigin engine(actualPath);
 	engine.Run(load);
 
 	return 0;

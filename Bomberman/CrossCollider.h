@@ -50,9 +50,11 @@ namespace bomberman
         CrossCollider(dae::GameObject& gameObject, CollisionType collisionType = CollisionType::None);
         ~CrossCollider() override = default;
 
+		void RenderImGui() override;
     private:
         //the position is the topleft corner of the horizontal line
         polygon CreateCross(Cross cross) const;
+		float m_Modifier{};
     };
 }
 

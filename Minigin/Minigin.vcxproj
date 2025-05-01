@@ -114,7 +114,12 @@
       <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
- </Command>
+ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+if not exist "$(OutDir)Config" mkdir "$(OutDir)Config"
+ xcopy "$(SolutionDir)Minigin\Config\config.json" "$(OutputPath)Config" /R /Y
+if not exist "$(OutDir)Data" mkdir "$(OutDir)Data"
+xcopy /E /I /Y /Q "$(SolutionDir)Data" "$(OutDir)Data"
+</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>xinput.lib</AdditionalDependencies>
@@ -142,7 +147,12 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
       <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
- </Command>
+ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+if not exist "$(OutDir)Config" mkdir "$(OutDir)Config"
+ xcopy "$(SolutionDir)Minigin\Config\config.json" "$(OutputPath)Config" /R /Y
+if not exist "$(OutDir)Data" mkdir "$(OutDir)Data"
+xcopy /E /I /Y /Q "$(SolutionDir)Data" "$(OutDir)Data"
+</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>xinput.lib</AdditionalDependencies>
@@ -174,7 +184,12 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
       <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
- </Command>
+ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+if not exist "$(OutDir)Config" mkdir "$(OutDir)Config"
+ xcopy "$(SolutionDir)Minigin\Config\config.json" "$(OutputPath)Config" /R /Y
+if not exist "$(OutDir)Data" mkdir "$(OutDir)Data"
+xcopy /E /I /Y /Q "$(SolutionDir)Data" "$(OutDir)Data"
+</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>xinput.lib</AdditionalDependencies>
@@ -206,7 +221,12 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
       <Command>xcopy "$(SolutionDir)3rdParty\SDL2\lib\$(PlatformTarget)\SDL2.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_image\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
 xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
- </Command>
+ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\$(PlatformTarget)\*.dll" "$(OutputPath)" /R /Y
+if not exist "$(OutDir)Config" mkdir "$(OutDir)Config"
+ xcopy "$(SolutionDir)Minigin\Config\config.json" "$(OutputPath)Config" /R /Y
+if not exist "$(OutDir)Data" mkdir "$(OutDir)Data"
+xcopy /E /I /Y /Q "$(SolutionDir)Data" "$(OutDir)Data"
+</Command>
     </PostBuildEvent>
     <Lib>
       <AdditionalDependencies>xinput.lib</AdditionalDependencies>
