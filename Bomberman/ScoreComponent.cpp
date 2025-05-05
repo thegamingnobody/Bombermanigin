@@ -31,23 +31,7 @@ void bomberman::ScoreComponent::RemoveScore(int removedScore)
 	m_Score -= removedScore;
 }
 
-void bomberman::ScoreComponent::Notify(const dae::Event& event)
+void bomberman::ScoreComponent::Notify(const dae::Event&)
 {
-	switch (static_cast<EventType>(event.GetEventType()))
-	{
-	case EventType::OBJECT_DAMAGED:
-		const auto castedEvent = dynamic_cast<const ObjectDamagedEvent*>(&event);
-		assert(castedEvent != nullptr);
-
-		auto damagedObject = castedEvent->GetDamagedObject();
-
-		auto owner = GetOwner();
-		assert(owner != nullptr);
-
-		if (owner != damagedObject)
-		{
-			AddScore(100);
-		}
-		break;
-	}
+	//Todo: fix?
 }

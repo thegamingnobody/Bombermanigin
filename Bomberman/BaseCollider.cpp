@@ -3,6 +3,7 @@
 #include <Renderer.h>
 #include <iostream>
 #include "..\3rdParty\Imgui\imgui.h"
+#include "HealthComponent.h"
 
 
 bomberman::BaseCollider::BaseCollider(dae::GameObject& gameObject, CollisionType collisionType)
@@ -24,9 +25,6 @@ void bomberman::BaseCollider::Update(float const /*deltaTime*/)
 	auto& collidersManager = CollidersManager::GetInstance();
 	auto colliders = collidersManager.GetColliders();
 
-	auto& camera = dae::Camera::GetInstance();
-	float tileScale{ camera.GetWindowScale() };
-
 	for (const auto& collider : colliders)
 	{
 		if (collider == this) continue;
@@ -35,45 +33,26 @@ void bomberman::BaseCollider::Update(float const /*deltaTime*/)
 
 		if (IsOverlapping(collider->GetHitBox(), otherPosition))
 		{
-			auto transform = GetOwner()->GetTransform();
-			auto direction = transform->GetMovementThisFrame();
-
-			float tileStep{ 1.0f * tileScale };
-
-			if (static_cast<int>(direction.x) != 0)
+			switch (collider->m_CollisionType)
 			{
-				transform->Move(glm::vec2(0.0f, -2*tileStep));
-				if (!IsOverlapping(collider->GetHitBox(), otherPosition))
+			case bomberman::CollisionType::Wall:
+			case bomberman::CollisionType::Brick:
+				ResetMovement(collider);
+				break;
+			case bomberman::CollisionType::Entity:
+				break;
+			case bomberman::CollisionType::Bomb:
 				{
-					transform->Move(glm::vec2(0.0f, tileStep));
-					continue;
+					auto healthComponent{ GetOwner()->GetComponent<bomberman::HealthComponent>() };
+					if (healthComponent.has_value())
+					{
+						healthComponent.value()->Damage(1);
+					}
 				}
-
-				transform->Move(glm::vec2(0.0f, 4.0f * tileStep));
-				if (!IsOverlapping(collider->GetHitBox(), otherPosition))
-				{
-					transform->Move(glm::vec2(0.0f, -1.0f * tileStep));
-					continue;
-				}
+				break;
+			default:
+				break;
 			}
-			else if (static_cast<int>(direction.y) != 0)
-			{
-				transform->Move(glm::vec2(-2*tileStep, 0.0f));
-				if (!IsOverlapping(collider->GetHitBox(), otherPosition))
-				{
-					transform->Move(glm::vec2(tileStep, 0.0f));
-					continue;
-				}
-
-				transform->Move(glm::vec2(4.0f * tileStep, 0.0f));
-				if (!IsOverlapping(collider->GetHitBox(), otherPosition))
-				{
-					transform->Move(glm::vec2(-1.0f * tileStep, 0.0f));
-					continue;
-				}
-			}
-			
-			transform->ResetMovementThisFrame();
 		}
 	}
 }
@@ -139,6 +118,8 @@ bool bomberman::BaseCollider::ShouldCheckCollision() const
 		return false;
 	case bomberman::CollisionType::Entity:
 		return true;
+	case bomberman::CollisionType::Brick:
+		return true;
 	default:
 		return false;
 	}
@@ -176,6 +157,54 @@ void bomberman::BaseCollider::AddPositionToPolygon(polygon& polygon, glm::vec3 p
 		vert.x += position.x;
 		vert.y += position.y;
 	}
+}
+
+void bomberman::BaseCollider::ResetMovement(BaseCollider* otherCollider)
+{
+	auto& camera = dae::Camera::GetInstance();
+	float tileScale{ camera.GetWindowScale() };
+
+	auto transform = GetOwner()->GetTransform();
+	auto direction = transform->GetMovementThisFrame();
+
+	auto otherPosition = otherCollider->GetOwner()->GetTransform()->GetGlobalPosition();
+
+	float tileStep{ 1.0f * tileScale };
+
+	if (static_cast<int>(direction.x) != 0)
+	{
+		transform->Move(glm::vec2(0.0f, -2 * tileStep));
+		if (!IsOverlapping(otherCollider->GetHitBox(), otherPosition))
+		{
+			transform->Move(glm::vec2(0.0f, tileStep));
+			return;
+		}
+
+		transform->Move(glm::vec2(0.0f, 4.0f * tileStep));
+		if (!IsOverlapping(otherCollider->GetHitBox(), otherPosition))
+		{
+			transform->Move(glm::vec2(0.0f, -1.0f * tileStep));
+			return;
+		}
+	}
+	else if (static_cast<int>(direction.y) != 0)
+	{
+		transform->Move(glm::vec2(-2 * tileStep, 0.0f));
+		if (!IsOverlapping(otherCollider->GetHitBox(), otherPosition))
+		{
+			transform->Move(glm::vec2(tileStep, 0.0f));
+			return;
+		}
+
+		transform->Move(glm::vec2(4.0f * tileStep, 0.0f));
+		if (!IsOverlapping(otherCollider->GetHitBox(), otherPosition))
+		{
+			transform->Move(glm::vec2(-1.0f * tileStep, 0.0f));
+			return;
+		}
+	}
+
+	transform->ResetMovementThisFrame();
 }
 
 void bomberman::BaseCollider::ProjectPolygon(const polygon& polygon, const glm::vec2& axis, float& min, float& max) const

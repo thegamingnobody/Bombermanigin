@@ -11,6 +11,6 @@ void bomberman::ExplosionComponent::Update(float deltaTime)
 	}
 	else
 	{
-		//GetOwner()->SetShouldBeRemoved();
+		GetOwner()->SetShouldBeRemoved();
 	}
 }

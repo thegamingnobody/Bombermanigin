@@ -25,6 +25,9 @@
     <Filter Include="Events">
       <UniqueIdentifier>{c0250f49-672a-463c-9585-a67a5f40710d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\StandardComponents\Bomb">
+      <UniqueIdentifier>{10690e6c-b096-4318-96ff-2736e8788043}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AttackCommand.cpp">
@@ -70,11 +73,11 @@
     <ClCompile Include="CrossCollider.cpp">
       <Filter>Components\StandardComponents\Colliders</Filter>
     </ClCompile>
-    <ClCompile Include="ExplosionComponent.cpp">
-      <Filter>Components\StandardComponents</Filter>
-    </ClCompile>
     <ClCompile Include="BombComponent.cpp">
-      <Filter>Components\StandardComponents</Filter>
+      <Filter>Components\StandardComponents\Bomb</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionComponent.cpp">
+      <Filter>Components\StandardComponents\Bomb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -125,11 +128,11 @@
     <ClInclude Include="CrossCollider.h">
       <Filter>Components\StandardComponents\Colliders</Filter>
     </ClInclude>
-    <ClInclude Include="ExplosionComponent.h">
-      <Filter>Components\StandardComponents</Filter>
-    </ClInclude>
     <ClInclude Include="BombComponent.h">
-      <Filter>Components\StandardComponents</Filter>
+      <Filter>Components\StandardComponents\Bomb</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionComponent.h">
+      <Filter>Components\StandardComponents\Bomb</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

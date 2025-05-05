@@ -12,7 +12,8 @@ namespace bomberman
 		None,
 		Wall,
 		Entity,
-		Bomb
+		Bomb,
+		Brick
 	};
 
     class BaseCollider : public dae::Component
@@ -42,6 +43,8 @@ namespace bomberman
 		bool OverlapOnAxis(const polygon& polyA, const polygon& polyB, const glm::vec2& axis) const;
 
 		void AddPositionToPolygon(polygon& polygon, glm::vec3 position);
+
+		void ResetMovement(BaseCollider* otherCollider);
 
 		polygon m_Polygon;
 		polygon m_Axes;

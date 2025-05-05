@@ -113,6 +113,12 @@ void LoadMap(dae::Scene& scene)
 			scene.Add(go);
 		}
 	}
+
+	go = std::make_shared<dae::GameObject>("BrickWall", bomberman::Grid::GridCoordToWorldPos(1, 2));
+	go->AddComponent<dae::TextureComponent>(*go.get()).AddTexture("Brick.png");
+	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Brick, bomberman::Box(0.0f, 0.0f, TILE_SIZE, TILE_SIZE));
+	go->AddComponent<bomberman::HealthComponent>(*go.get(), 1);
+	scene.Add(go);
 }
 
 void LoadPlayer(dae::Scene& scene)

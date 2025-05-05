@@ -33,34 +33,18 @@ void bomberman::HealthComponent::Damage(int amount)
 	auto owner = GetOwner();
 	assert(owner != nullptr);
 
-	bomberman::ObjectDamagedEvent event{ owner, m_CurrentHealth };
-	dae::EventManager::GetInstance().BroadcastEvent(event);
+	if (m_CurrentHealth == 0)
+	{
+		//Todo: animate death of game object
+		GetOwner()->SetShouldBeRemoved();
+	}
+	else
+	{
+		bomberman::ObjectDamagedEvent event{ owner, m_CurrentHealth };
+		dae::EventManager::GetInstance().BroadcastEvent(event);
+	}
 }
 
-void bomberman::HealthComponent::Notify(const dae::Event& event)
+void bomberman::HealthComponent::Notify(const dae::Event&)
 {
-    switch (static_cast<EventType>(event.GetEventType()))
-    {
-    case EventType::BOMB_EXPLODED:
-    {
-        const auto castedEvent = dynamic_cast<const BombExplodedEvent*>(&event);
-        assert(castedEvent != nullptr); // Ensure the cast is valid
-
-		auto position = castedEvent->GetPosition();
-		auto radius = castedEvent->GetRadius();
-		auto attackingObject = castedEvent->GetOwnerOfBomb();
-
-		auto owner = GetOwner();
-		assert(owner != nullptr);
-
-		auto distanceToBomb = glm::distance(owner->GetTransform()->GetGlobalPosition(), position);
-
-		if (distanceToBomb > radius || attackingObject == owner) break;
-
-		Damage(1);
-		break;
-    }
-    default:
-		break;
-    }
 }
