@@ -28,13 +28,36 @@
 #include <ServiceLocator.h>
 #include "SoundIds.h"
 #include <ImGuiComponent.h>
+#include "EnemyManager.h"
+
+//Todo: add pickups
+
+//Enemy behavior:
+// 1. Balloom 
+//		Speed: 2, slow	
+//		Score: 100
+//		1) Move randomly
+//		2) Change direction at intersection( or bump into wall)
+// 2. Oneal 
+//		Speed: 3, normal
+// 		Score: 200
+// 		1) Move randomly, but greater chance to move towards player at intersection
+// 3. Doll
+//		Speed: 3, normal
+// 		Score: 400
+// 4. Minvo
+//		Speed: 4, fast
+//		Score: 800
 
 void LoadSounds();
 void LoadMap(dae::Scene& scene);
 void LoadPlayer(dae::Scene& scene);
+void LoadEnemies(dae::Scene& scene);
 
 void load()
 {
+	bomberman::EnemyManager::GetInstance().Init();
+
 	LoadSounds();
 
 	auto& scene = dae::SceneManager::GetInstance().CreateScene("Game");
@@ -45,6 +68,8 @@ void load()
 	//auto smallerFont = resourceManager.LoadFont("Lingua.otf", 18);
 
 	LoadPlayer(scene);
+
+	LoadEnemies(scene);
 
 	////*-----------------------------------------*
 	////|				  ImGui 				  |
@@ -130,7 +155,7 @@ void LoadPlayer(dae::Scene& scene)
 	float tileScale{ camera.GetWindowScale() };
 
 	int const player1InputID = inputManager.AddInputDevice(dae::Action::DeviceType::Keyboard);
-	int const player2InputID = inputManager.AddInputDevice(dae::Action::DeviceType::Gamepad);
+	//int const player2InputID = inputManager.AddInputDevice(dae::Action::DeviceType::Gamepad);
 
 	bomberman::GridCell playerStartCell{ 1, 1 };
 	auto go = std::make_shared<dae::GameObject>("Player 1", bomberman::Grid::GridCoordToWorldPos(playerStartCell), player1InputID);
@@ -157,27 +182,35 @@ void LoadPlayer(dae::Scene& scene)
 	inputManager.AddAction(dae::KeyboardKeys::D, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(1.0f, 0.0f, 0.0f) * player1Movespeed), player1InputID);
 	inputManager.AddAction(dae::KeyboardKeys::C, dae::InputType::PressedThisFrame, std::make_shared<bomberman::AttackCommand>(*go.get()), player1InputID);
 
-	bomberman::GridCell enemyStartCell{ 4, 1 };
-	go = std::make_shared<dae::GameObject>("Player2", bomberman::Grid::GridCoordToWorldPos(enemyStartCell), player2InputID);
-	{
-		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
-		textureComponent.AddTexture("Balloom_E_1.png");
-		auto textureSize = textureComponent.GetSize();
-		auto& healthComponent = go->AddComponent<bomberman::HealthComponent>(*go.get(), 3);
-		eventManager.AddObserver(healthComponent, static_cast<int>(bomberman::EventType::BOMB_EXPLODED));
-		auto& scoreComponent = go->AddComponent<bomberman::ScoreComponent>(*go.get());
-		eventManager.AddObserver(scoreComponent, static_cast<int>(bomberman::EventType::OBJECT_DAMAGED));
-		float const hitboxOffset{ 2.0f };
-		go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Entity, bomberman::Box(hitboxOffset, hitboxOffset, static_cast<float>(textureSize.x) - hitboxOffset * 2, static_cast<float>(textureSize.y) - hitboxOffset * 2));
-	}
-	scene.Add(go);
+	//bomberman::GridCell enemyStartCell{ 4, 1 };
+	//go = std::make_shared<dae::GameObject>("Player2", bomberman::Grid::GridCoordToWorldPos(enemyStartCell), player2InputID);
+	//{
+	//	auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
+	//	textureComponent.AddTexture("Balloom_E_1.png");
+	//	auto textureSize = textureComponent.GetSize();
+	//	auto& healthComponent = go->AddComponent<bomberman::HealthComponent>(*go.get(), 3);
+	//	eventManager.AddObserver(healthComponent, static_cast<int>(bomberman::EventType::BOMB_EXPLODED));
+	//	auto& scoreComponent = go->AddComponent<bomberman::ScoreComponent>(*go.get());
+	//	eventManager.AddObserver(scoreComponent, static_cast<int>(bomberman::EventType::OBJECT_DAMAGED));
+	//	float const hitboxOffset{ 2.0f };
+	//	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Entity, bomberman::Box(hitboxOffset, hitboxOffset, static_cast<float>(textureSize.x) - hitboxOffset * 2, static_cast<float>(textureSize.y) - hitboxOffset * 2));
+	//}
+	//scene.Add(go);
 
-	inputManager.AddAction(dae::GamepadButtons::DpadUp, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, -1.0f, 0.0f) * player2Movespeed), player2InputID);
-	inputManager.AddAction(dae::GamepadButtons::DpadDown, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, 1.0f, 0.0f) * player2Movespeed), player2InputID);
-	inputManager.AddAction(dae::GamepadButtons::DpadLeft, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(-1.0f, 0.0f, 0.0f) * player2Movespeed), player2InputID);
-	inputManager.AddAction(dae::GamepadButtons::DpadRight, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(1.0f, 0.0f, 0.0f) * player2Movespeed), player2InputID);
-	inputManager.AddAction(dae::GamepadButtons::FaceButtonLeft, dae::InputType::PressedThisFrame, std::make_shared<bomberman::AttackCommand>(*go.get()), player2InputID);
+	//inputManager.AddAction(dae::GamepadButtons::DpadUp, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, -1.0f, 0.0f) * player2Movespeed), player2InputID);
+	//inputManager.AddAction(dae::GamepadButtons::DpadDown, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, 1.0f, 0.0f) * player2Movespeed), player2InputID);
+	//inputManager.AddAction(dae::GamepadButtons::DpadLeft, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(-1.0f, 0.0f, 0.0f) * player2Movespeed), player2InputID);
+	//inputManager.AddAction(dae::GamepadButtons::DpadRight, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(1.0f, 0.0f, 0.0f) * player2Movespeed), player2InputID);
+	//inputManager.AddAction(dae::GamepadButtons::FaceButtonLeft, dae::InputType::PressedThisFrame, std::make_shared<bomberman::AttackCommand>(*go.get()), player2InputID);
 
+}
+
+void LoadEnemies(dae::Scene& scene)
+{
+	scene;
+	//auto go = std::make_shared<dae::GameObject>("Enemy", bomberman::Grid::GridCoordToWorldPos(1, 1));
+	//go->AddComponent<dae::TextureComponent>(*go.get()).AddTexture("Balloom_E_1.png");
+	//scene.Add(go);
 }
 
 int main(int, char* []) 

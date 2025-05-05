@@ -1,0 +1,34 @@
+[
+	{
+		"Name": "Balloom",
+		"Speed": 2,
+		"Score": 100,
+		"Health": 1,
+		"MinLevel": 1,
+		"Intelligence": 1
+	},
+	{
+		"Name": "Oneal",
+		"Speed": 3,
+		"Score": 200,
+		"Health": 1,
+		"MinLevel": 2,
+		"Intelligence": 2
+	},
+	{
+		"Name": "Doll",
+		"Speed": 3,
+		"Score": 400,
+		"Health": 1,
+		"MinLevel": 3,
+		"Intelligence": 1
+	},
+	{
+		"Name": "Minvo",
+		"Speed": 4,
+		"Score": 800,
+		"Health": 1,
+		"MinLevel": 3,
+		"Intelligence": 2
+	}
+]

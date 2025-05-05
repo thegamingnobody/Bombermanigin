@@ -79,6 +79,8 @@
     <ClCompile Include="ExplosionComponent.cpp">
       <Filter>Components\StandardComponents\Bomb</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyMovementComponent.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -134,6 +136,8 @@
     <ClInclude Include="ExplosionComponent.h">
       <Filter>Components\StandardComponents\Bomb</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyMovementComponent.h" />
+    <ClInclude Include="EnemyManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
