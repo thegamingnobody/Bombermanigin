@@ -176,6 +176,8 @@ void LoadPlayer(dae::Scene& scene)
 
 int main(int, char* []) 
 {
+	//First one is for when running in Visual Studio, the second one is for the build
+	//Could maybe use a better solution but haven't come up with one yet
 	std::filesystem::path dataPath = "../Data/";
 	std::filesystem::path dataPath2 = "Data/";
 	std::string actualPath{};

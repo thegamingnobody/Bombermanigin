@@ -17,7 +17,7 @@ namespace dae
 		DAE_SDL_Soundsystem& operator=(const DAE_SDL_Soundsystem& other) = delete;
 		DAE_SDL_Soundsystem& operator=(DAE_SDL_Soundsystem&& other) = delete;
 
-		void PlaySound(const SoundId soundId, const float volume) override;
+		void PlaySound(const SoundId soundId, const float volume, int const channel = -1) override;
 		void StopSound(const SoundId soundId) override;
 		void StopAllSounds() override;
 
@@ -31,14 +31,17 @@ namespace dae
 
 		struct SoundInfo
 		{
-			SoundInfo(const SoundId& soundId, float const volume)
+			SoundInfo(const SoundId& soundId, float const volume, int const channel = -1)
 				: m_SoundId(soundId)
 				, m_Volume(volume)
+				, m_Channel(channel)
 			{
 			}
 
 			SoundId m_SoundId{};
 			float m_Volume{};
+			int m_Channel{ -1 };
+
 		};
 
     };

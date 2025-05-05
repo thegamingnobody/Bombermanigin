@@ -5,6 +5,7 @@
 #include <mutex>
 #include <SDL_mixer.h>
 #include <unordered_map>
+#include <filesystem>
 
 class dae::DAE_SDL_Soundsystem::SDLSoundImpl
 {
@@ -14,6 +15,8 @@ public:
 		, m_SoundQueue()
 		, m_Mutex()
 		, m_RunThread(true)
+		, m_Sounds()
+		//, m_ConditionVar()
 	{
 		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) == 0)
 		{
@@ -25,6 +28,7 @@ public:
 		}
 
 		m_SoundThread = std::jthread(&SDLSoundImpl::ProcessQueue, this);
+
 	}
 	~SDLSoundImpl()
 	{
@@ -36,12 +40,16 @@ public:
 		Mix_CloseAudio();
 	}
 
-	void PlaySound(const SoundId soundId, const float volume)
+	void PlaySound(const SoundId soundId, const float volume, int const channel = -1)
 	{
-		SoundInfo soundInfo{ soundId, volume };
+		SoundInfo soundInfo{ soundId, volume, channel };
 
-		std::scoped_lock<std::mutex> lock(m_Mutex);
-		m_SoundQueue.push(soundInfo);
+		{
+			std::scoped_lock<std::mutex> lock(m_Mutex);
+			m_SoundQueue.push(soundInfo);
+		}
+
+		m_ConditionVar.notify_one();
 	}
 	void StopSound(const SoundId)
 	{
@@ -55,11 +63,10 @@ public:
 	{
 		while (m_RunThread)
 		{
-			if (not (m_SoundQueue.size() > 0)) continue;
-
-			if (not m_RunThread) continue;
-
 			std::unique_lock<std::mutex> lock(m_Mutex);
+			m_ConditionVar.wait(lock, [&] { return !m_SoundQueue.empty() or !m_RunThread; });
+
+			if (not m_RunThread and m_SoundQueue.empty()) continue;
 
 			auto& soundRequest{ m_SoundQueue.front() };
 			m_SoundQueue.pop();
@@ -88,6 +95,7 @@ public:
 private:
 	struct SDL_SoundInfo
 	{
+		//Todo: add looping sounds
 		std::string m_SoundPath;
 		Mix_Chunk* m_Sound{ nullptr };
 		bool isLoaded{ false };
@@ -98,12 +106,17 @@ private:
 	void ProcessSound(SoundInfo soundInfo)
 	{
 		SDL_SoundInfo sound = GetSound(soundInfo.m_SoundId);
-
-		if (Mix_Playing(m_SoundChannel) == 0)
+		
+		if (soundInfo.m_Channel != -1)
 		{
-			Mix_VolumeChunk(sound.m_Sound, static_cast<int>(soundInfo.m_Volume * MIX_MAX_VOLUME));
-			Mix_PlayChannel(m_SoundChannel, sound.m_Sound, 0);
+			//checks if specified channel is playing
+			if (Mix_Playing(soundInfo.m_Channel) != 0)
+				return;
 		}
+
+		Mix_VolumeChunk(sound.m_Sound, static_cast<int>(soundInfo.m_Volume * MIX_MAX_VOLUME));
+		Mix_PlayChannel(soundInfo.m_Channel, sound.m_Sound, 0);
+
 	}
 
 	SDL_SoundInfo GetSound(SoundId soundID)
@@ -112,10 +125,26 @@ private:
 		if (it != m_Sounds.end() and it->second.isLoaded)
 			return it->second;
 
-		std::string baseFilePath{ "../Data/" };
-		std::string filePath = baseFilePath + m_Sounds[soundID].m_SoundPath;
+		//First one is for when running in Visual Studio, the second one is for the build
+		//Could maybe use a better solution but haven't come up with one yet
+		std::filesystem::path filePath1{ "../Data/" + m_Sounds[soundID].m_SoundPath };
+		std::filesystem::path filePath2{ "Data/" + m_Sounds[soundID].m_SoundPath };
+		std::string actualPath{};
 
-		Mix_Chunk* chunk = Mix_LoadWAV(filePath.c_str());
+		if (std::filesystem::exists(filePath1))
+		{
+			actualPath = filePath1.string();
+		}
+		else if (std::filesystem::exists(filePath2))
+		{
+			actualPath = filePath2.string();
+		}
+		else
+		{
+			throw std::runtime_error("File not found: " + actualPath);
+		}
+
+		Mix_Chunk* chunk = Mix_LoadWAV(actualPath.c_str());
 
 		if (chunk)
 		{
@@ -125,7 +154,7 @@ private:
 		}
 		else
 		{
-			std::cout << "Failed to load sound: " << filePath << ": " << Mix_GetError() << "\n";
+			std::cout << "Failed to load sound: " << actualPath << ": " << Mix_GetError() << "\n";
 			return SDL_SoundInfo();
 		}
 	}
@@ -134,9 +163,8 @@ private:
 	std::queue<SoundInfo> m_SoundQueue;
 	std::mutex m_Mutex;
 	bool m_RunThread;
-	//Todo: vector of channels of zo iets anders idk
-	int m_SoundChannel{ 1 };
 	std::unordered_map<SoundId, SDL_SoundInfo> m_Sounds{};
+	std::condition_variable m_ConditionVar;
 };
 
 
@@ -149,9 +177,9 @@ dae::DAE_SDL_Soundsystem::~DAE_SDL_Soundsystem()
 {
 }
 
-void dae::DAE_SDL_Soundsystem::PlaySound(const SoundId soundId, const float volume)
+void dae::DAE_SDL_Soundsystem::PlaySound(const SoundId soundId, const float volume, int const channel)
 {
-	m_Impl->PlaySound(soundId, volume);
+	m_Impl->PlaySound(soundId, volume, channel);
 }
 
 void dae::DAE_SDL_Soundsystem::StopSound(const SoundId soundId)
