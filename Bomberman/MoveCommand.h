@@ -13,10 +13,11 @@ namespace bomberman
 		MoveCommand(dae::GameObject& controllingObject, glm::vec3 direction);
 
 		void Execute() override;
+		void SetDirection(glm::vec3 direction) { m_Direction = direction; }
 
 	private:
 		dae::GameObject* m_pControllingObject;
-		const glm::vec3 m_Direction;
+		glm::vec3 m_Direction;
 		//todo: find better solution?
 		int const m_SoundChannel{ 0 };
 

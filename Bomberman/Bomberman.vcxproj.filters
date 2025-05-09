@@ -28,6 +28,12 @@
     <Filter Include="Components\StandardComponents\Bomb">
       <UniqueIdentifier>{10690e6c-b096-4318-96ff-2736e8788043}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FSM">
+      <UniqueIdentifier>{b5106ff1-fd21-4b41-a58e-4c4284be4af4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSM\Base">
+      <UniqueIdentifier>{c365151f-e9d3-4d7f-8016-c5cb555c1fc2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AttackCommand.cpp">
@@ -81,6 +87,14 @@
     </ClCompile>
     <ClCompile Include="EnemyMovementComponent.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="StateMachineBase.cpp">
+      <Filter>FSM\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="RoamingState.cpp">
+      <Filter>FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachineComponent.cpp" />
+    <ClCompile Include="Grid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -138,6 +152,13 @@
     </ClInclude>
     <ClInclude Include="EnemyMovementComponent.h" />
     <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="StateMachineBase.h">
+      <Filter>FSM\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="RoamingState.h">
+      <Filter>FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachineComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

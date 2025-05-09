@@ -4,7 +4,7 @@
 #include <iostream>
 #include "..\3rdParty\Imgui\imgui.h"
 #include "HealthComponent.h"
-
+#include <EventManager.h>
 
 bomberman::BaseCollider::BaseCollider(dae::GameObject& gameObject, CollisionType collisionType)
 	: dae::Component(gameObject)
@@ -29,6 +29,10 @@ void bomberman::BaseCollider::Update(float const /*deltaTime*/)
 	{
 		if (collider == this) continue;
 
+		if (m_CollisionType == bomberman::CollisionType::None) continue;
+
+		if (m_CollisionType == bomberman::CollisionType::Brick and collider->m_CollisionType != bomberman::CollisionType::Bomb) continue;
+
 		auto otherPosition = collider->GetOwner()->GetTransform()->GetGlobalPosition();
 
 		if (IsOverlapping(collider->GetHitBox(), otherPosition))
@@ -39,8 +43,9 @@ void bomberman::BaseCollider::Update(float const /*deltaTime*/)
 			case bomberman::CollisionType::Brick:
 				ResetMovement(collider);
 				break;
-			case bomberman::CollisionType::Entity:
-				break;
+			case bomberman::CollisionType::Enemy:
+				if (this->m_CollisionType != bomberman::CollisionType::Player) break;
+				//Fallthrough is intentional as long as the bomb below only deals damage
 			case bomberman::CollisionType::Bomb:
 				{
 					auto healthComponent{ GetOwner()->GetComponent<bomberman::HealthComponent>() };
@@ -116,9 +121,13 @@ bool bomberman::BaseCollider::ShouldCheckCollision() const
 		return false;
 	case bomberman::CollisionType::Wall:
 		return false;
-	case bomberman::CollisionType::Entity:
+	case bomberman::CollisionType::Enemy:
+		return true;
+	case bomberman::CollisionType::Player:
 		return true;
 	case bomberman::CollisionType::Brick:
+		return true;
+	case bomberman::CollisionType::Bomb:
 		return true;
 	default:
 		return false;

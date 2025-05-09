@@ -10,13 +10,13 @@ namespace dae
 	class ServiceLocator final
 	{
 	public:
-		static SoundSystemBase& GetSoundSystem() { return *m_SoundSystemInstance; }
+		static SoundSystemBase& GetSoundSystem() { return *m_SoundSystemInstance.get(); }
 		//Todo: delete old system when registering a new one
-		static void RegisterSoundSystem(std::unique_ptr<SoundSystemBase>&& soundSystem)
+		static void RegisterSoundSystem(SoundSystemBase* soundSystem)
 		{
 			if (soundSystem != nullptr)
 			{
-				m_SoundSystemInstance = std::move(soundSystem);
+				m_SoundSystemInstance.reset(soundSystem);
 			}
 			else
 			{

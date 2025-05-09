@@ -191,13 +191,17 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="EnemyMovementComponent.cpp" />
     <ClCompile Include="ExplosionComponent.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
+    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
     <ClCompile Include="ObjectDamagedEvent.cpp" />
     <ClCompile Include="OctagonCollider.cpp" />
+    <ClCompile Include="RoamingState.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="ScoreAddedEvent.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
+    <ClCompile Include="StateMachineBase.cpp" />
+    <ClCompile Include="StateMachineComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h" />
@@ -217,10 +221,13 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="ObjectDamagedEvent.h" />
     <ClInclude Include="OctagonCollider.h" />
+    <ClInclude Include="RoamingState.h" />
     <ClInclude Include="RotatorComponent.h" />
     <ClInclude Include="ScoreAddedEvent.h" />
     <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="SoundIds.h" />
+    <ClInclude Include="StateMachineBase.h" />
+    <ClInclude Include="StateMachineComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

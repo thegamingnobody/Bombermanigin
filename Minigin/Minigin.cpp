@@ -18,6 +18,7 @@
 #include "SoundSystemBase.h"
 #include "ServiceLocator.h"
 #include "DAE_SDL_Soundsystem.h"
+#include <SDL_mixer.h>
 
 std::unique_ptr<dae::SoundSystemBase> dae::ServiceLocator::m_SoundSystemInstance{ std::make_unique<dae::NullSoundSystem>() };
 
@@ -48,6 +49,14 @@ void PrintSDLVersion()
 
 	version = *TTF_Linked_Version();
 	printf("We are linking against SDL_ttf version %u.%u.%u.\n",
+		version.major, version.minor, version.patch);
+
+	MIX_VERSION(&version);
+	printf("We compiled against SDL_Mixer version %u.%u.%u ...\n",
+		version.major, version.minor, version.patch);
+
+	version = *Mix_Linked_Version();
+	printf("We are linking against SDL_Mixer version %u.%u.%u.\n",
 		version.major, version.minor, version.patch);
 }
 

@@ -1,6 +1,11 @@
 #pragma once
 
 #include "Camera.h"
+#include "Singleton.h"
+#include <vector>
+#include <memory>
+#include <GameObject.h>
+#include <Scene.h>
 
 namespace bomberman
 {
@@ -8,37 +13,68 @@ namespace bomberman
 	#define TILES_AMOUNT_VERTICAL 13
 	#define TILES_AMOUNT_HORIZONTAL 31
 	
+	enum class CellTypes
+	{
+		Empty,
+		Wall,
+		Brick,
+		PlayerSpawn,
+		EnemySpawn
+	};
+
 	struct GridCell
 	{
-		int x{ 0 };
-		int y{ 0 };
+		int column{ 0 };
+		int row{ 0 };
+		CellTypes cellType{ CellTypes::Empty };
 
-		GridCell(int x, int y)
-			: x(x)
-			, y(y)
+		GridCell(int columnTile, int rowTile, CellTypes cellType = CellTypes::Empty)
+			: column(columnTile)
+			, row(rowTile)
+			, cellType(cellType)
+		{
+		}
+
+		GridCell()
+			: column(0)
+			, row(0)
+			, cellType(CellTypes::Empty)
 		{
 		}
 	};
 
-	class Grid
+	class Grid : public dae::Singleton<Grid>
 	{
 	public:
-		static glm::vec3 GridCoordToWorldPos(int x, int y)
+		void Init();
+
+		void LoadMap(int const levelID);
+		void CreateGameObjects(dae::Scene& scene);
+
+		glm::vec3 GridCoordToWorldPos(int column, int row)
 		{
-			return glm::vec3(x * TILE_SIZE, y * TILE_SIZE, 0.0f);
+			return glm::vec3(column * TILE_SIZE, row * TILE_SIZE, 0.0f);
 		}
-		static glm::vec3 GridCoordToWorldPos(GridCell cell)
+		glm::vec3 GridCoordToWorldPos(GridCell cell)
 		{
-			return GridCoordToWorldPos(cell.x, cell.y);
+			return GridCoordToWorldPos(cell.column, cell.row);
 		}
-		static glm::vec3 WorldPosToGridCoord(glm::vec3 worldPos)
+		
+		glm::vec3 WorldPosToGridCoord(float x, float y)
 		{
-			return glm::vec3(worldPos.x / TILE_SIZE, worldPos.y / TILE_SIZE, 0.0f);
+			return glm::vec3(x / TILE_SIZE, y / TILE_SIZE, 0.0f);
 		}
-		static GridCell WorldPosToGridCoord(float x, float y)
+		glm::vec3 WorldPosToGridCoord(glm::vec3 worldPos)
 		{
-			return GridCell(static_cast<int>(x), static_cast<int>(y));
+			return WorldPosToGridCoord(worldPos.x, worldPos.y);
 		}
+	
+	private:
+		void CreateBrick(dae::Scene& scene, int gridID);
+
+		int m_LevelID{ 0 };
+		//int m_MaxBombs{ 0 };
+		std::vector<GridCell> m_Grid{};
 	};
 }
 

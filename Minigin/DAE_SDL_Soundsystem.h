@@ -6,11 +6,26 @@
 
 namespace dae
 {
+	struct SoundInfo
+		{
+			SoundInfo(const SoundId& soundId, float const volume, int const channel = -1)
+				: m_SoundId(soundId)
+				, m_Volume(volume)
+				, m_Channel(channel)
+			{
+			}
+
+			SoundId m_SoundId{};
+			float m_Volume{};
+			int m_Channel{ -1 };
+
+		};
+
     class DAE_SDL_Soundsystem final : public SoundSystemBase
     {
 	public:
 		DAE_SDL_Soundsystem();
-		virtual ~DAE_SDL_Soundsystem();
+		~DAE_SDL_Soundsystem();
 
 		DAE_SDL_Soundsystem(const DAE_SDL_Soundsystem& other) = delete;
 		DAE_SDL_Soundsystem(DAE_SDL_Soundsystem&& other) = delete;
@@ -29,20 +44,7 @@ namespace dae
 		class SDLSoundImpl;
 		std::unique_ptr<SDLSoundImpl> m_Impl;
 
-		struct SoundInfo
-		{
-			SoundInfo(const SoundId& soundId, float const volume, int const channel = -1)
-				: m_SoundId(soundId)
-				, m_Volume(volume)
-				, m_Channel(channel)
-			{
-			}
 
-			SoundId m_SoundId{};
-			float m_Volume{};
-			int m_Channel{ -1 };
-
-		};
 
     };
 }

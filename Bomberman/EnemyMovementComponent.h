@@ -7,10 +7,10 @@ namespace bomberman
     class EnemyMovementComponent : public dae::Component
     {
 	public:
-		EnemyMovementComponent(dae::GameObject& gameObject, float speed, EnemyType enemyType);
+		EnemyMovementComponent(dae::GameObject& gameObject, EnemyType enemyType);
 		~EnemyMovementComponent() override = default;
 
-		void Update(float deltaTime) override;
+		//void Update(float deltaTime) override;
 
 	private:
 		EnemyType m_EnemyType;

@@ -29,6 +29,7 @@
 #include "SoundIds.h"
 #include <ImGuiComponent.h>
 #include "EnemyManager.h"
+#include "EnemyMovementComponent.h"
 
 //Todo: add pickups
 
@@ -57,6 +58,7 @@ void LoadEnemies(dae::Scene& scene);
 void load()
 {
 	bomberman::EnemyManager::GetInstance().Init();
+	bomberman::Grid::GetInstance().Init();
 
 	LoadSounds();
 
@@ -81,7 +83,7 @@ void load()
 
 void LoadSounds()
 {
-	dae::ServiceLocator::RegisterSoundSystem(std::make_unique<dae::DAE_SDL_Soundsystem>());
+	dae::ServiceLocator::RegisterSoundSystem(new dae::DAE_SDL_Soundsystem());
 
 	std::vector<std::string> SoundPaths =
 	{
@@ -96,13 +98,8 @@ void LoadSounds()
 void LoadMap(dae::Scene& scene)
 {
 	auto& camera = dae::Camera::GetInstance();
+	auto& grid = bomberman::Grid::GetInstance();
 
-	//auto& grid = scene.Add(std::make_shared<bomberman::Grid>("Map", 0, 0));
-	//grid->LoadMap("map.txt");
-
-	//*-----------------------------------------*
-	//|				   Map					    |
-	//*-----------------------------------------*
 	auto go = std::make_shared<dae::GameObject>("Background Texture");
 	{
 		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
@@ -112,19 +109,23 @@ void LoadMap(dae::Scene& scene)
 	}
 	scene.Add(go);
 
-	go = std::make_shared<dae::GameObject>("LeftWall", bomberman::Grid::GridCoordToWorldPos(0, 0));
+	grid.LoadMap(0);
+	grid.CreateGameObjects(scene);
+
+
+	go = std::make_shared<dae::GameObject>("LeftWall", grid.GridCoordToWorldPos(0, 0));
 	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Wall, bomberman::Box(0.0f, 0.0f, TILE_SIZE, TILE_SIZE * TILES_AMOUNT_VERTICAL));
 	scene.Add(go);
 
-	go = std::make_shared<dae::GameObject>("RightWall", bomberman::Grid::GridCoordToWorldPos(TILES_AMOUNT_HORIZONTAL - 1, 0));
+	go = std::make_shared<dae::GameObject>("RightWall", grid.GridCoordToWorldPos(TILES_AMOUNT_HORIZONTAL - 1, 0));
 	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Wall, bomberman::Box(0.0f, 0.0f, TILE_SIZE, TILE_SIZE * TILES_AMOUNT_VERTICAL));
 	scene.Add(go);
 
-	go = std::make_shared<dae::GameObject>("TopWall", bomberman::Grid::GridCoordToWorldPos(0, 0));
+	go = std::make_shared<dae::GameObject>("TopWall", grid.GridCoordToWorldPos(0, 0));
 	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Wall, bomberman::Box(0.0f, 0.0f, TILE_SIZE * (TILES_AMOUNT_HORIZONTAL - 1), TILE_SIZE));
 	scene.Add(go);
 
-	go = std::make_shared<dae::GameObject>("BottomWall", bomberman::Grid::GridCoordToWorldPos(0, TILES_AMOUNT_VERTICAL - 1));
+	go = std::make_shared<dae::GameObject>("BottomWall", grid.GridCoordToWorldPos(0, TILES_AMOUNT_VERTICAL - 1));
 	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Wall, bomberman::Box(0.0f, 0.0f, TILE_SIZE * (TILES_AMOUNT_HORIZONTAL - 1), TILE_SIZE));
 	scene.Add(go);
 
@@ -133,17 +134,11 @@ void LoadMap(dae::Scene& scene)
 	{
 		for (int row = 0; row < (TILES_AMOUNT_VERTICAL - 4) / 2 + 1; row++)
 		{
-			go = std::make_shared<dae::GameObject>("StaticWall_" + std::to_string(col) + "_" + std::to_string(row), bomberman::Grid::GridCoordToWorldPos(startCell.x + col * 2, startCell.y + row * 2));
+			go = std::make_shared<dae::GameObject>("StaticWall_" + std::to_string(col) + "_" + std::to_string(row), grid.GridCoordToWorldPos(startCell.column + col * 2, startCell.row + row * 2));
 			go->AddComponent<bomberman::OctagonCollider>(*go.get(), bomberman::CollisionType::Wall);
 			scene.Add(go);
 		}
 	}
-
-	go = std::make_shared<dae::GameObject>("BrickWall", bomberman::Grid::GridCoordToWorldPos(1, 2));
-	go->AddComponent<dae::TextureComponent>(*go.get()).AddTexture("Brick.png");
-	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Brick, bomberman::Box(0.0f, 0.0f, TILE_SIZE, TILE_SIZE));
-	go->AddComponent<bomberman::HealthComponent>(*go.get(), 1);
-	scene.Add(go);
 }
 
 void LoadPlayer(dae::Scene& scene)
@@ -151,6 +146,7 @@ void LoadPlayer(dae::Scene& scene)
 	auto& inputManager = dae::InputManager::GetInstance();
 	auto& eventManager = dae::EventManager::GetInstance();
 	auto& camera = dae::Camera::GetInstance();
+	auto& grid = bomberman::Grid::GetInstance();
 
 	float tileScale{ camera.GetWindowScale() };
 
@@ -158,7 +154,7 @@ void LoadPlayer(dae::Scene& scene)
 	//int const player2InputID = inputManager.AddInputDevice(dae::Action::DeviceType::Gamepad);
 
 	bomberman::GridCell playerStartCell{ 1, 1 };
-	auto go = std::make_shared<dae::GameObject>("Player 1", bomberman::Grid::GridCoordToWorldPos(playerStartCell), player1InputID);
+	auto go = std::make_shared<dae::GameObject>("Player 1", grid.GridCoordToWorldPos(playerStartCell), player1InputID);
 	{
 		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
 		textureComponent.AddTexture("Bomberman_S_1.png");
@@ -168,7 +164,7 @@ void LoadPlayer(dae::Scene& scene)
 		auto& scoreComponent = go->AddComponent<bomberman::ScoreComponent>(*go.get());
 		eventManager.AddObserver(scoreComponent, static_cast<int>(bomberman::EventType::OBJECT_DAMAGED));
 		//float const hitboxOffset{ 2.0f };
-		go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Entity, bomberman::Box(4 * tileScale, 1 * tileScale, 8 * tileScale, 14 * tileScale));
+		go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Player, bomberman::Box(4 * tileScale, 1 * tileScale, 8 * tileScale, 14 * tileScale));
 	}
 	scene.Add(go);
 	camera.SetTrackingTarget(*go.get());
@@ -207,10 +203,11 @@ void LoadPlayer(dae::Scene& scene)
 
 void LoadEnemies(dae::Scene& scene)
 {
-	scene;
-	//auto go = std::make_shared<dae::GameObject>("Enemy", bomberman::Grid::GridCoordToWorldPos(1, 1));
-	//go->AddComponent<dae::TextureComponent>(*go.get()).AddTexture("Balloom_E_1.png");
-	//scene.Add(go);
+	auto& enemyManager = bomberman::EnemyManager::GetInstance();
+	auto& grid = bomberman::Grid::GetInstance();
+
+	auto go = enemyManager.CreateEnemy(bomberman::EnemyType::Balloom, grid.GridCoordToWorldPos(3, 3));
+	scene.Add(go);
 }
 
 int main(int, char* []) 

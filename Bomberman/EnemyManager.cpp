@@ -1,6 +1,12 @@
 #include "EnemyManager.h"  
 #include <json.hpp>
 #include <fstream>
+#include <GameObject.h>
+#include "EnemyMovementComponent.h"
+#include "BoxCollider.h"
+#include <TextComponent.h>
+#include "StateMachineComponent.h"
+#include "RoamingState.h"
 
 using json = nlohmann::json;  
 
@@ -8,7 +14,7 @@ void bomberman::EnemyManager::Init()
 {
 	std::filesystem::path filePath = __FILE__;
 	std::filesystem::path fileDir = filePath.parent_path();
-	auto dataPath = "EnemyData\\enemyData.json";
+	auto dataPath = "EnemyData\\EnemyData.json";
 
 	fileDir.append(dataPath);
 	std::ifstream f(fileDir.c_str());
@@ -32,16 +38,32 @@ void bomberman::EnemyManager::Init()
 		enemyData.health = enemy["Health"];
 		enemyData.minLevel = enemy["MinLevel"];
 		enemyData.intelligence = enemy["Intelligence"];
+		enemyData.chasePlayer = enemy["ChasePlayer"];
 
 		m_EnemyData.emplace_back(enemyData);
 	}
 }
 
-const bomberman::EnemyData& bomberman::EnemyManager::GetEnemyData(EnemyType enemyType) const
+std::shared_ptr<dae::GameObject> bomberman::EnemyManager::CreateEnemy(bomberman::EnemyType enemyType, glm::vec3 position)
 {
-	EnemyData result;
+	if (static_cast<int>(enemyType) > static_cast<int>(m_EnemyData.size())) return nullptr;
 
-	if (static_cast<int>(enemyType) > m_EnemyData.size()) return result;
+	auto go = std::make_shared<dae::GameObject>(m_EnemyData[static_cast<int>(enemyType)].name, position);
+
+	auto roamingState = std::make_unique<bomberman::RoamingState>(*go.get());
+	go->AddComponent<bomberman::StateMachineComponent>(*go.get(), std::move(roamingState));
+
+	go->AddComponent<dae::TextureComponent>(*go.get()).AddTexture("Balloom_E_1.png");
+	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Enemy);
+
+	return go;
+}
+
+bomberman::EnemyData bomberman::EnemyManager::GetEnemyData(EnemyType enemyType) const
+{
+	EnemyData result{};
+
+	if (static_cast<int>(enemyType) > static_cast<int>(m_EnemyData.size())) return result;
 
 	result = m_EnemyData[static_cast<int>(enemyType)];
 
@@ -67,4 +89,8 @@ int bomberman::EnemyManager::GetEnemyMinLevel(EnemyType enemyType) const
 int bomberman::EnemyManager::GetEnemyIntelligence(EnemyType enemyType) const
 {
 	return GetEnemyData(enemyType).intelligence;
+}
+bool bomberman::EnemyManager::GetEnemyChasePlayer(EnemyType enemyType) const
+{
+	return GetEnemyData(enemyType).chasePlayer;
 }

@@ -5,7 +5,8 @@
 		"Score": 100,
 		"Health": 1,
 		"MinLevel": 1,
-		"Intelligence": 1
+		"Intelligence": 1,
+		"ChasePlayer": false
 	},
 	{
 		"Name": "Oneal",
@@ -13,7 +14,8 @@
 		"Score": 200,
 		"Health": 1,
 		"MinLevel": 2,
-		"Intelligence": 2
+		"Intelligence": 2,
+		"ChasePlayer": true
 	},
 	{
 		"Name": "Doll",
@@ -21,7 +23,8 @@
 		"Score": 400,
 		"Health": 1,
 		"MinLevel": 3,
-		"Intelligence": 1
+		"Intelligence": 1,
+		"ChasePlayer": false
 	},
 	{
 		"Name": "Minvo",
@@ -29,6 +32,7 @@
 		"Score": 800,
 		"Health": 1,
 		"MinLevel": 3,
-		"Intelligence": 2
+		"Intelligence": 2,
+		"ChasePlayer": true
 	}
 ]

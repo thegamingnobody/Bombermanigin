@@ -36,7 +36,9 @@ void bomberman::HealthComponent::Damage(int amount)
 	if (m_CurrentHealth == 0)
 	{
 		//Todo: animate death of game object
-		GetOwner()->SetShouldBeRemoved();
+		
+		//Todo: remove object but not player 
+		//GetOwner()->SetShouldBeRemoved();
 	}
 	else
 	{

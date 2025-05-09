@@ -6,6 +6,12 @@
 #include <SDL_mixer.h>
 #include <unordered_map>
 #include <filesystem>
+#include <condition_variable>
+#include <thread>
+#include <stdexcept>
+#include <string>
+#include <functional>
+
 
 class dae::DAE_SDL_Soundsystem::SDLSoundImpl
 {
@@ -16,28 +22,30 @@ public:
 		, m_Mutex()
 		, m_RunThread(true)
 		, m_Sounds()
-		//, m_ConditionVar()
 	{
-		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) == 0)
-		{
-			std::cout << "Opened Audio Device\n";
-		}
-		else
-		{
-			std::cout << "Unable to open Audio Device, Mix error: " << Mix_GetError() << "\n";
-		}
-
-		m_SoundThread = std::jthread(&SDLSoundImpl::ProcessQueue, this);
-
+		StartUp();
 	}
+
 	~SDLSoundImpl()
 	{
+		Mix_HaltChannel(-1);
+
 		for (auto& sound : m_Sounds)
 		{
 			Mix_FreeChunk(sound.second.m_Sound);
+			sound.second.isLoaded = false;
 		}
+
+		{
+			std::scoped_lock<std::mutex> lock(m_Mutex);
+			std::queue<SoundInfo> emptyQueue;
+			std::swap(m_SoundQueue, emptyQueue);
+		}
+
 		QuitThread();
+
 		Mix_CloseAudio();
+		Mix_Quit();
 	}
 
 	void PlaySound(const SoundId soundId, const float volume, int const channel = -1)
@@ -53,10 +61,11 @@ public:
 	}
 	void StopSound(const SoundId)
 	{
+		//todo: do
 	}
 	void StopAllSounds()
 	{
-
+		//todo: do
 	}
 
 	void ProcessQueue()
@@ -66,21 +75,26 @@ public:
 			std::unique_lock<std::mutex> lock(m_Mutex);
 			m_ConditionVar.wait(lock, [&] { return !m_SoundQueue.empty() or !m_RunThread; });
 
-			if (not m_RunThread and m_SoundQueue.empty()) continue;
+			if (not m_RunThread and m_SoundQueue.empty()) break;
 
-			auto& soundRequest{ m_SoundQueue.front() };
+			auto soundRequest{ m_SoundQueue.front() };
 			m_SoundQueue.pop();
 
 			lock.unlock();
 
 			ProcessSound(soundRequest);
 		}
+
+		std::cout << "Sound thread exiting\n";
 	}
 
 	void QuitThread()
 	{
-		std::scoped_lock<std::mutex> lock(m_Mutex);
-		m_RunThread = false;
+		{
+			std::scoped_lock<std::mutex> lock(m_Mutex);
+			m_RunThread = false;
+			m_ConditionVar.notify_all();
+		}
 	}
 
 	void AddSound(const SoundId soundId, const std::string& filePath)
@@ -93,6 +107,18 @@ public:
 	}
 
 private:
+	void StartUp()
+	{
+		if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 4096) != 0)
+		{
+			std::cout << "Unable to open Audio Device, Mix error: " << Mix_GetError() << "\n";
+			throw std::runtime_error("Unable to open Audio Device");
+		}
+		std::cout << "Opened Audio Device\n";
+
+		m_SoundThread = std::jthread(&SDLSoundImpl::ProcessQueue, this);
+	}
+
 	struct SDL_SoundInfo
 	{
 		//Todo: add looping sounds
@@ -148,6 +174,11 @@ private:
 
 		if (chunk)
 		{
+			if (m_Sounds[soundID].isLoaded && m_Sounds[soundID].m_Sound != nullptr)
+			{
+				Mix_FreeChunk(m_Sounds[soundID].m_Sound);
+			}
+
 			m_Sounds[soundID].m_Sound = chunk;
 			m_Sounds[soundID].isLoaded = true;
 			return m_Sounds[soundID];
@@ -174,8 +205,7 @@ dae::DAE_SDL_Soundsystem::DAE_SDL_Soundsystem()
 }
 
 dae::DAE_SDL_Soundsystem::~DAE_SDL_Soundsystem()
-{
-}
+{}
 
 void dae::DAE_SDL_Soundsystem::PlaySound(const SoundId soundId, const float volume, int const channel)
 {
