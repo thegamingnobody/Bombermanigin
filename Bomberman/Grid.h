@@ -68,11 +68,14 @@ namespace bomberman
 		{
 			return WorldPosToGridCoord(worldPos.x, worldPos.y);
 		}
-	
+		
+		void BrickDestroyed(int cellID);
+
 	private:
 		void CreateBrick(dae::Scene& scene, int gridID);
 
 		int m_LevelID{ 0 };
+		int m_BrickCount{ 0 };
 		//int m_MaxBombs{ 0 };
 		std::vector<GridCell> m_Grid{};
 	};

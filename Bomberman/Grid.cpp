@@ -48,14 +48,20 @@ void bomberman::Grid::LoadMap(int const levelID)
 
 	m_LevelID = data[levelID]["level"];
 	auto jsonBrick = data[levelID]["bricks"];
-	for (auto& brick : jsonBrick)
+	for (int column = 1; column <= jsonBrick.size(); column++)
 	{
-		GridCell brickToAdd = GridCell(brick["x"], brick["y"], CellTypes::Brick);
-		int cellNumber = (brickToAdd.row * TILES_AMOUNT_HORIZONTAL) + brickToAdd.column;
+		auto brick = jsonBrick[column - 1];
+		for (int row = 0; row < brick["y"].size(); row++)
+		{
+			GridCell brickToAdd = GridCell(column, brick["y"][row], CellTypes::Brick);
+			int cellNumber = (brickToAdd.row * TILES_AMOUNT_HORIZONTAL) + brickToAdd.column;
+
+			if (cellNumber >= static_cast<int>(m_Grid.size()) or cellNumber < 0) { throw std::out_of_range("Cell number out of range"); }
+			m_Grid[cellNumber] = brickToAdd;
+			m_BrickCount++;
+		}
 		
-		if (cellNumber >= static_cast<int>(m_Grid.size()) or cellNumber < 0) { throw std::out_of_range("Cell number out of range"); }
 		
-		m_Grid[cellNumber] = brickToAdd;
 	}
 }
 
@@ -79,6 +85,15 @@ void bomberman::Grid::CreateGameObjects(dae::Scene& scene)
 		default:
 			break;
 		}
+	}
+}
+
+void bomberman::Grid::BrickDestroyed(int cellID)
+{
+	m_BrickCount--;
+	if (m_BrickCount <= 0)
+	{
+		m_BrickCount = 0;
 	}
 }
 

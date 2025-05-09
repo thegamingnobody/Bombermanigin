@@ -20,8 +20,9 @@ public:
 		: m_SoundThread()
 		, m_SoundQueue()
 		, m_Mutex()
-		, m_RunThread(true)
 		, m_Sounds()
+		, m_RunThread(true)
+		, m_IsMuted(false)
 	{
 		StartUp();
 	}
@@ -106,6 +107,11 @@ public:
 		m_Sounds[soundId] = sound;
 	}
 
+	void ToggleMute()
+	{
+		m_IsMuted = !m_IsMuted;
+	}
+
 private:
 	void StartUp()
 	{
@@ -132,7 +138,9 @@ private:
 	void ProcessSound(SoundInfo soundInfo)
 	{
 		SDL_SoundInfo sound = GetSound(soundInfo.m_SoundId);
-		
+	
+		if (m_IsMuted) return;
+
 		if (soundInfo.m_Channel != -1)
 		{
 			//checks if specified channel is playing
@@ -142,7 +150,6 @@ private:
 
 		Mix_VolumeChunk(sound.m_Sound, static_cast<int>(soundInfo.m_Volume * MIX_MAX_VOLUME));
 		Mix_PlayChannel(soundInfo.m_Channel, sound.m_Sound, 0);
-
 	}
 
 	SDL_SoundInfo GetSound(SoundId soundID)
@@ -193,9 +200,10 @@ private:
 	std::jthread m_SoundThread;
 	std::queue<SoundInfo> m_SoundQueue;
 	std::mutex m_Mutex;
-	bool m_RunThread;
 	std::unordered_map<SoundId, SDL_SoundInfo> m_Sounds{};
 	std::condition_variable m_ConditionVar;
+	bool m_RunThread;
+	bool m_IsMuted;
 };
 
 

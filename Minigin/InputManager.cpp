@@ -32,10 +32,16 @@ bool dae::InputManager::ProcessInput()
 	}
 
 	SDL_Event e;
-	while (SDL_PollEvent(&e)) {
-		if (e.type == SDL_QUIT) {
+	while (SDL_PollEvent(&e))
+	{
+		if (e.type == SDL_QUIT) 
+		{
 			return false;
-		}		
+		}
+		else if (e.key == SDLK_F2)
+		{
+
+		}
 		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
