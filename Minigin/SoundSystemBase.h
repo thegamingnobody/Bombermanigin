@@ -23,6 +23,8 @@ namespace dae
 		virtual void StopAllSounds() = 0;
 
 		virtual void AddSound(const SoundId soundId, const std::string& filePath) = 0;
+
+		virtual void ToggleMute() = 0;
 	};
 
 }

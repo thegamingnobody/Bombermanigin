@@ -15,7 +15,7 @@ namespace dae
 
 		void ProcessQueue();
 
-		void BroadcastEvent(const Event& event);
+		void BroadcastEvent(std::unique_ptr<Event> event);
 
 		void AddObserver(Observer& observer, int eventType);
 		void RemoveObserver(Observer& observer);
@@ -26,12 +26,10 @@ namespace dae
 		EventManager() = default;
 		std::unique_ptr<Subject> m_Subject;
 
-		std::queue<Event> m_EventQueue;
+		//std::queue<Event> m_EventQueue;
+		std::queue<std::unique_ptr<Event>> m_EventQueue;
 
-		void ProcessEvent(const Event& event)
-		{
-			m_Subject->NotifyObservers(event);
-		}
+		void ProcessEvent(std::unique_ptr<Event> event);
     };
 }
 

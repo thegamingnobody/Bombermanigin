@@ -22,6 +22,7 @@ namespace bomberman
 
 		void ChangeState(std::unique_ptr<StateMachineBase> newState);
 
+		StateMachineBase* GetCurrentState() const { return m_CurrentState.get(); }
 	private:
 		std::unique_ptr<StateMachineBase> m_CurrentState;
 	};

@@ -43,7 +43,7 @@ void bomberman::HealthComponent::Damage(int amount)
 	else
 	{
 		bomberman::ObjectDamagedEvent event{ owner, m_CurrentHealth };
-		dae::EventManager::GetInstance().BroadcastEvent(event);
+		dae::EventManager::GetInstance().BroadcastEvent(std::move(std::make_unique<bomberman::ObjectDamagedEvent>(event)));
 	}
 }
 

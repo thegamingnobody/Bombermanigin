@@ -21,6 +21,8 @@ namespace dae
 		void StopAllSounds() override {};
 
 		void AddSound(const SoundId, const std::string&) override {};
+
+		void ToggleMute() override {};
 	};
 }
 

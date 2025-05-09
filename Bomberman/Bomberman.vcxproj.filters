@@ -95,6 +95,7 @@
     </ClCompile>
     <ClCompile Include="StateMachineComponent.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="EnemyCollisionEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -159,6 +160,7 @@
       <Filter>FSM</Filter>
     </ClInclude>
     <ClInclude Include="StateMachineComponent.h" />
+    <ClInclude Include="EnemyCollisionEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

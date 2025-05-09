@@ -71,6 +71,10 @@ namespace bomberman
 		
 		void BrickDestroyed(int cellID);
 
+		GridCell GetCell(int cellID) const;
+		GridCell GetCell(int column, int row) const;
+
+		int GetCellID(int column, int row) const;
 	private:
 		void CreateBrick(dae::Scene& scene, int gridID);
 

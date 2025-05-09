@@ -1,7 +1,7 @@
 [
 	{
 		"Name": "Balloom",
-		"Speed": 2,
+		"Speed": 50,
 		"Score": 100,
 		"Health": 1,
 		"MinLevel": 1,
@@ -10,7 +10,7 @@
 	},
 	{
 		"Name": "Oneal",
-		"Speed": 3,
+		"Speed": 75,
 		"Score": 200,
 		"Health": 1,
 		"MinLevel": 2,
@@ -19,7 +19,7 @@
 	},
 	{
 		"Name": "Doll",
-		"Speed": 3,
+		"Speed": 75,
 		"Score": 400,
 		"Health": 1,
 		"MinLevel": 3,
@@ -28,7 +28,7 @@
 	},
 	{
 		"Name": "Minvo",
-		"Speed": 4,
+		"Speed": 100,
 		"Score": 800,
 		"Health": 1,
 		"MinLevel": 3,

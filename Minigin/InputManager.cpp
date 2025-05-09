@@ -3,6 +3,7 @@
 #include <backends/imgui_impl_sdl2.h>
 #include <stdexcept>
 #include "KeyboardDevice.h"
+#include "ServiceLocator.h"
 void dae::InputManager::Init()
 {
 	int const maxAantalGamepads{ 4 };
@@ -38,9 +39,9 @@ bool dae::InputManager::ProcessInput()
 		{
 			return false;
 		}
-		else if (e.key == SDLK_F2)
+        else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_F2)
 		{
-
+			dae::ServiceLocator::GetSoundSystem().ToggleMute();
 		}
 		ImGui_ImplSDL2_ProcessEvent(&e);
 	}

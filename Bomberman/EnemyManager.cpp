@@ -54,7 +54,9 @@ std::shared_ptr<dae::GameObject> bomberman::EnemyManager::CreateEnemy(bomberman:
 	go->AddComponent<bomberman::StateMachineComponent>(*go.get(), std::move(roamingState));
 
 	go->AddComponent<dae::TextureComponent>(*go.get()).AddTexture("Balloom_E_1.png");
-	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Enemy);
+
+	float offset{ 2.0f };
+	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Enemy, bomberman::Box(offset, offset, TILE_SIZE - (2 * offset), TILE_SIZE - (2 * offset)));
 
 	return go;
 }

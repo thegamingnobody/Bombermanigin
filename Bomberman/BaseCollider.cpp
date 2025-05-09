@@ -5,6 +5,8 @@
 #include "..\3rdParty\Imgui\imgui.h"
 #include "HealthComponent.h"
 #include <EventManager.h>
+#include "StateMachineComponent.h"
+#include "EnemyCollisionEvent.h"
 
 bomberman::BaseCollider::BaseCollider(dae::GameObject& gameObject, CollisionType collisionType)
 	: dae::Component(gameObject)
@@ -41,6 +43,13 @@ void bomberman::BaseCollider::Update(float const /*deltaTime*/)
 			{
 			case bomberman::CollisionType::Wall:
 			case bomberman::CollisionType::Brick:
+				if (m_CollisionType == bomberman::CollisionType::Enemy)
+				{
+					bomberman::EnemyCollisionEvent event{ GetOwner()->GetName(), m_CollisionType };
+					dae::EventManager::GetInstance().BroadcastEvent(std::move(std::make_unique<bomberman::EnemyCollisionEvent>(event)));
+					break;
+				}
+
 				ResetMovement(collider);
 				break;
 			case bomberman::CollisionType::Enemy:

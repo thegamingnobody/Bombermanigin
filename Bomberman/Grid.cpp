@@ -90,11 +90,42 @@ void bomberman::Grid::CreateGameObjects(dae::Scene& scene)
 
 void bomberman::Grid::BrickDestroyed(int cellID)
 {
+	if (cellID < 0 or cellID >= static_cast<int>(m_Grid.size())) 
+	{
+		throw std::out_of_range("Cell ID out of range"); 
+	}
+
+	if (m_Grid[cellID].cellType != CellTypes::Brick)
+	{
+		throw std::invalid_argument("Cell ID is not a brick");
+	}
+	m_Grid[cellID].cellType = CellTypes::Empty;
 	m_BrickCount--;
+
 	if (m_BrickCount <= 0)
 	{
 		m_BrickCount = 0;
 	}
+}
+
+bomberman::GridCell bomberman::Grid::GetCell(int cellID) const
+{
+	if (cellID >= static_cast<int>(m_Grid.size()) or cellID < 0) 
+	{
+		throw std::out_of_range("Cell number out of range");
+	}
+
+	return m_Grid[cellID];
+}
+
+bomberman::GridCell bomberman::Grid::GetCell(int column, int row) const
+{
+	return GetCell(GetCellID(column, row));
+}
+
+int bomberman::Grid::GetCellID(int column, int row) const
+{
+	return (row * TILES_AMOUNT_HORIZONTAL) + column;
 }
 
 void bomberman::Grid::CreateBrick(dae::Scene& scene, int gridID)

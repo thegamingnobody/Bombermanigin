@@ -239,3 +239,8 @@ void dae::DAE_SDL_Soundsystem::AddSound(const SoundId soundId, const std::string
 {
 	m_Impl->AddSound(soundId, filePath);
 }
+
+void dae::DAE_SDL_Soundsystem::ToggleMute()
+{
+	m_Impl->ToggleMute();
+}

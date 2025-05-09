@@ -21,7 +21,7 @@ void bomberman::ScoreComponent::AddScore(int addedScore)
 	assert(owner != nullptr);
 
 	ScoreAddedEvent event{ owner, m_Score };
-	dae::EventManager::GetInstance().BroadcastEvent(event);
+	dae::EventManager::GetInstance().BroadcastEvent(std::move(std::make_unique<ScoreAddedEvent>(event)));
 }
 
 void bomberman::ScoreComponent::RemoveScore(int removedScore)
