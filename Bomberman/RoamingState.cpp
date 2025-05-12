@@ -66,11 +66,24 @@ void bomberman::RoamingState::Notify(const dae::Event& event)
 
 void bomberman::RoamingState::FlipDirection()
 {  
-	// Todo: chance to change axis instead of just flipping
+
+	//the chance is 1/odds
+	int odds{ 3 };
+	
+	if (rand() % odds == 0)
+	{
+		m_Direction = {
+			-m_Direction.y,
+			m_Direction.x,
+			0.0f
+		};
+		return;
+	}
 	m_Direction = {
+		-m_Direction.x,
 		-m_Direction.y,
-		m_Direction.x,
 		0.0f
 	};
+	
 }
 
