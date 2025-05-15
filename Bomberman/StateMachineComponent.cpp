@@ -7,11 +7,23 @@ bomberman::StateMachineComponent::StateMachineComponent(dae::GameObject& ownerOb
 	ChangeState(std::move(startingState));
 }
 
+bomberman::StateMachineComponent::~StateMachineComponent()
+{
+	if (m_CurrentState)
+	{
+		m_CurrentState->OnExit();
+	}
+}
+
 void bomberman::StateMachineComponent::Update(float deltaTime)
 {
 	if (m_CurrentState)
 	{
-		m_CurrentState->Update(deltaTime);
+		auto returnValue = m_CurrentState->Update(deltaTime);
+
+		if (returnValue == nullptr) return;
+
+		ChangeState(std::move(returnValue));
 	}
 }
 

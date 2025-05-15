@@ -19,6 +19,14 @@ void bomberman::Grid::Init()
 			m_Grid[column + row * TILES_AMOUNT_HORIZONTAL] = newCell;
 		}
 	}
+
+	for (int row = 2; row < TILES_AMOUNT_VERTICAL; row += 2)
+	{
+		for (int column = 2; column < TILES_AMOUNT_HORIZONTAL; column += 2)
+		{
+			m_Grid[column + row * TILES_AMOUNT_HORIZONTAL].cellType = CellTypes::Wall;
+		}
+	}
 }
 
 void bomberman::Grid::LoadMap(int const levelID)
@@ -48,10 +56,10 @@ void bomberman::Grid::LoadMap(int const levelID)
 
 	m_LevelID = data[levelID]["level"];
 	auto jsonBrick = data[levelID]["bricks"];
-	for (int column = 1; column <= jsonBrick.size(); column++)
+	for (int column = 1; column <= static_cast<int>(jsonBrick.size()); column++)
 	{
 		auto brick = jsonBrick[column - 1];
-		for (int row = 0; row < brick["y"].size(); row++)
+		for (int row = 0; row < static_cast<int>(brick["y"].size()); row++)
 		{
 			GridCell brickToAdd = GridCell(column, brick["y"][row], CellTypes::Brick);
 			int cellNumber = (brickToAdd.row * TILES_AMOUNT_HORIZONTAL) + brickToAdd.column;
@@ -126,6 +134,11 @@ bomberman::GridCell bomberman::Grid::GetCell(int column, int row) const
 int bomberman::Grid::GetCellID(int column, int row) const
 {
 	return (row * TILES_AMOUNT_HORIZONTAL) + column;
+}
+
+bool bomberman::Grid::IsCellTypeWalkable(CellTypes cellType) const
+{
+	return cellType == CellTypes::Empty || cellType == CellTypes::PlayerSpawn || cellType == CellTypes::EnemySpawn;
 }
 
 void bomberman::Grid::CreateBrick(dae::Scene& scene, int gridID)

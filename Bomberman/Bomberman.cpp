@@ -88,7 +88,8 @@ void LoadSounds()
 	std::vector<std::string> SoundPaths =
 	{
 		"WalkHorizontal.wav",
-		"WalkVertical.wav"
+		"WalkVertical.wav",
+		"BombPlace.wav"
 	};
 
 	dae::ServiceLocator::GetSoundSystem().AddSound(static_cast<int>(bomberman::SoundId::WalkHorizontal), SoundPaths[static_cast<int>(bomberman::SoundId::WalkHorizontal)]);
@@ -144,7 +145,7 @@ void LoadMap(dae::Scene& scene)
 void LoadPlayer(dae::Scene& scene)
 {
 	auto& inputManager = dae::InputManager::GetInstance();
-	auto& eventManager = dae::EventManager::GetInstance();
+	//auto& eventManager = dae::EventManager::GetInstance();
 	auto& camera = dae::Camera::GetInstance();
 	auto& grid = bomberman::Grid::GetInstance();
 
@@ -159,10 +160,10 @@ void LoadPlayer(dae::Scene& scene)
 		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
 		textureComponent.AddTexture("Bomberman_S_1.png");
 		auto textureSize = textureComponent.GetSize();
-		auto& healthComponent = go->AddComponent<bomberman::HealthComponent>(*go.get(), 3);
-		eventManager.AddObserver(healthComponent, static_cast<int>(bomberman::EventType::BOMB_EXPLODED));
-		auto& scoreComponent = go->AddComponent<bomberman::ScoreComponent>(*go.get());
-		eventManager.AddObserver(scoreComponent, static_cast<int>(bomberman::EventType::OBJECT_DAMAGED));
+		/*auto& healthComponent =*/ go->AddComponent<bomberman::HealthComponent>(*go.get(), 3);
+		//eventManager.AddObserver(healthComponent, static_cast<int>(bomberman::EventType::BOMB_EXPLODED));
+		/*auto& scoreComponent = */go->AddComponent<bomberman::ScoreComponent>(*go.get());
+		//eventManager.AddObserver(scoreComponent, static_cast<int>(bomberman::EventType::OBJECT_DAMAGED));
 		//float const hitboxOffset{ 2.0f };
 		go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Player, bomberman::Box(4 * tileScale, 1 * tileScale, 8 * tileScale, 14 * tileScale));
 	}
@@ -206,7 +207,8 @@ void LoadEnemies(dae::Scene& scene)
 	auto& enemyManager = bomberman::EnemyManager::GetInstance();
 	auto& grid = bomberman::Grid::GetInstance();
 
-	auto go = enemyManager.CreateEnemy(bomberman::EnemyType::Balloom, grid.GridCoordToWorldPos(3, 3));
+	//auto go = enemyManager.CreateEnemy(bomberman::EnemyType::Balloom, grid.GridCoordToWorldPos(3, 3));
+	auto go = enemyManager.CreateEnemy(bomberman::EnemyType::Oneal, grid.GridCoordToWorldPos(3, 3));
 	scene.Add(go);
 }
 

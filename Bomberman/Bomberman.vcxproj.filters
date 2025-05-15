@@ -93,9 +93,13 @@
     <ClCompile Include="RoamingState.cpp">
       <Filter>FSM</Filter>
     </ClCompile>
-    <ClCompile Include="StateMachineComponent.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="EnemyCollisionEvent.cpp" />
+    <ClCompile Include="ChaseState.cpp" />
+    <ClCompile Include="StateMachineComponent.cpp">
+      <Filter>Components\StandardComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="DyingState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -159,8 +163,12 @@
     <ClInclude Include="RoamingState.h">
       <Filter>FSM</Filter>
     </ClInclude>
-    <ClInclude Include="StateMachineComponent.h" />
     <ClInclude Include="EnemyCollisionEvent.h" />
+    <ClInclude Include="ChaseState.h" />
+    <ClInclude Include="StateMachineComponent.h">
+      <Filter>Components\StandardComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="DyingState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

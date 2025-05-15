@@ -47,7 +47,6 @@ void bomberman::BaseCollider::Update(float const /*deltaTime*/)
 				{
 					bomberman::EnemyCollisionEvent event{ GetOwner()->GetName(), m_CollisionType };
 					dae::EventManager::GetInstance().BroadcastEvent(std::move(std::make_unique<bomberman::EnemyCollisionEvent>(event)));
-					break;
 				}
 
 				ResetMovement(collider);

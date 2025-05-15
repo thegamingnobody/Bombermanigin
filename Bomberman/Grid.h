@@ -75,6 +75,9 @@ namespace bomberman
 		GridCell GetCell(int column, int row) const;
 
 		int GetCellID(int column, int row) const;
+
+		bool IsCellTypeWalkable(CellTypes cellType) const;
+
 	private:
 		void CreateBrick(dae::Scene& scene, int gridID);
 

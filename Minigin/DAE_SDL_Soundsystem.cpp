@@ -76,8 +76,11 @@ public:
 			std::unique_lock<std::mutex> lock(m_Mutex);
 			m_ConditionVar.wait(lock, [&] { return !m_SoundQueue.empty() or !m_RunThread; });
 
-			if (not m_RunThread and m_SoundQueue.empty()) break;
-
+			if (not m_RunThread and m_SoundQueue.empty())
+			{
+				std::this_thread::sleep_for(std::chrono::milliseconds(100));
+				break;
+			}
 			auto soundRequest{ m_SoundQueue.front() };
 			m_SoundQueue.pop();
 

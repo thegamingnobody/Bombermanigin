@@ -84,7 +84,7 @@ std::shared_ptr<GameObject> dae::Scene::GetObject(const std::string& name) const
 {
 	auto it = std::find_if(m_objects.begin(), m_objects.end(), [&name](const std::shared_ptr<GameObject>& object)
 		{
-			return object->GetName() == name;
+			return (object->GetName().find(name) != std::string::npos);
 		});
 
 	if (it != m_objects.end())

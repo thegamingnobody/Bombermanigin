@@ -6,7 +6,8 @@
 		"Health": 1,
 		"MinLevel": 1,
 		"Intelligence": 1,
-		"ChasePlayer": false
+		"ChasePlayer": false,
+		"DetectRange": 0
 	},
 	{
 		"Name": "Oneal",
@@ -15,7 +16,8 @@
 		"Health": 1,
 		"MinLevel": 2,
 		"Intelligence": 2,
-		"ChasePlayer": true
+		"ChasePlayer": true,
+		"DetectRange": 100
 	},
 	{
 		"Name": "Doll",
@@ -24,7 +26,8 @@
 		"Health": 1,
 		"MinLevel": 3,
 		"Intelligence": 1,
-		"ChasePlayer": false
+		"ChasePlayer": false,
+		"DetectRange": 0
 	},
 	{
 		"Name": "Minvo",
@@ -33,6 +36,7 @@
 		"Health": 1,
 		"MinLevel": 3,
 		"Intelligence": 2,
-		"ChasePlayer": true
+		"ChasePlayer": true,
+		"DetectRange": 100
 	}
 ]

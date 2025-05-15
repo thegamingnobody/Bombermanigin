@@ -9,5 +9,6 @@ namespace bomberman
 	{
 		WalkHorizontal = 0,
 		WalkVertical = 1,
+		BombPlace = 2,
 	};
 }

@@ -9,7 +9,7 @@ namespace bomberman
     {
 	public:
 		StateMachineComponent(dae::GameObject& ownerObject, std::unique_ptr<StateMachineBase> startingState);
-		~StateMachineComponent() override = default;
+		virtual ~StateMachineComponent() override;
 
 		StateMachineComponent(const StateMachineComponent&) = delete;
 		StateMachineComponent(StateMachineComponent&&) = delete;

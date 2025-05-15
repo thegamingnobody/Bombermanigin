@@ -1,46 +1,103 @@
 #include "RoamingState.h"
 #include <iostream>
-#include "Grid.h"
-#include "EnemyManager.h"
 #include <cmath>
 #include <EventManager.h>
 #include "EventTypes.h"
 #include "EnemyCollisionEvent.h"
+#include "ChaseState.h"
+#include "Grid.h"
+#include "ObjectDamagedEvent.h"
+#include "DyingState.h"
 
 bomberman::RoamingState::RoamingState(dae::GameObject& ownerObject)
 	: StateMachineBase(ownerObject)
 	, m_Direction(0.0f, 0.0f, 0.0f)
+	, m_EnemyData()
 {
 }
 
 std::unique_ptr<bomberman::StateMachineBase> bomberman::RoamingState::Update(float deltaTime)
 {
+	if (m_HasDied)
+	{
+		return std::make_unique<bomberman::DyingState>(*m_Owner);
+	}
+
 	//Get variables
-	//auto& grid = bomberman::Grid::GetInstance();
-	auto& enemyManager = bomberman::EnemyManager::GetInstance();
-	auto speed = enemyManager.GetEnemyData(bomberman::EnemyType::Balloom).speed;
 	auto transform = m_Owner->GetTransform(); 
 
 	//Calculate the movement this frame
-	glm::vec3 deltaPosition{ m_Direction.x * speed * deltaTime, m_Direction.y * speed * deltaTime, 0.0f };
+	glm::vec3 deltaPosition{ m_Direction.x * m_EnemyData.speed * deltaTime, m_Direction.y * m_EnemyData.speed * deltaTime, 0.0f };
 	transform->Move(deltaPosition);
+
+	//Todo: improve
+	auto player = dae::SceneManager::GetInstance().GetScene("Game")->GetObject("Player 1");
+	if (!player)
+	{
+		throw std::runtime_error("Player not found");
+	}
+
+	glm::vec3 playerPos = player->GetTransform()->GetGlobalPosition();
+
+	glm::vec3 enemyPos = m_Owner->GetTransform()->GetGlobalPosition();
+
+	float distanceSQ =	(playerPos.x - enemyPos.x) * (playerPos.x - enemyPos.x) + 
+						(playerPos.y - enemyPos.y) * (playerPos.y - enemyPos.y);
+
+	//float distance = (playerPos - enemyPos);
+
+	if (distanceSQ <= m_EnemyData.detectionRange * m_EnemyData.detectionRange)
+	{
+		return std::make_unique<bomberman::ChaseState>(*m_Owner);
+	}
 
 	return nullptr;
 }
 
 void bomberman::RoamingState::OnEnter()
 {
+	auto& eventManager = dae::EventManager::GetInstance();
+	auto& enemyManager = bomberman::EnemyManager::GetInstance();
+
+	//Generate a random direction
 	int positiveOrNegative{ ((rand() % 2) * 2) - 1 };
 	int randomDirection{ rand() % 2 };
 
 	m_Direction.x = static_cast<float>(randomDirection * positiveOrNegative);
 	m_Direction.y = (static_cast<int>(m_Direction.x) == 0) ? 1.0f * positiveOrNegative : 0.0f;
 
-	dae::EventManager::GetInstance().AddObserver(*this, static_cast<int>(bomberman::EventType::ENEMY_COLLISION));
+	//Subscribe to event
+	eventManager.AddObserver(*this, static_cast<int>(bomberman::EventType::ENEMY_COLLISION));
+	eventManager.AddObserver(*this, static_cast<int>(bomberman::EventType::OBJECT_DAMAGED));
+
+	//Get data of this enemy
+	std::string name = m_Owner->GetName();
+	bomberman::EnemyType enemyType{};
+
+	//Todo: find better way to do this?
+	if (name.find("Balloom") != std::string::npos)
+	{
+		enemyType = bomberman::EnemyType::Balloom;
+	}
+	else if (name.find("Oneal") != std::string::npos)
+	{
+		enemyType = bomberman::EnemyType::Oneal;
+	}
+	else if (name.find("Doll") != std::string::npos)
+	{
+		enemyType = bomberman::EnemyType::Doll;
+	}
+	else if (name.find("Minvo") != std::string::npos)
+	{
+		enemyType = bomberman::EnemyType::Minvo;
+	}
+
+	m_EnemyData = enemyManager.GetEnemyData(enemyType);
 }
 
 void bomberman::RoamingState::OnExit()
 {
+	dae::EventManager::GetInstance().RemoveObserver(*this);
 	dae::EventManager::GetInstance().RemoveObserver(*this);
 }
 
@@ -56,6 +113,16 @@ void bomberman::RoamingState::Notify(const dae::Event& event)
 		{
 			m_Owner->GetTransform()->Move(-m_Direction);
 			FlipDirection();
+		}
+		break;
+	}
+	case EventType::OBJECT_DAMAGED:
+	{
+		const auto& castedEvent = dynamic_cast<const bomberman::ObjectDamagedEvent&>(event);
+		if (castedEvent.GetDamagedObject()->GetName() == m_Owner->GetName())
+		{
+			//Todo: geen dirty flag gebruiken maar de notify direct de state laten returnen
+			m_HasDied = true;
 		}
 		break;
 	}
@@ -79,6 +146,7 @@ void bomberman::RoamingState::FlipDirection()
 		};
 		return;
 	}
+
 	m_Direction = {
 		-m_Direction.x,
 		-m_Direction.y,

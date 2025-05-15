@@ -24,6 +24,7 @@ namespace bomberman
 		int minLevel{};
 		int intelligence{};
 		bool chasePlayer{};
+		float detectionRange{};
 	};
 
 	class EnemyManager : public dae::Singleton<EnemyManager>

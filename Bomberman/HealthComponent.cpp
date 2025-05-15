@@ -32,16 +32,10 @@ void bomberman::HealthComponent::Damage(int amount)
 
 	auto owner = GetOwner();
 	assert(owner != nullptr);
-
-	if (m_CurrentHealth == 0)
+ 
+	if (owner->GetName().find("Player") == std::string::npos)
 	{
-		//Todo: animate death of game object
-		
-		//Todo: remove object but not player 
-		//GetOwner()->SetShouldBeRemoved();
-	}
-	else
-	{
+		// is not player
 		bomberman::ObjectDamagedEvent event{ owner, m_CurrentHealth };
 		dae::EventManager::GetInstance().BroadcastEvent(std::move(std::make_unique<bomberman::ObjectDamagedEvent>(event)));
 	}
