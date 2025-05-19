@@ -8,10 +8,10 @@
 #include <EventManager.h>
 #include "ObjectDamagedEvent.h"
 #include "DyingState.h"
+#include "StateMachineComponent.h"
 
 bomberman::ChaseState::ChaseState(dae::GameObject& ownerObject)
 	: StateMachineBase(ownerObject)
-	, m_EnemyData()
 {
 }
 
@@ -96,31 +96,12 @@ void bomberman::ChaseState::OnEnter()
 	auto& eventManager = dae::EventManager::GetInstance();
 	eventManager.AddObserver(*this, static_cast<int>(bomberman::EventType::OBJECT_DAMAGED));
 
-	auto& enemyManager = bomberman::EnemyManager::GetInstance();
-
-	//Get data of this enemy
-	std::string name = m_Owner->GetName();
-	bomberman::EnemyType enemyType{};
-
-	//Todo: find better way to do this?
-	if (name.find("Balloom") != std::string::npos)
+	//Get the enemy data from the state machine component
+	auto stateMachineComponent = m_Owner->GetComponent<bomberman::StateMachineComponent>();
+	if (stateMachineComponent.has_value())
 	{
-		enemyType = bomberman::EnemyType::Balloom;
+		m_EnemyData = stateMachineComponent.value()->GetEnemyData();
 	}
-	else if (name.find("Oneal") != std::string::npos)
-	{
-		enemyType = bomberman::EnemyType::Oneal;
-	}
-	else if (name.find("Doll") != std::string::npos)
-	{
-		enemyType = bomberman::EnemyType::Doll;
-	}
-	else if (name.find("Minvo") != std::string::npos)
-	{
-		enemyType = bomberman::EnemyType::Minvo;
-	}
-
-	m_EnemyData = enemyManager.GetEnemyData(enemyType);
 }
 
 void bomberman::ChaseState::OnExit()

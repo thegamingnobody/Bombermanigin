@@ -27,8 +27,8 @@ namespace bomberman
 		void FlipDirection();
 
 		glm::vec3 m_Direction;
-		bomberman::EnemyData m_EnemyData;
 		bool m_HasDied{ false };
+		bomberman::EnemyData m_EnemyData;
 	};
 }
 

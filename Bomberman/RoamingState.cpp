@@ -8,11 +8,11 @@
 #include "Grid.h"
 #include "ObjectDamagedEvent.h"
 #include "DyingState.h"
+#include "StateMachineComponent.h"
 
 bomberman::RoamingState::RoamingState(dae::GameObject& ownerObject)
 	: StateMachineBase(ownerObject)
 	, m_Direction(0.0f, 0.0f, 0.0f)
-	, m_EnemyData()
 {
 }
 
@@ -57,7 +57,6 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::RoamingState::Update(flo
 void bomberman::RoamingState::OnEnter()
 {
 	auto& eventManager = dae::EventManager::GetInstance();
-	auto& enemyManager = bomberman::EnemyManager::GetInstance();
 
 	//Generate a random direction
 	int positiveOrNegative{ ((rand() % 2) * 2) - 1 };
@@ -70,29 +69,12 @@ void bomberman::RoamingState::OnEnter()
 	eventManager.AddObserver(*this, static_cast<int>(bomberman::EventType::ENEMY_COLLISION));
 	eventManager.AddObserver(*this, static_cast<int>(bomberman::EventType::OBJECT_DAMAGED));
 
-	//Get data of this enemy
-	std::string name = m_Owner->GetName();
-	bomberman::EnemyType enemyType{};
-
-	//Todo: find better way to do this?
-	if (name.find("Balloom") != std::string::npos)
+	//Get the enemy data from the state machine component
+	auto stateMachineComponent = m_Owner->GetComponent<bomberman::StateMachineComponent>();
+	if (stateMachineComponent.has_value())
 	{
-		enemyType = bomberman::EnemyType::Balloom;
+		m_EnemyData = stateMachineComponent.value()->GetEnemyData();
 	}
-	else if (name.find("Oneal") != std::string::npos)
-	{
-		enemyType = bomberman::EnemyType::Oneal;
-	}
-	else if (name.find("Doll") != std::string::npos)
-	{
-		enemyType = bomberman::EnemyType::Doll;
-	}
-	else if (name.find("Minvo") != std::string::npos)
-	{
-		enemyType = bomberman::EnemyType::Minvo;
-	}
-
-	m_EnemyData = enemyManager.GetEnemyData(enemyType);
 }
 
 void bomberman::RoamingState::OnExit()

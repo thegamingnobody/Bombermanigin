@@ -25,8 +25,8 @@ namespace bomberman
 	private:
 		bool IsDirectionValid(glm::vec3 direction) const;
 
-		bomberman::EnemyData m_EnemyData;
 		bool m_HasDied{ false };
+		bomberman::EnemyData m_EnemyData;
 	};
 }
 
