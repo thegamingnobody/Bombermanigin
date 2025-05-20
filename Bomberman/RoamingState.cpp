@@ -70,6 +70,7 @@ void bomberman::RoamingState::OnEnter()
 	eventManager.AddObserver(*this, static_cast<int>(bomberman::EventType::OBJECT_DAMAGED));
 
 	//Get the enemy data from the state machine component
+	//Store to avoid repeated calls to GetComponent
 	auto stateMachineComponent = m_Owner->GetComponent<bomberman::StateMachineComponent>();
 	if (stateMachineComponent.has_value())
 	{

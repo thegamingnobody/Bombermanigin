@@ -14,9 +14,6 @@ bomberman::StateMachineComponent::StateMachineComponent(dae::GameObject& ownerOb
 	, m_CurrentState(nullptr)
 	, m_EnemyData()
 {
-	//This constructor is used for the enemy spawner to create the enemies.
-	//The enemy data is loaded in the constructor of the enemy spawner.
-	//The state machine is created in the enemy spawner as well.
 	LoadEnemyData();
 }
 

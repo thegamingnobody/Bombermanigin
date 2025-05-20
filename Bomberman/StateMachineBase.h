@@ -3,6 +3,9 @@
 
 namespace bomberman
 {
+	// base class for the states in the state machine
+	// not a component
+	// owner is stored so the state know who it belongs to
 	class StateMachineBase
 	{
 	public:

@@ -185,6 +185,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="Bomberman.cpp" />
     <ClCompile Include="BombExplodedEvent.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
+    <ClCompile Include="BrickDestroyedState.cpp" />
+    <ClCompile Include="BrickIdleState.cpp" />
     <ClCompile Include="ChaseState.cpp" />
     <ClCompile Include="CollidersManager.cpp" />
     <ClCompile Include="CrossCollider.cpp" />
@@ -212,6 +214,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="BombComponent.h" />
     <ClInclude Include="BombExplodedEvent.h" />
     <ClInclude Include="BoxCollider.h" />
+    <ClInclude Include="BrickDestroyedState.h" />
+    <ClInclude Include="BrickIdleState.h" />
     <ClInclude Include="ChaseState.h" />
     <ClInclude Include="CollidersManager.h" />
     <ClInclude Include="CrossCollider.h" />

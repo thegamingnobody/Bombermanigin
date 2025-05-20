@@ -39,6 +39,7 @@ void bomberman::BaseCollider::Update(float const /*deltaTime*/)
 
 		if (IsOverlapping(collider->GetHitBox(), otherPosition))
 		{
+			//stinky code, but can't think of a better way to do this right now
 			switch (collider->m_CollisionType)
 			{
 			case bomberman::CollisionType::Wall:

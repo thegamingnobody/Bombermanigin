@@ -4,6 +4,8 @@
 #include "ObjectDamagedEvent.h"
 #include "BombExplodedEvent.h"
 #include "EventTypes.h"
+#include "StateMachineComponent.h"
+#include "BrickDestroyedState.h"
 
 bomberman::HealthComponent::HealthComponent(dae::GameObject& ownerObject, int maxHealth, bool canSurpassMax)
 	: dae::Component(ownerObject)
@@ -28,17 +30,28 @@ void bomberman::HealthComponent::Damage(int amount)
 	if (m_CurrentHealth < 0)
 	{
 		m_CurrentHealth = 0;
+
+		auto owner = GetOwner();
+		assert(owner != nullptr);
+
+		auto stateMachine = owner->GetComponent<bomberman::StateMachineComponent>();
+
+		if (stateMachine.has_value())
+		{
+			if (owner->GetName().find("BrickWall") != std::string::npos)
+			{
+				stateMachine.value()->ChangeState(std::make_unique<BrickDestroyedState>(*owner));
+			}
+		}
 	}
 
-	auto owner = GetOwner();
-	assert(owner != nullptr);
- 
-	if (owner->GetName().find("Player") == std::string::npos)
-	{
-		// is not player
-		bomberman::ObjectDamagedEvent event{ owner, m_CurrentHealth };
-		dae::EventManager::GetInstance().BroadcastEvent(std::move(std::make_unique<bomberman::ObjectDamagedEvent>(event)));
-	}
+
+	//if ()
+	//{
+	//	// is not player
+	//	bomberman::ObjectDamagedEvent event{ owner, m_CurrentHealth };
+	//	dae::EventManager::GetInstance().BroadcastEvent(std::move(std::make_unique<bomberman::ObjectDamagedEvent>(event)));
+	//}
 }
 
 void bomberman::HealthComponent::Notify(const dae::Event&)

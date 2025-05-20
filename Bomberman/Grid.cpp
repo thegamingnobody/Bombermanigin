@@ -4,6 +4,8 @@
 #include <TextureComponent.h>
 #include "HealthComponent.h"
 #include "BoxCollider.h"
+#include "StateMachineComponent.h"
+#include "BrickIdleState.h"
 
 
 using json = nlohmann::json;
@@ -40,6 +42,7 @@ void bomberman::Grid::LoadMap(int const levelID)
 	std::ifstream f2(dataPath);
 	json data;
 
+	//Path is different in the build folder, so we need to check both paths
 	try
 	{
 		data = json::parse(f);
@@ -75,6 +78,7 @@ void bomberman::Grid::LoadMap(int const levelID)
 
 void bomberman::Grid::CreateGameObjects(dae::Scene& scene)
 {
+	// Create the game objects based on the grid data
 	for (int cell = 0; cell < static_cast<int>(m_Grid.size()); cell++)
 	{
 		switch (m_Grid[cell].cellType)
@@ -149,5 +153,12 @@ void bomberman::Grid::CreateBrick(dae::Scene& scene, int gridID)
 	go->AddComponent<dae::TextureComponent>(*go.get()).AddTexture("Brick.png");
 	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Brick, bomberman::Box(0.0f, 0.0f, TILE_SIZE, TILE_SIZE));
 	go->AddComponent<bomberman::HealthComponent>(*go.get(), 1);
+
+	//Giving the bricks their own state machine is maybe a bit redundant,
+	//but it makes everything more uniform (and a destruction animation would be easier this way)
+	auto& statemachine = go->AddComponent<bomberman::StateMachineComponent>(*go.get());
+	std::unique_ptr<bomberman::BrickIdleState> idleState = std::make_unique<bomberman::BrickIdleState>(*go.get());
+	statemachine.ChangeState(std::move(idleState));
+
 	scene.Add(go);
 }

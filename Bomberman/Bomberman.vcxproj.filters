@@ -34,6 +34,12 @@
     <Filter Include="FSM\Base">
       <UniqueIdentifier>{c365151f-e9d3-4d7f-8016-c5cb555c1fc2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FSM\Enemy">
+      <UniqueIdentifier>{508ce5e0-ab98-478b-918f-ace1509c678b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FSM\Bricks">
+      <UniqueIdentifier>{7a1683d0-dd27-4bc1-9c5d-6e77a4eb24a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AttackCommand.cpp">
@@ -90,16 +96,24 @@
     <ClCompile Include="StateMachineBase.cpp">
       <Filter>FSM\Base</Filter>
     </ClCompile>
-    <ClCompile Include="RoamingState.cpp">
-      <Filter>FSM</Filter>
-    </ClCompile>
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="EnemyCollisionEvent.cpp" />
-    <ClCompile Include="ChaseState.cpp" />
     <ClCompile Include="StateMachineComponent.cpp">
       <Filter>Components\StandardComponents</Filter>
     </ClCompile>
-    <ClCompile Include="DyingState.cpp" />
+    <ClCompile Include="RoamingState.cpp">
+      <Filter>FSM\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="ChaseState.cpp">
+      <Filter>FSM\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="DyingState.cpp">
+      <Filter>FSM\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickIdleState.cpp">
+      <Filter>FSM\Bricks</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickDestroyedState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -160,15 +174,23 @@
     <ClInclude Include="StateMachineBase.h">
       <Filter>FSM\Base</Filter>
     </ClInclude>
-    <ClInclude Include="RoamingState.h">
-      <Filter>FSM</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyCollisionEvent.h" />
-    <ClInclude Include="ChaseState.h" />
     <ClInclude Include="StateMachineComponent.h">
       <Filter>Components\StandardComponents</Filter>
     </ClInclude>
-    <ClInclude Include="DyingState.h" />
+    <ClInclude Include="RoamingState.h">
+      <Filter>FSM\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ChaseState.h">
+      <Filter>FSM\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="DyingState.h">
+      <Filter>FSM\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickIdleState.h">
+      <Filter>FSM\Bricks</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickDestroyedState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
