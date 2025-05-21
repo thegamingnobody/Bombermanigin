@@ -10,7 +10,7 @@
 // Todo: add a game over scene
 // Todo: add skip level button to skip to the next level
 
-void bomberman::GameManager::LoadLevel(int level)
+void bomberman::GameManager::LoadLevel(int /*level*/)
 {
 	// todo: load level and create scene
 	auto& sceneManager = dae::SceneManager::GetInstance();
@@ -24,7 +24,8 @@ void bomberman::GameManager::LoadLevel(int level)
 	}
 	objectsScene->RemoveAll();
 
-	m_CurrentLevelData = grid.LoadMap(level - 1);
+	//m_CurrentLevelData = grid.LoadMap(level - 1);
+	m_CurrentLevelData = grid.LoadMap(1);
 	grid.CreateGameObjects();
 }
 
