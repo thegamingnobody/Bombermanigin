@@ -193,6 +193,7 @@
     </ClInclude>
     <ClInclude Include="BrickDestroyedState.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="LevelData.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

@@ -6,7 +6,7 @@
 #include "BoxCollider.h"
 #include "StateMachineComponent.h"
 #include "BrickIdleState.h"
-
+#include "GameManager.h"
 
 using json = nlohmann::json;
 
@@ -31,7 +31,7 @@ void bomberman::Grid::Init()
 	}
 }
 
-void bomberman::Grid::LoadMap(int const levelID)
+bomberman::LevelData bomberman::Grid::LoadMap(int const levelID)
 {
 	std::filesystem::path filePath = __FILE__;
 	std::filesystem::path fileDir = filePath.parent_path();
@@ -57,8 +57,10 @@ void bomberman::Grid::LoadMap(int const levelID)
 		throw std::out_of_range("Level ID out of range");
 	}
 
+	LevelData levelData = LevelData();
+	levelData.levelNumber = levelID+1;
+
 	// Add bricks to the grid
-	m_LevelID = data[levelID]["level"];
 	auto jsonBrick = data[levelID]["bricks"];
 	for (int column = 1; column <= static_cast<int>(jsonBrick.size()); column++)
 	{
@@ -75,13 +77,9 @@ void bomberman::Grid::LoadMap(int const levelID)
 
 			m_Grid[cellNumber] = brickToAdd;
 			m_BrickCount++;
+			levelData.brickWalls.emplace_back(brickToAdd);
 		}
 	}
-
-	auto& enemyManager = bomberman::EnemyManager::GetInstance();
-	auto& grid = bomberman::Grid::GetInstance();
-	auto objectsScene = dae::SceneManager::GetInstance().GetScene("Objects");
-
 
 	// Add enemy spawns to the grid
 	auto jsonEnemySpawns = data[levelID]["enemySpawns"];
@@ -97,13 +95,19 @@ void bomberman::Grid::LoadMap(int const levelID)
 		}
 
 		m_Grid[cellNumber] = enemySpawnToAdd;
-
-		auto go = enemyManager.CreateEnemy(bomberman::EnemyType(data[levelID]["enemyTypes"][0]), grid.GridCoordToWorldPos(enemySpawnToAdd));
-		objectsScene->Add(go);
+		levelData.enemySpawns.emplace_back(enemySpawnToAdd);
 	}
+
+	auto jsonEnemyTypes = data[levelID]["enemyTypes"];
+	for (int enemyType = 0; enemyType < static_cast<int>(jsonEnemyTypes.size()); enemyType++)
+	{
+		auto type = jsonEnemyTypes[enemyType];
+		levelData.enemyTypes.emplace_back(type);
+	}
+	return levelData;
 }
 
-void bomberman::Grid::CreateGameObjects(dae::Scene& scene)
+void bomberman::Grid::CreateGameObjects()
 {
 	// Create the game objects based on the grid data
 	for (int cell = 0; cell < static_cast<int>(m_Grid.size()); cell++)
@@ -113,11 +117,12 @@ void bomberman::Grid::CreateGameObjects(dae::Scene& scene)
 		case CellTypes::Wall:
 			break;
 		case CellTypes::Brick:
-			CreateBrick(scene, cell);
+			CreateBrick(cell);
 			break;
 		case CellTypes::PlayerSpawn:
 			break;
 		case CellTypes::EnemySpawn:
+			CreateEnemy(cell);
 			break;
 		case CellTypes::Empty:
 			break;
@@ -177,9 +182,11 @@ bool bomberman::Grid::IsCellValid(int cellID) const
 	return !(cellID >= static_cast<int>(m_Grid.size()) or cellID < 0);
 }
 
-void bomberman::Grid::CreateBrick(dae::Scene& scene, int gridID)
+void bomberman::Grid::CreateBrick(int gridID)
 {
 	GridCell sourceCell = m_Grid[gridID];
+
+	auto objectsScene = dae::SceneManager::GetInstance().GetScene("Objects");
 
 	auto go = std::make_shared<dae::GameObject>("BrickWall", GridCoordToWorldPos(sourceCell.column, sourceCell.row));
 	go->AddComponent<dae::TextureComponent>(*go.get()).AddTexture("Brick.png");
@@ -192,5 +199,17 @@ void bomberman::Grid::CreateBrick(dae::Scene& scene, int gridID)
 	std::unique_ptr<bomberman::BrickIdleState> idleState = std::make_unique<bomberman::BrickIdleState>(*go.get());
 	statemachine.ChangeState(std::move(idleState));
 
-	scene.Add(go);
+	objectsScene->Add(go);
+}
+
+void bomberman::Grid::CreateEnemy(int gridID)
+{
+	auto& enemyManager = bomberman::EnemyManager::GetInstance();
+	auto& grid = bomberman::Grid::GetInstance();
+	auto& gameManager = bomberman::GameManager::GetInstance();
+	auto objectsScene = dae::SceneManager::GetInstance().GetScene("Objects");
+	auto levelData = gameManager.GetLevelData();
+
+	auto go = enemyManager.CreateEnemy(bomberman::EnemyType(levelData.enemyTypes[0]), grid.GridCoordToWorldPos(grid.GetCell(gridID)));
+	objectsScene->Add(go);
 }

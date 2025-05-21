@@ -1,6 +1,7 @@
 #include "GameManager.h"
 #include <SceneManager.h>
 #include <Scene.h>
+#include "Grid.h"
 
 // Todo: Add enemy counter to gamemanager
 // Todo: Add win condition to gamemanager
@@ -23,8 +24,8 @@ void bomberman::GameManager::LoadLevel(int level)
 	}
 	objectsScene->RemoveAll();
 
-	grid.LoadMap(level - 1);
-	grid.CreateGameObjects(*objectsScene.get());
+	m_CurrentLevelData = grid.LoadMap(level - 1);
+	grid.CreateGameObjects();
 }
 
 void bomberman::GameManager::LoadNextLevel()

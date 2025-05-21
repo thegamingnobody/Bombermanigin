@@ -6,50 +6,21 @@
 #include <memory>
 #include <GameObject.h>
 #include <Scene.h>
+#include "LevelData.h"
 
 namespace bomberman
 {
 	#define TILE_SIZE 48.0f
 	#define TILES_AMOUNT_VERTICAL 13
 	#define TILES_AMOUNT_HORIZONTAL 31
-	
-	enum class CellTypes
-	{
-		Empty,
-		Wall,
-		Brick,
-		PlayerSpawn,
-		EnemySpawn
-	};
-
-	struct GridCell
-	{
-		int column{ 0 };
-		int row{ 0 };
-		CellTypes cellType{ CellTypes::Empty };
-
-		GridCell(int columnTile, int rowTile, CellTypes cellType = CellTypes::Empty)
-			: column(columnTile)
-			, row(rowTile)
-			, cellType(cellType)
-		{
-		}
-
-		GridCell()
-			: column(0)
-			, row(0)
-			, cellType(CellTypes::Empty)
-		{
-		}
-	};
 
 	class Grid : public dae::Singleton<Grid>
 	{
 	public:
 		void Init();
 
-		void LoadMap(int const levelID);
-		void CreateGameObjects(dae::Scene& scene);
+		LevelData LoadMap(int const levelID);
+		void CreateGameObjects();
 
 		glm::vec3 GridCoordToWorldPos(int column, int row)
 		{
@@ -80,9 +51,9 @@ namespace bomberman
 		bool IsCellValid(int cellID) const;
 
 	private:
-		void CreateBrick(dae::Scene& scene, int gridID);
+		void CreateBrick(int gridID);
+		void CreateEnemy(int gridID);
 
-		int m_LevelID{ 0 };
 		int m_BrickCount{ 0 };
 		//int m_MaxBombs{ 0 };
 		std::vector<GridCell> m_Grid{};

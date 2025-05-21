@@ -230,6 +230,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="HealthComponent.h" />
+    <ClInclude Include="LevelData.h" />
     <ClInclude Include="MoveCommand.h" />
     <ClInclude Include="ObjectDamagedEvent.h" />
     <ClInclude Include="OctagonCollider.h" />
