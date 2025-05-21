@@ -1,5 +1,6 @@
 #include "DyingState.h"
 #include <iostream>
+#include "EnemyManager.h"
 
 bomberman::DyingState::DyingState(dae::GameObject& ownerObject)
 	: StateMachineBase(ownerObject)
@@ -15,6 +16,7 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::DyingState::Update(float
 void bomberman::DyingState::OnEnter()
 {
 	std::cout << "Enemy has died\n";
+	bomberman::EnemyManager::GetInstance().EnemyDied();
 	m_Owner->SetShouldBeRemoved();
 }
 

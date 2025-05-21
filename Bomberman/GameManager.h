@@ -43,6 +43,8 @@ namespace bomberman
 
 		int const m_MaxLevelAmount{ 3 };
 
+		// This is the data to start a level, not the current state.
+		// Current map state is handled by the "Grid" class.
 		LevelData m_CurrentLevelData{};
 
 	};

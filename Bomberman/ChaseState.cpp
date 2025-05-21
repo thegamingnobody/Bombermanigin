@@ -9,6 +9,7 @@
 #include "ObjectDamagedEvent.h"
 #include "DyingState.h"
 #include "StateMachineComponent.h"
+#include "HealthComponent.h"
 
 bomberman::ChaseState::ChaseState(dae::GameObject& ownerObject)
 	: StateMachineBase(ownerObject)
@@ -17,7 +18,8 @@ bomberman::ChaseState::ChaseState(dae::GameObject& ownerObject)
 
 std::unique_ptr<bomberman::StateMachineBase> bomberman::ChaseState::Update(float deltaTime)
 {
-	if (m_HasDied)
+	auto healthComp = m_Owner->GetComponent<bomberman::HealthComponent>();
+	if (healthComp.has_value() and healthComp.value()->GetCurrentHealth() <= 0)
 	{
 		return std::make_unique<bomberman::DyingState>(*m_Owner);
 	}
@@ -93,9 +95,6 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::ChaseState::Update(float
 
 void bomberman::ChaseState::OnEnter()
 {
-	auto& eventManager = dae::EventManager::GetInstance();
-	eventManager.AddObserver(*this, static_cast<int>(bomberman::EventType::OBJECT_DAMAGED));
-
 	//Get the enemy data from the state machine component
 	auto stateMachineComponent = m_Owner->GetComponent<bomberman::StateMachineComponent>();
 	if (stateMachineComponent.has_value())
@@ -106,25 +105,6 @@ void bomberman::ChaseState::OnEnter()
 
 void bomberman::ChaseState::OnExit()
 {
-	dae::EventManager::GetInstance().RemoveObserver(*this);
-}
-
-void bomberman::ChaseState::Notify(const dae::Event& event)
-{
-	switch (static_cast<EventType>(event.GetEventType()))
-	{
-	case EventType::OBJECT_DAMAGED:
-	{
-		const auto& castedEvent = dynamic_cast<const bomberman::ObjectDamagedEvent&>(event);
-		if (castedEvent.GetDamagedObject()->GetName() == m_Owner->GetName())
-		{
-			m_HasDied = true;
-		}
-		break;
-	}
-	default:
-		break;
-	}
 }
 
 bool bomberman::ChaseState::IsDirectionValid(glm::vec3 direction) const

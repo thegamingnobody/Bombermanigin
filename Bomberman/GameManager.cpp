@@ -25,7 +25,6 @@ void bomberman::GameManager::LoadLevel(int level)
 
 	grid.LoadMap(level - 1);
 	grid.CreateGameObjects(*objectsScene.get());
-
 }
 
 void bomberman::GameManager::LoadNextLevel()

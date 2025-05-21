@@ -69,6 +69,8 @@ std::shared_ptr<dae::GameObject> bomberman::EnemyManager::CreateEnemy(bomberman:
 	float offset{ 2.0f };
 	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Enemy, bomberman::Box(offset, offset, TILE_SIZE - (2 * offset), TILE_SIZE - (2 * offset)));
 
+	m_EnemyCount++;
+
 	return go;
 }
 
@@ -106,4 +108,13 @@ int bomberman::EnemyManager::GetEnemyIntelligence(EnemyType enemyType) const
 bool bomberman::EnemyManager::GetEnemyChasePlayer(EnemyType enemyType) const
 {
 	return GetEnemyData(enemyType).chasePlayer;
+}
+
+void bomberman::EnemyManager::EnemyDied()
+{
+	m_EnemyCount--;
+}
+bool bomberman::EnemyManager::AreAllEnemiesDead() const
+{
+	return (m_EnemyCount == 0);
 }

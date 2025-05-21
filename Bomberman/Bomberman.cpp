@@ -36,7 +36,7 @@
 void LoadSounds();
 void LoadMap(dae::Scene& scene);
 void LoadPlayer(dae::Scene& scene);
-void LoadEnemies(dae::Scene& scene);
+//void LoadEnemies(dae::Scene& scene);
 
 void load()
 {
@@ -55,7 +55,7 @@ void load()
 
 	auto& mapScene = dae::SceneManager::GetInstance().CreateScene("Map");
 	auto& playerScene = dae::SceneManager::GetInstance().CreateScene("Player");
-	auto& objectsScene = dae::SceneManager::GetInstance().CreateScene("Objects");
+	dae::SceneManager::GetInstance().CreateScene("Objects");
 
 	LoadMap(mapScene);
 
@@ -63,7 +63,7 @@ void load()
 
 	LoadPlayer(playerScene);
 
-	LoadEnemies(objectsScene);
+	//LoadEnemies(objectsScene);
 }
 
 void LoadSounds()
@@ -183,15 +183,9 @@ void LoadPlayer(dae::Scene& scene)
 
 }
 
-void LoadEnemies(dae::Scene& scene)
-{
-	auto& enemyManager = bomberman::EnemyManager::GetInstance();
-	auto& grid = bomberman::Grid::GetInstance();
-
-	//auto go = enemyManager.CreateEnemy(bomberman::EnemyType::Balloom, grid.GridCoordToWorldPos(3, 3));
-	auto go = enemyManager.CreateEnemy(bomberman::EnemyType::Oneal, grid.GridCoordToWorldPos(3, 3));
-	scene.Add(go);
-}
+//void LoadEnemies(dae::Scene& scene)
+//{
+//}
 
 int main(int, char* []) 
 {

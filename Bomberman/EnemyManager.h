@@ -42,8 +42,13 @@ namespace bomberman
 		int GetEnemyIntelligence(EnemyType enemyType) const;
 		bool GetEnemyChasePlayer(EnemyType enemyType) const;
 
+		void EnemyDied();
+
+		bool AreAllEnemiesDead() const;
+
     private:
 		std::vector<EnemyData> m_EnemyData;
+		int m_EnemyCount{};
     };
 }
 

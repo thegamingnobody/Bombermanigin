@@ -30,20 +30,6 @@ void bomberman::HealthComponent::Damage(int amount)
 	if (m_CurrentHealth < 0)
 	{
 		m_CurrentHealth = 0;
-
-		auto owner = GetOwner();
-		assert(owner != nullptr);
-
-		auto stateMachine = owner->GetComponent<bomberman::StateMachineComponent>();
-
-		if (stateMachine.has_value())
-		{
-			// Todo: is there a better way to do this?
-			if (owner->GetName().find("BrickWall") != std::string::npos)
-			{
-				stateMachine.value()->ChangeState(std::make_unique<BrickDestroyedState>(*owner));
-			}
-		}
 	}
 }
 

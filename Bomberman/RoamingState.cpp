@@ -9,6 +9,7 @@
 #include "ObjectDamagedEvent.h"
 #include "DyingState.h"
 #include "StateMachineComponent.h"
+#include "HealthComponent.h"
 
 bomberman::RoamingState::RoamingState(dae::GameObject& ownerObject)
 	: StateMachineBase(ownerObject)
@@ -18,7 +19,8 @@ bomberman::RoamingState::RoamingState(dae::GameObject& ownerObject)
 
 std::unique_ptr<bomberman::StateMachineBase> bomberman::RoamingState::Update(float deltaTime)
 {
-	if (m_HasDied)
+	auto healthComp = m_Owner->GetComponent<bomberman::HealthComponent>();
+	if (healthComp.has_value() and healthComp.value()->GetCurrentHealth() <= 0)
 	{
 		return std::make_unique<bomberman::DyingState>(*m_Owner);
 	}
@@ -67,7 +69,6 @@ void bomberman::RoamingState::OnEnter()
 
 	//Subscribe to event
 	eventManager.AddObserver(*this, static_cast<int>(bomberman::EventType::ENEMY_COLLISION));
-	eventManager.AddObserver(*this, static_cast<int>(bomberman::EventType::OBJECT_DAMAGED));
 
 	//Get the enemy data from the state machine component
 	//Store to avoid repeated calls to GetComponent
@@ -80,7 +81,6 @@ void bomberman::RoamingState::OnEnter()
 
 void bomberman::RoamingState::OnExit()
 {
-	dae::EventManager::GetInstance().RemoveObserver(*this);
 	dae::EventManager::GetInstance().RemoveObserver(*this);
 }
 
@@ -96,16 +96,6 @@ void bomberman::RoamingState::Notify(const dae::Event& event)
 		{
 			m_Owner->GetTransform()->Move(-m_Direction);
 			FlipDirection();
-		}
-		break;
-	}
-	case EventType::OBJECT_DAMAGED:
-	{
-		const auto& castedEvent = dynamic_cast<const bomberman::ObjectDamagedEvent&>(event);
-		if (castedEvent.GetDamagedObject()->GetName() == m_Owner->GetName())
-		{
-			//Todo: geen dirty flag gebruiken maar de notify direct de state laten returnen
-			m_HasDied = true;
 		}
 		break;
 	}

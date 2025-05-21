@@ -77,6 +77,7 @@ namespace bomberman
 		int GetCellID(int column, int row) const;
 
 		bool IsCellTypeWalkable(CellTypes cellType) const;
+		bool IsCellValid(int cellID) const;
 
 	private:
 		void CreateBrick(dae::Scene& scene, int gridID);

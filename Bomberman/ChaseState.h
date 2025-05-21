@@ -5,7 +5,7 @@
 
 namespace bomberman
 {
-	class ChaseState : public StateMachineBase, public dae::Observer
+	class ChaseState : public StateMachineBase
 	{
 	public:
 		ChaseState(dae::GameObject& ownerObject);
@@ -20,12 +20,9 @@ namespace bomberman
 		void OnEnter() override;
 		void OnExit() override;
 
-		void Notify(const dae::Event& event) override;
-
 	private:
 		bool IsDirectionValid(glm::vec3 direction) const;
 
-		bool m_HasDied{ false };
 		bomberman::EnemyData m_EnemyData;
 	};
 }

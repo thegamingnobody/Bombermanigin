@@ -57,22 +57,49 @@ void bomberman::Grid::LoadMap(int const levelID)
 		throw std::out_of_range("Level ID out of range");
 	}
 
+	// Add bricks to the grid
 	m_LevelID = data[levelID]["level"];
 	auto jsonBrick = data[levelID]["bricks"];
 	for (int column = 1; column <= static_cast<int>(jsonBrick.size()); column++)
 	{
 		auto brick = jsonBrick[column - 1];
-		for (int row = 0; row < static_cast<int>(brick["y"].size()); row++)
+		for (int row = 0; row < static_cast<int>(brick.size()); row++)
 		{
-			GridCell brickToAdd = GridCell(column, brick["y"][row], CellTypes::Brick);
-			int cellNumber = (brickToAdd.row * TILES_AMOUNT_HORIZONTAL) + brickToAdd.column;
+			GridCell brickToAdd = GridCell(column, brick[row], CellTypes::Brick);
+			int cellNumber = GetCellID(column, row);
 
-			if (cellNumber >= static_cast<int>(m_Grid.size()) or cellNumber < 0) { throw std::out_of_range("Cell number out of range"); }
+			if (IsCellValid(cellNumber) == false)
+			{
+				throw std::out_of_range("Cell number out of range");
+			}
+
 			m_Grid[cellNumber] = brickToAdd;
 			m_BrickCount++;
 		}
-		
-		
+	}
+
+	auto& enemyManager = bomberman::EnemyManager::GetInstance();
+	auto& grid = bomberman::Grid::GetInstance();
+	auto objectsScene = dae::SceneManager::GetInstance().GetScene("Objects");
+
+
+	// Add enemy spawns to the grid
+	auto jsonEnemySpawns = data[levelID]["enemySpawns"];
+	for (int spawn = 0; spawn < static_cast<int>(jsonEnemySpawns.size()); spawn++)
+	{
+		auto position = jsonEnemySpawns[spawn];
+		GridCell enemySpawnToAdd = GridCell(position[0], position[1], CellTypes::EnemySpawn);
+		int cellNumber = GetCellID(enemySpawnToAdd.column, enemySpawnToAdd.row);
+
+		if (IsCellValid(cellNumber) == false)
+		{
+			throw std::out_of_range("Cell number out of range");
+		}
+
+		m_Grid[cellNumber] = enemySpawnToAdd;
+
+		auto go = enemyManager.CreateEnemy(bomberman::EnemyType(data[levelID]["enemyTypes"][0]), grid.GridCoordToWorldPos(enemySpawnToAdd));
+		objectsScene->Add(go);
 	}
 }
 
@@ -143,6 +170,11 @@ int bomberman::Grid::GetCellID(int column, int row) const
 bool bomberman::Grid::IsCellTypeWalkable(CellTypes cellType) const
 {
 	return cellType == CellTypes::Empty || cellType == CellTypes::PlayerSpawn || cellType == CellTypes::EnemySpawn;
+}
+
+bool bomberman::Grid::IsCellValid(int cellID) const
+{
+	return !(cellID >= static_cast<int>(m_Grid.size()) or cellID < 0);
 }
 
 void bomberman::Grid::CreateBrick(dae::Scene& scene, int gridID)
