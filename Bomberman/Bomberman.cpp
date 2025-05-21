@@ -30,26 +30,9 @@
 #include <ImGuiComponent.h>
 #include "EnemyManager.h"
 #include "EnemyMovementComponent.h"
+#include "GameManager.h"
 
 //Todo: add pickups
-
-//Enemy behavior:
-// 1. Balloom 
-//		Speed: 2, slow	
-//		Score: 100
-//		1) Move randomly
-//		2) Change direction at intersection( or bump into wall)
-// 2. Oneal 
-//		Speed: 3, normal
-// 		Score: 200
-// 		1) Move randomly, but greater chance to move towards player at intersection
-// 3. Doll
-//		Speed: 3, normal
-// 		Score: 400
-// 4. Minvo
-//		Speed: 4, fast
-//		Score: 800
-
 void LoadSounds();
 void LoadMap(dae::Scene& scene);
 void LoadPlayer(dae::Scene& scene);
@@ -62,23 +45,25 @@ void load()
 
 	LoadSounds();
 
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("Game");
+	// 1 scene for the main menu											"Menu"
+	// 1 scene for the static elements (background texture, walls, etc.)	"Map"
+	// 1 scene for the player												"Player"
+	// 1 scene for the enemies, bricks, pickups, etc.						"Objects"
+	// possibly more if needed
+	
+	// This way we can easily reset the enemies, pickups, etc. without removing the map or player
 
-	LoadMap(scene);
+	auto& mapScene = dae::SceneManager::GetInstance().CreateScene("Map");
+	auto& playerScene = dae::SceneManager::GetInstance().CreateScene("Player");
+	auto& objectsScene = dae::SceneManager::GetInstance().CreateScene("Objects");
 
-	//auto font = resourceManager.LoadFont("Lingua.otf", 36);
-	//auto smallerFont = resourceManager.LoadFont("Lingua.otf", 18);
+	LoadMap(mapScene);
 
-	LoadPlayer(scene);
+	bomberman::GameManager::GetInstance().LoadNextLevel();
 
-	LoadEnemies(scene);
+	LoadPlayer(playerScene);
 
-	////*-----------------------------------------*
-	////|				  ImGui 				  |
-	////*-----------------------------------------*
-	//auto go = std::make_shared<dae::GameObject>("ImGui");
-	//go->AddComponent<dae::ImGuiComponent>(*go.get());
-	//scene.Add(go);
+	LoadEnemies(objectsScene);
 }
 
 void LoadSounds()
@@ -109,10 +94,6 @@ void LoadMap(dae::Scene& scene)
 		camera.SetCameraLimits(dae::CameraLimits(0.0f, static_cast<float>(textureDimentions.x), 0.0f, static_cast<float>(textureDimentions.y)));
 	}
 	scene.Add(go);
-
-	grid.LoadMap(0);
-	grid.CreateGameObjects(scene);
-
 
 	go = std::make_shared<dae::GameObject>("LeftWall", grid.GridCoordToWorldPos(0, 0));
 	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Wall, bomberman::Box(0.0f, 0.0f, TILE_SIZE, TILE_SIZE * TILES_AMOUNT_VERTICAL));

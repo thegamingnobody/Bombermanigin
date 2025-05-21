@@ -28,6 +28,8 @@ void Scene::RemoveAll()
 
 void Scene::Update(float const deltaTime)
 {
+	if (!m_IsActive) return;
+
 	for(auto& object : m_objects)
 	{
 		object->Update(deltaTime);
@@ -50,6 +52,8 @@ void Scene::Update(float const deltaTime)
 
 void Scene::FixedUpdate(float const fixedTimeStep)
 {
+	if (!m_IsActive) return;
+
 	for(auto& object : m_objects)
 	{
 		object->FixedUpdate(fixedTimeStep);
@@ -58,6 +62,8 @@ void Scene::FixedUpdate(float const fixedTimeStep)
 
 void dae::Scene::LateUpdate()
 {
+	if (!m_IsActive) return;
+
 	for (auto& object : m_objects)
 	{
 		object->LateUpdate();
@@ -66,6 +72,8 @@ void dae::Scene::LateUpdate()
 
 void Scene::Render() const
 {
+	if (!m_IsActive) return;
+
 	for (const auto& object : m_objects)
 	{
 		object->Render();
@@ -74,6 +82,8 @@ void Scene::Render() const
 
 void Scene::RenderImGui() const
 {
+	if (!m_IsActive) return;
+
 	for (const auto& object : m_objects)
 	{
 		object->RenderImGui();

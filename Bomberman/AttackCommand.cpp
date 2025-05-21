@@ -21,7 +21,7 @@ void bomberman::AttackCommand::Execute()
 void bomberman::AttackCommand::SpawnBombObject(glm::vec3 position)
 {
 	//Todo: limit bomb spawning to X per player (starting with 1)
-	auto activeScene = dae::SceneManager::GetInstance().GetScene("Game");
+	auto activeScene = dae::SceneManager::GetInstance().GetScene("Objects");
 
 	if (!activeScene) return;
 

@@ -27,7 +27,7 @@ void bomberman::BombComponent::Update(float deltaTime)
 
 void bomberman::BombComponent::SpawnExplosion(int size)
 {
-	auto activeScene = dae::SceneManager::GetInstance().GetScene("Game");
+	auto activeScene = dae::SceneManager::GetInstance().GetScene("Objects");
 	if (!activeScene) return;
 
 	auto position = GetOwner()->GetTransform()->GetGlobalPosition();

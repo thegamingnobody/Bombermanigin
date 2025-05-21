@@ -52,7 +52,7 @@ void bomberman::Grid::LoadMap(int const levelID)
 		data = json::parse(f2);
 	}
 
-	if (levelID == static_cast<int>(data.size()))
+	if (levelID >= static_cast<int>(data.size()))
 	{
 		throw std::out_of_range("Level ID out of range");
 	}

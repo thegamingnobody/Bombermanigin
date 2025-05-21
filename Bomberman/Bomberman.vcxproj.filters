@@ -114,6 +114,7 @@
       <Filter>FSM\Bricks</Filter>
     </ClCompile>
     <ClCompile Include="BrickDestroyedState.cpp" />
+    <ClCompile Include="GameManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -191,6 +192,7 @@
       <Filter>FSM\Bricks</Filter>
     </ClInclude>
     <ClInclude Include="BrickDestroyedState.h" />
+    <ClInclude Include="GameManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

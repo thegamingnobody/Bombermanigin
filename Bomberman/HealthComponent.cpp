@@ -38,20 +38,13 @@ void bomberman::HealthComponent::Damage(int amount)
 
 		if (stateMachine.has_value())
 		{
+			// Todo: is there a better way to do this?
 			if (owner->GetName().find("BrickWall") != std::string::npos)
 			{
 				stateMachine.value()->ChangeState(std::make_unique<BrickDestroyedState>(*owner));
 			}
 		}
 	}
-
-
-	//if ()
-	//{
-	//	// is not player
-	//	bomberman::ObjectDamagedEvent event{ owner, m_CurrentHealth };
-	//	dae::EventManager::GetInstance().BroadcastEvent(std::move(std::make_unique<bomberman::ObjectDamagedEvent>(event)));
-	//}
 }
 
 void bomberman::HealthComponent::Notify(const dae::Event&)

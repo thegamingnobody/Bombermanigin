@@ -196,6 +196,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="EnemyMovementComponent.cpp" />
     <ClCompile Include="ExplosionComponent.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="MoveCommand.cpp" />
@@ -226,6 +227,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="EventTypes.h" />
     <ClInclude Include="ExplosionComponent.h" />
     <ClInclude Include="FPSComponent.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="MoveCommand.h" />

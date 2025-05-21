@@ -31,7 +31,7 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::RoamingState::Update(flo
 	transform->Move(deltaPosition);
 
 	//Todo: improve
-	auto player = dae::SceneManager::GetInstance().GetScene("Game")->GetObject("Player 1");
+	auto player = dae::SceneManager::GetInstance().GetScene("Player")->GetObject("Player 1");
 	if (!player)
 	{
 		throw std::runtime_error("Player not found");

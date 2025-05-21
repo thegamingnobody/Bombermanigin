@@ -59,6 +59,7 @@ std::shared_ptr<dae::GameObject> bomberman::EnemyManager::CreateEnemy(bomberman:
 
 	std::stringstream ss;
 
+	//Todo: replace "E" and "1"  if animation is added
 	ss << m_EnemyData[static_cast<int>(enemyType)].name << "_" << "E" << "_" << "1" << ".png";
 
 	go->AddComponent<dae::TextureComponent>(*go.get()).AddTexture(ss.str());
