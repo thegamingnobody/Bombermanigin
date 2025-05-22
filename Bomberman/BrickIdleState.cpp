@@ -1,6 +1,7 @@
 #include "BrickIdleState.h"
-#include "HealthComponent.h"
 #include "BrickDestroyedState.h"
+#include "EventManager.h"
+#include "EventTypes.h"
 
 bomberman::BrickIdleState::BrickIdleState(dae::GameObject& ownerObject)
 	: StateMachineBase(ownerObject)
@@ -10,14 +11,19 @@ bomberman::BrickIdleState::BrickIdleState(dae::GameObject& ownerObject)
 
 void bomberman::BrickIdleState::OnEnter()
 {
+	//dae::EventManager::GetInstance().AddObserver(*this, static_cast<int>(EventType::BOMB_EXPLODED));
+	auto healthComp = m_Owner->GetComponent<bomberman::HealthComponent>();
+	if (healthComp.has_value())
+	{
+		m_pHealthComponent = healthComp.value();
+	}
 }
 
 std::unique_ptr<bomberman::StateMachineBase> bomberman::BrickIdleState::Update(float /*deltaTime*/)
 {
-	auto healthComp = m_Owner->GetComponent<bomberman::HealthComponent>();
-	if (healthComp.has_value())
+	if (m_pHealthComponent != nullptr)
 	{
-		if (healthComp.value()->GetCurrentHealth() >= 0) return nullptr;
+		if (m_pHealthComponent->GetCurrentHealth() > 0) return nullptr;
 
 		return std::make_unique<bomberman::BrickDestroyedState>(*m_Owner);
 	}
@@ -27,4 +33,5 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::BrickIdleState::Update(f
 
 void bomberman::BrickIdleState::OnExit()
 {
+	//dae::EventManager::GetInstance().RemoveObserver(*this);
 }

@@ -2,7 +2,6 @@
 #include <json.hpp>
 #include <fstream>
 #include <GameObject.h>
-#include "EnemyMovementComponent.h"
 #include "BoxCollider.h"
 #include <TextComponent.h>
 #include "StateMachineComponent.h"

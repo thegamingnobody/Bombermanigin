@@ -29,7 +29,6 @@
 #include "SoundIds.h"
 #include <ImGuiComponent.h>
 #include "EnemyManager.h"
-#include "EnemyMovementComponent.h"
 #include "GameManager.h"
 
 //Todo: add pickups

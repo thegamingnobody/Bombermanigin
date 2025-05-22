@@ -91,13 +91,10 @@
     <ClCompile Include="ExplosionComponent.cpp">
       <Filter>Components\StandardComponents\Bomb</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyMovementComponent.cpp" />
-    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="StateMachineBase.cpp">
       <Filter>FSM\Base</Filter>
     </ClCompile>
     <ClCompile Include="Grid.cpp" />
-    <ClCompile Include="EnemyCollisionEvent.cpp" />
     <ClCompile Include="StateMachineComponent.cpp">
       <Filter>Components\StandardComponents</Filter>
     </ClCompile>
@@ -113,8 +110,21 @@
     <ClCompile Include="BrickIdleState.cpp">
       <Filter>FSM\Bricks</Filter>
     </ClCompile>
-    <ClCompile Include="BrickDestroyedState.cpp" />
-    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="SkipLevelCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyCollisionEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickDestroyedState.cpp">
+      <Filter>FSM\Bricks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -170,12 +180,9 @@
     <ClInclude Include="ExplosionComponent.h">
       <Filter>Components\StandardComponents\Bomb</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyMovementComponent.h" />
-    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="StateMachineBase.h">
       <Filter>FSM\Base</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyCollisionEvent.h" />
     <ClInclude Include="StateMachineComponent.h">
       <Filter>Components\StandardComponents</Filter>
     </ClInclude>
@@ -191,9 +198,22 @@
     <ClInclude Include="BrickIdleState.h">
       <Filter>FSM\Bricks</Filter>
     </ClInclude>
-    <ClInclude Include="BrickDestroyedState.h" />
-    <ClInclude Include="GameManager.h" />
     <ClInclude Include="LevelData.h" />
+    <ClInclude Include="SkipLevelCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyCollisionEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickDestroyedState.h">
+      <Filter>FSM\Bricks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

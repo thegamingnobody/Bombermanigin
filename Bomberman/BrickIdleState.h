@@ -1,6 +1,8 @@
 #pragma once
 #include "StateMachineBase.h"
 #include <GameObject.h>
+#include <Observer.h>
+#include "HealthComponent.h"
 
 namespace bomberman
 {
@@ -15,5 +17,8 @@ namespace bomberman
 		void OnEnter() override;
 		std::unique_ptr<StateMachineBase> Update(float deltaTime) override;
 		void OnExit() override;
+
+	private:
+		HealthComponent* m_pHealthComponent{ nullptr };
 	};
 }
