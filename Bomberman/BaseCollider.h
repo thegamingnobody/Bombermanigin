@@ -36,6 +36,10 @@ namespace bomberman
 
 		void ToggleRender() { m_ShouldRender = !m_ShouldRender; }
 
+		void ResetMovement(BaseCollider* otherCollider);
+
+		CollisionType GetCollisionType() const { return m_CollisionType; }
+
 	protected:
 		//Checks if this object should check for collisions
 		bool ShouldCheckCollision() const;
@@ -46,7 +50,6 @@ namespace bomberman
 
 		void AddPositionToPolygon(polygon& polygon, glm::vec3 position);
 
-		void ResetMovement(BaseCollider* otherCollider);
 
 		polygon m_Polygon;
 		polygon m_Axes;

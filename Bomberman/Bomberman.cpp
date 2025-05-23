@@ -32,6 +32,7 @@
 #include "GameManager.h"
 #include "SkipLevelCommand.h"
 #include "ResetLevelCommand.h"
+#include "CollidersManager.h"
 
 //Todo: add pickups
 void LoadSounds();
@@ -43,6 +44,7 @@ void load()
 {
 	bomberman::EnemyManager::GetInstance().Init();
 	bomberman::Grid::GetInstance().Init();
+	bomberman::CollidersManager::GetInstance().Init();
 
 	LoadSounds();
 
