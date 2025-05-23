@@ -53,10 +53,13 @@ namespace bomberman
 	private:
 		void CreateBrick(int gridID);
 		void CreateEnemy(int gridID);
+		void CreateDoor(int gridID);
 
 		int m_BrickCount{ 0 };
 		//int m_MaxBombs{ 0 };
 		std::vector<GridCell> m_Grid{};
+
+		bool m_DoorFound{ false };
 	};
 }
 

@@ -9,7 +9,8 @@ namespace bomberman
 		Wall,
 		Brick,
 		PlayerSpawn,
-		EnemySpawn
+		EnemySpawn,
+		Door
 	};
 
 	struct GridCell

@@ -125,6 +125,9 @@
     <ClCompile Include="BrickDestroyedState.cpp">
       <Filter>FSM\Bricks</Filter>
     </ClCompile>
+    <ClCompile Include="ResetLevelCommand.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -213,6 +216,9 @@
     </ClInclude>
     <ClInclude Include="BrickDestroyedState.h">
       <Filter>FSM\Bricks</Filter>
+    </ClInclude>
+    <ClInclude Include="ResetLevelCommand.h">
+      <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

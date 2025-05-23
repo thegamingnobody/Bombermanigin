@@ -12,7 +12,6 @@
 
 void bomberman::GameManager::LoadLevel(int level)
 {
-	// todo: load level and create scene
 	auto& sceneManager = dae::SceneManager::GetInstance();
 	auto& grid = bomberman::Grid::GetInstance();
 
@@ -41,4 +40,12 @@ void bomberman::GameManager::LoadNextLevel()
 
 void bomberman::GameManager::ResetLevel()
 {
+	auto& sceneManager = dae::SceneManager::GetInstance();
+	auto objectsScene =	sceneManager.GetScene("Objects");
+	objectsScene->RemoveAll();
+
+	auto& grid = bomberman::Grid::GetInstance();
+	grid.CreateGameObjects();
+
+
 }

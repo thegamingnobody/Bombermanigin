@@ -11,7 +11,6 @@ bomberman::BrickIdleState::BrickIdleState(dae::GameObject& ownerObject)
 
 void bomberman::BrickIdleState::OnEnter()
 {
-	//dae::EventManager::GetInstance().AddObserver(*this, static_cast<int>(EventType::BOMB_EXPLODED));
 	auto healthComp = m_Owner->GetComponent<bomberman::HealthComponent>();
 	if (healthComp.has_value())
 	{
@@ -32,6 +31,4 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::BrickIdleState::Update(f
 }
 
 void bomberman::BrickIdleState::OnExit()
-{
-	//dae::EventManager::GetInstance().RemoveObserver(*this);
-}
+{}

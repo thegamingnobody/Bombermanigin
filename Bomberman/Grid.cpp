@@ -68,7 +68,7 @@ bomberman::LevelData bomberman::Grid::LoadMap(int const levelID)
 		for (int row = 0; row < static_cast<int>(brick.size()); row++)
 		{
 			GridCell brickToAdd = GridCell(column, brick[row], CellTypes::Brick);
-			int cellNumber = GetCellID(column, row);
+			int cellNumber = GetCellID(brickToAdd.column, brickToAdd.row);
 
 			if (IsCellValid(cellNumber) == false)
 			{
@@ -139,12 +139,17 @@ void bomberman::Grid::BrickDestroyed(int cellID)
 		throw std::out_of_range("Cell ID out of range"); 
 	}
 
-	if (m_Grid[cellID].cellType != CellTypes::Brick)
-	{
-		throw std::invalid_argument("Cell ID is not a brick");
-	}
+	if (m_Grid[cellID].cellType != CellTypes::Brick) return;
+
 	m_Grid[cellID].cellType = CellTypes::Empty;
 	m_BrickCount--;
+
+	if (!m_DoorFound and rand() % m_BrickCount == 0)
+	{
+		m_DoorFound = true;
+		m_Grid[cellID].cellType = CellTypes::Door;
+		CreateDoor(cellID);
+	}
 
 	if (m_BrickCount <= 0)
 	{
@@ -185,7 +190,6 @@ bool bomberman::Grid::IsCellValid(int cellID) const
 void bomberman::Grid::CreateBrick(int gridID)
 {
 	GridCell sourceCell = m_Grid[gridID];
-
 	auto objectsScene = dae::SceneManager::GetInstance().GetScene("Objects");
 
 	auto go = std::make_shared<dae::GameObject>("BrickWall", GridCoordToWorldPos(sourceCell.column, sourceCell.row));
@@ -205,11 +209,22 @@ void bomberman::Grid::CreateBrick(int gridID)
 void bomberman::Grid::CreateEnemy(int gridID)
 {
 	auto& enemyManager = bomberman::EnemyManager::GetInstance();
-	auto& grid = bomberman::Grid::GetInstance();
 	auto& gameManager = bomberman::GameManager::GetInstance();
 	auto objectsScene = dae::SceneManager::GetInstance().GetScene("Objects");
 	auto levelData = gameManager.GetLevelData();
 
-	auto go = enemyManager.CreateEnemy(bomberman::EnemyType(levelData.enemyTypes[0]), grid.GridCoordToWorldPos(grid.GetCell(gridID)));
+	auto go = enemyManager.CreateEnemy(bomberman::EnemyType(levelData.enemyTypes[0]), GridCoordToWorldPos(GetCell(gridID)));
+	objectsScene->Add(go);
+}
+
+void bomberman::Grid::CreateDoor(int gridID)
+{
+	GridCell sourceCell = m_Grid[gridID];
+	auto objectsScene = dae::SceneManager::GetInstance().GetScene("Objects");
+
+	auto go = std::make_shared<dae::GameObject>("Door", GridCoordToWorldPos(sourceCell.column, sourceCell.row));
+	go->AddComponent<dae::TextureComponent>(*go.get()).AddTexture("Door.png");
+	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Door, bomberman::Box(0.0f, 0.0f, TILE_SIZE, TILE_SIZE));
+
 	objectsScene->Add(go);
 }
