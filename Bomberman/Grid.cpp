@@ -12,27 +12,11 @@ using json = nlohmann::json;
 
 void bomberman::Grid::Init()
 {
-	m_Grid.resize(TILES_AMOUNT_HORIZONTAL * TILES_AMOUNT_VERTICAL);
-	for (int row = 0; row < TILES_AMOUNT_VERTICAL; row++)
-	{
-		for (int column = 0; column < TILES_AMOUNT_HORIZONTAL; column++)
-		{
-			GridCell newCell = GridCell(column, row, (column == 0 or row == 0 or column + 1 == TILES_AMOUNT_HORIZONTAL or row + 1 == TILES_AMOUNT_VERTICAL) ? CellTypes::Wall : CellTypes::Empty);
-			m_Grid[column + row * TILES_AMOUNT_HORIZONTAL] = newCell;
-		}
-	}
-
-	for (int row = 2; row < TILES_AMOUNT_VERTICAL; row += 2)
-	{
-		for (int column = 2; column < TILES_AMOUNT_HORIZONTAL; column += 2)
-		{
-			m_Grid[column + row * TILES_AMOUNT_HORIZONTAL].cellType = CellTypes::Wall;
-		}
-	}
 }
 
 bomberman::LevelData bomberman::Grid::LoadMap(int const levelID)
 {
+
 	std::filesystem::path filePath = __FILE__;
 	std::filesystem::path fileDir = filePath.parent_path();
 	auto dataPath = "LevelData\\LevelData.json";
@@ -56,6 +40,8 @@ bomberman::LevelData bomberman::Grid::LoadMap(int const levelID)
 	{
 		throw std::out_of_range("Level ID out of range");
 	}
+
+	LoadStaticMap();
 
 	LevelData levelData = LevelData();
 	levelData.levelNumber = levelID+1;
@@ -105,6 +91,37 @@ bomberman::LevelData bomberman::Grid::LoadMap(int const levelID)
 		levelData.enemyTypes.emplace_back(type);
 	}
 	return levelData;
+}
+
+void bomberman::Grid::LoadMap(LevelData const& levelData)
+{
+	//Initialize
+	m_BrickCount = 0;
+	m_Grid.clear();
+
+	LoadStaticMap();
+
+	for (const auto& brick : levelData.brickWalls)
+	{
+		int cellNumber = GetCellID(brick.column, brick.row);
+		if (IsCellValid(cellNumber) == false)
+		{
+			throw std::out_of_range("Cell number out of range");
+		}
+		m_Grid[cellNumber] = brick;
+		m_BrickCount++;
+	}
+
+	for (const auto& enemySpawn : levelData.enemySpawns)
+	{
+		int cellNumber = GetCellID(enemySpawn.column, enemySpawn.row);
+		if (IsCellValid(cellNumber) == false)
+		{
+			throw std::out_of_range("Cell number out of range");
+		}
+		m_Grid[cellNumber] = enemySpawn;
+	}
+
 }
 
 void bomberman::Grid::CreateGameObjects()
@@ -185,6 +202,31 @@ bool bomberman::Grid::IsCellTypeWalkable(CellTypes cellType) const
 bool bomberman::Grid::IsCellValid(int cellID) const
 {
 	return !(cellID >= static_cast<int>(m_Grid.size()) or cellID < 0);
+}
+
+void bomberman::Grid::LoadStaticMap()
+{
+	m_Grid.resize(TILES_AMOUNT_HORIZONTAL * TILES_AMOUNT_VERTICAL);
+	
+	// Outer walls
+	for (int row = 0; row < TILES_AMOUNT_VERTICAL; row++)
+	{
+		for (int column = 0; column < TILES_AMOUNT_HORIZONTAL; column++)
+		{
+			GridCell newCell = GridCell(column, row, (column == 0 or row == 0 or column + 1 == TILES_AMOUNT_HORIZONTAL or row + 1 == TILES_AMOUNT_VERTICAL) ? CellTypes::Wall : CellTypes::Empty);
+			m_Grid[column + row * TILES_AMOUNT_HORIZONTAL] = newCell;
+		}
+	}
+
+	// Inner walls
+	for (int row = 2; row < TILES_AMOUNT_VERTICAL; row += 2)
+	{
+		for (int column = 2; column < TILES_AMOUNT_HORIZONTAL; column += 2)
+		{
+			m_Grid[column + row * TILES_AMOUNT_HORIZONTAL].cellType = CellTypes::Wall;
+		}
+	}
+
 }
 
 void bomberman::Grid::CreateBrick(int gridID)

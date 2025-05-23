@@ -45,7 +45,7 @@ void bomberman::GameManager::ResetLevel()
 	objectsScene->RemoveAll();
 
 	auto& grid = bomberman::Grid::GetInstance();
+	grid.LoadMap(m_CurrentLevelData);
+
 	grid.CreateGameObjects();
-
-
 }

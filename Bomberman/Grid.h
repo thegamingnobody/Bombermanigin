@@ -20,6 +20,8 @@ namespace bomberman
 		void Init();
 
 		LevelData LoadMap(int const levelID);
+		void LoadMap(LevelData const& levelData);
+
 		void CreateGameObjects();
 
 		glm::vec3 GridCoordToWorldPos(int column, int row)
@@ -51,6 +53,8 @@ namespace bomberman
 		bool IsCellValid(int cellID) const;
 
 	private:
+		void LoadStaticMap();
+
 		void CreateBrick(int gridID);
 		void CreateEnemy(int gridID);
 		void CreateDoor(int gridID);
