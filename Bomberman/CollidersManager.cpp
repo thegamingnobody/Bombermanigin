@@ -1,13 +1,26 @@
 #include "CollidersManager.h"
+#include "EnemyCollisionEvent.h"
+#include "EventManager.h"
 
 void bomberman::CollidersManager::Init()
 {
 	// Initialize collision handlers
-	CollisionKey playerWallKey{ CollisionType::Player, CollisionType::Wall };
-	SetCollisionHandler(playerWallKey.sourceType, playerWallKey.otherType, [](BaseCollider* self, BaseCollider* other)
+	CollisionHandler stopMovement = [](BaseCollider* self, BaseCollider* other)
 		{
-			self->ResetMovement(other);
-		});
+		self->ResetMovement(other);
+		};
+
+	CollisionHandler stopMovementEnemy = [](BaseCollider* self, BaseCollider* other)
+		{
+		bomberman::EnemyCollisionEvent event{ self->GetOwner()->GetName(), self->GetCollisionType() };
+		dae::EventManager::GetInstance().BroadcastEvent(std::move(std::make_unique<bomberman::EnemyCollisionEvent>(event)));
+		self->ResetMovement(other);
+		};
+
+	SetCollisionHandler(CollisionType::Player, CollisionType::Wall, stopMovement);
+	SetCollisionHandler(CollisionType::Player, CollisionType::Brick, stopMovement);
+	SetCollisionHandler(CollisionType::Enemy, CollisionType::Wall, stopMovementEnemy);
+	SetCollisionHandler(CollisionType::Enemy, CollisionType::Brick, stopMovementEnemy);
 
 }
 

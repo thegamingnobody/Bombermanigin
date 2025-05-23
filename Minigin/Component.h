@@ -25,13 +25,14 @@ namespace dae
 		void SetShouldBeRemoved() { m_ShouldBeRemoved = true; }
 		bool GetSouldBeRemoved() const { return m_ShouldBeRemoved; }
 
+		GameObject* GetOwner() const { return m_pOwnerObject; }
+
 	private:
 		GameObject* m_pOwnerObject{};
 
 	protected:
 		explicit Component(dae::GameObject& ownerObject);
 
-		GameObject* GetOwner() const { return m_pOwnerObject; }
 		bool m_ShouldBeRemoved{ false };
 	};
 }

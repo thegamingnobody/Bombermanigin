@@ -7,8 +7,10 @@
 
 namespace bomberman
 {
+	// The function/lambda that will be called when a collision occurs
     using CollisionHandler = std::function<void(BaseCollider* self, BaseCollider* other)>;
 
+	// The keys used to call the correct collision handler
     struct CollisionKey 
     {
         bomberman::CollisionType sourceType;
@@ -31,6 +33,7 @@ namespace bomberman
 		}
     };
 
+	// The hash needed to use the CollisionKey in an unordered_map
     struct CollisionKeyHash 
     {
         std::size_t operator()(const CollisionKey& key) const 
