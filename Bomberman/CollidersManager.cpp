@@ -12,14 +12,12 @@ void bomberman::CollidersManager::Init()
 		{
 		self->ResetMovement(other);
 		};
-
 	CollisionHandler stopMovementEnemy = [](BaseCollider* self, BaseCollider* other)
 		{
 		bomberman::EnemyCollisionEvent event{ self->GetOwner()->GetName(), self->GetCollisionType() };
 		dae::EventManager::GetInstance().BroadcastEvent(std::move(std::make_unique<bomberman::EnemyCollisionEvent>(event)));
 		self->ResetMovement(other);
 		};
-	
 	CollisionHandler damageOtherCollider = [](BaseCollider* /*self*/, BaseCollider* other)
 		{
 			auto healthComponent{ other->GetOwner()->GetComponent<bomberman::HealthComponent>() };
@@ -28,15 +26,14 @@ void bomberman::CollidersManager::Init()
 				healthComponent.value()->Damage(1);
 			}
 		};
-
 	CollisionHandler resetLevel = [](BaseCollider* /*self*/, BaseCollider* /*other*/)
 		{
 			std::cout << "player Death Animation\n";
 			bomberman::GameManager::GetInstance().ResetLevel();
 		};
-
 	CollisionHandler tryNextLevel = [](BaseCollider* /*self*/, BaseCollider* /*other*/)
 		{
+			std::cout << "try next level\n";
 			if (bomberman::EnemyManager::GetInstance().AreAllEnemiesDead())
 			{
 				bomberman::GameManager::GetInstance().LoadNextLevel();

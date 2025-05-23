@@ -15,7 +15,6 @@ bomberman::MoveCommand::MoveCommand(dae::GameObject& controllingObject, glm::vec
 void bomberman::MoveCommand::Execute()
 {
 	auto transform = m_pControllingObject->GetTransform();
-	//todo: DELTA TIME!!!!!
 	auto deltaTime = dae::TimeManager::GetInstance().GetDeltaTime();
 	transform->Move(m_Direction * deltaTime);
 

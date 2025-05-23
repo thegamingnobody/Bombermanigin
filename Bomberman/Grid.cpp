@@ -166,17 +166,20 @@ void bomberman::Grid::BrickDestroyed(int cellID)
 	m_Grid[cellID].cellType = CellTypes::Empty;
 	m_BrickCount--;
 
-	if (!m_DoorFound and rand() % m_BrickCount == 0)
+	if (m_BrickCount <= 0)
+	{
+		m_BrickCount = 0;
+	}
+
+	if (m_DoorFound) return;
+
+	if (rand() % m_BrickCount == 0 or m_BrickCount == 0)
 	{
 		m_DoorFound = true;
 		m_Grid[cellID].cellType = CellTypes::Door;
 		CreateDoor(cellID);
 	}
 
-	if (m_BrickCount <= 0)
-	{
-		m_BrickCount = 0;
-	}
 }
 
 bomberman::GridCell bomberman::Grid::GetCell(int cellID) const

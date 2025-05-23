@@ -57,8 +57,8 @@ void load()
 	// This way we can easily reset the enemies, pickups, etc. without removing the map or player
 
 	auto& mapScene = dae::SceneManager::GetInstance().CreateScene("Map");
-	auto& playerScene = dae::SceneManager::GetInstance().CreateScene("Player");
 	dae::SceneManager::GetInstance().CreateScene("Objects");
+	auto& playerScene = dae::SceneManager::GetInstance().CreateScene("Player");
 
 	LoadMap(mapScene);
 

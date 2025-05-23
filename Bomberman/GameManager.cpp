@@ -16,6 +16,7 @@ void bomberman::GameManager::LoadLevel(int level)
 	auto& grid = bomberman::Grid::GetInstance();
 
 	auto objectsScene =	sceneManager.GetScene("Objects");
+	auto playerScene = sceneManager.GetScene("Player");
 
 	if (objectsScene == nullptr)
 	{
@@ -25,6 +26,12 @@ void bomberman::GameManager::LoadLevel(int level)
 
 	m_CurrentLevelData = grid.LoadMap(level - 1);
 	grid.CreateGameObjects();
+
+	auto player = playerScene->GetObject("Player 1");
+
+	if (player == nullptr) return;
+
+	player->GetTransform()->SetLocalPosition(grid.GridCoordToWorldPos(1, 1));
 }
 
 void bomberman::GameManager::LoadNextLevel()
