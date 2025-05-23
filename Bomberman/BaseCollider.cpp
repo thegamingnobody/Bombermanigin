@@ -31,33 +31,10 @@ void bomberman::BaseCollider::Update(float const /*deltaTime*/)
 	{
 		if (collider == this) continue;
 
-		if (m_CollisionType == bomberman::CollisionType::None) continue;
-
-		if (m_CollisionType == bomberman::CollisionType::Brick and collider->m_CollisionType != bomberman::CollisionType::Bomb) continue;
-
 		auto otherPosition = collider->GetOwner()->GetTransform()->GetGlobalPosition();
 
 		if (IsOverlapping(collider->GetHitBox(), otherPosition))
 		{
-			//stinky code, but can't think of a better way to do this right now
-			//switch (collider->m_CollisionType)
-			//{
-			//case bomberman::CollisionType::Enemy:
-			//	if (this->m_CollisionType != bomberman::CollisionType::Player) break;
-			//	//Fallthrough is intentional as long as the bomb below only deals damage
-			//case bomberman::CollisionType::Bomb:
-			//	{
-			//		auto healthComponent{ GetOwner()->GetComponent<bomberman::HealthComponent>() };
-			//		if (healthComponent.has_value())
-			//		{
-			//			healthComponent.value()->Damage(1);
-			//		}
-			//	}
-			//	break;
-			//default:
-			//	break;
-			//}
-
 			collidersManager.HandleCollision(this, collider);
 		}
 	}
@@ -115,24 +92,7 @@ bool bomberman::BaseCollider::IsOverlapping(polygon other, glm::vec3 otherPositi
 
 bool bomberman::BaseCollider::ShouldCheckCollision() const
 {
-	//Todo: Add collision type functionality
-	switch (m_CollisionType)
-	{
-	case bomberman::CollisionType::None:
-		return false;
-	case bomberman::CollisionType::Wall:
-		return false;
-	case bomberman::CollisionType::Enemy:
-		return true;
-	case bomberman::CollisionType::Player:
-		return true;
-	case bomberman::CollisionType::Brick:
-		return false;
-	case bomberman::CollisionType::Bomb:
-		return true;
-	default:
-		return false;
-	}
+	return CollidersManager::GetInstance().IsSourceType(m_CollisionType);
 }
 
 polygon bomberman::BaseCollider::CalculateAxes(polygon poly)

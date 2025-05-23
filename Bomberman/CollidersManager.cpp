@@ -18,10 +18,23 @@ void bomberman::CollidersManager::Init()
 		self->ResetMovement(other);
 		};
 	
+	CollisionHandler damageOtherCollider = [](BaseCollider* /*self*/, BaseCollider* other)
+		{
+			auto healthComponent{ other->GetOwner()->GetComponent<bomberman::HealthComponent>() };
+			if (healthComponent.has_value())
+			{
+				healthComponent.value()->Damage(1);
+			}
+		};
+
 	SetCollisionHandler(CollisionType::Player, CollisionType::Wall, stopMovement, true);
 	SetCollisionHandler(CollisionType::Player, CollisionType::Brick, stopMovement, true);
 	SetCollisionHandler(CollisionType::Enemy, CollisionType::Wall, stopMovementEnemy, true);
 	SetCollisionHandler(CollisionType::Enemy, CollisionType::Brick, stopMovementEnemy, true);
+
+	SetCollisionHandler(CollisionType::Bomb, CollisionType::Brick, damageOtherCollider, false);
+	SetCollisionHandler(CollisionType::Bomb, CollisionType::Enemy, damageOtherCollider, false);
+	SetCollisionHandler(CollisionType::Bomb, CollisionType::Player, damageOtherCollider, false);
 }
 
 void bomberman::CollidersManager::AddCollider(bomberman::BaseCollider& collider)
@@ -64,4 +77,17 @@ void bomberman::CollidersManager::HandleCollision(bomberman::BaseCollider* self,
 	{
 		it->second(self, other);
 	}
+}
+
+bool bomberman::CollidersManager::IsSourceType(bomberman::CollisionType sourceType) const
+{
+	for (const auto& key : m_CollisionHandlers)
+	{
+		if (key.first.sourceType == sourceType)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }

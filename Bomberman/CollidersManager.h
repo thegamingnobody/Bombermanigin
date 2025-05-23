@@ -59,6 +59,9 @@ namespace bomberman
 
 		void HandleCollision(bomberman::BaseCollider* self, bomberman::BaseCollider* other);
 
+		// Returns true if the given type is in the colliders list as a source type
+        bool IsSourceType(bomberman::CollisionType sourceType) const;
+
     private:
 		std::vector<bomberman::BaseCollider*> m_Colliders{};
 
