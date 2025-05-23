@@ -16,7 +16,6 @@ void bomberman::Grid::Init()
 
 bomberman::LevelData bomberman::Grid::LoadMap(int const levelID)
 {
-
 	std::filesystem::path filePath = __FILE__;
 	std::filesystem::path fileDir = filePath.parent_path();
 	auto dataPath = "LevelData\\LevelData.json";
@@ -90,6 +89,12 @@ bomberman::LevelData bomberman::Grid::LoadMap(int const levelID)
 		auto type = jsonEnemyTypes[enemyType];
 		levelData.enemyTypes.emplace_back(type);
 	}
+
+	// Add player spawns to the grid
+	auto playerSpawn = GridCell(1, 1, CellTypes::PlayerSpawn);
+	m_Grid[GetCellID(1, 1)] = playerSpawn;
+	levelData.playerSpawns.emplace_back(playerSpawn);
+
 	return levelData;
 }
 

@@ -41,11 +41,19 @@ void bomberman::GameManager::LoadNextLevel()
 void bomberman::GameManager::ResetLevel()
 {
 	auto& sceneManager = dae::SceneManager::GetInstance();
-	auto objectsScene =	sceneManager.GetScene("Objects");
-	objectsScene->RemoveAll();
-
 	auto& grid = bomberman::Grid::GetInstance();
-	grid.LoadMap(m_CurrentLevelData);
 
+	auto objectsScene =	sceneManager.GetScene("Objects");
+	auto playerScene = sceneManager.GetScene("Player");
+	
+	// Object Scene
+	objectsScene->RemoveAll();
+	grid.LoadMap(m_CurrentLevelData);
 	grid.CreateGameObjects();
+
+	// Player Scene
+
+	// Todo: fix for multiplayer
+	playerScene->GetObject("Player 1")->GetTransform()->SetLocalPosition(grid.GridCoordToWorldPos(1, 1));
+
 }
