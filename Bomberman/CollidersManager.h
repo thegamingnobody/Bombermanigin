@@ -53,7 +53,7 @@ namespace bomberman
         void AddCollider(bomberman::BaseCollider& collider);
 		void RemoveCollider(bomberman::BaseCollider& collider);
 
-		void SetCollisionHandler(bomberman::CollisionType sourceType, bomberman::CollisionType otherType, CollisionHandler handler);
+		void SetCollisionHandler(bomberman::CollisionType sourceType, bomberman::CollisionType otherType, CollisionHandler handler, bool alsoSetReverse);
 
 		const std::vector<bomberman::BaseCollider*>& GetColliders() const { return m_Colliders; }
 

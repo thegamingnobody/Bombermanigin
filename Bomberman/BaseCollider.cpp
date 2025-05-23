@@ -42,16 +42,6 @@ void bomberman::BaseCollider::Update(float const /*deltaTime*/)
 			//stinky code, but can't think of a better way to do this right now
 			//switch (collider->m_CollisionType)
 			//{
-			//case bomberman::CollisionType::Wall:
-			//case bomberman::CollisionType::Brick:
-			//	if (m_CollisionType == bomberman::CollisionType::Enemy)
-			//	{
-			//		bomberman::EnemyCollisionEvent event{ GetOwner()->GetName(), m_CollisionType };
-			//		dae::EventManager::GetInstance().BroadcastEvent(std::move(std::make_unique<bomberman::EnemyCollisionEvent>(event)));
-			//	}
-
-			//	ResetMovement(collider);
-			//	break;
 			//case bomberman::CollisionType::Enemy:
 			//	if (this->m_CollisionType != bomberman::CollisionType::Player) break;
 			//	//Fallthrough is intentional as long as the bomb below only deals damage

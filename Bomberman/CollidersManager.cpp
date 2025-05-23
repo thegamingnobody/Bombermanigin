@@ -1,6 +1,7 @@
 #include "CollidersManager.h"
 #include "EnemyCollisionEvent.h"
 #include "EventManager.h"
+#include "HealthComponent.h"
 
 void bomberman::CollidersManager::Init()
 {
@@ -16,12 +17,11 @@ void bomberman::CollidersManager::Init()
 		dae::EventManager::GetInstance().BroadcastEvent(std::move(std::make_unique<bomberman::EnemyCollisionEvent>(event)));
 		self->ResetMovement(other);
 		};
-
-	SetCollisionHandler(CollisionType::Player, CollisionType::Wall, stopMovement);
-	SetCollisionHandler(CollisionType::Player, CollisionType::Brick, stopMovement);
-	SetCollisionHandler(CollisionType::Enemy, CollisionType::Wall, stopMovementEnemy);
-	SetCollisionHandler(CollisionType::Enemy, CollisionType::Brick, stopMovementEnemy);
-
+	
+	SetCollisionHandler(CollisionType::Player, CollisionType::Wall, stopMovement, true);
+	SetCollisionHandler(CollisionType::Player, CollisionType::Brick, stopMovement, true);
+	SetCollisionHandler(CollisionType::Enemy, CollisionType::Wall, stopMovementEnemy, true);
+	SetCollisionHandler(CollisionType::Enemy, CollisionType::Brick, stopMovementEnemy, true);
 }
 
 void bomberman::CollidersManager::AddCollider(bomberman::BaseCollider& collider)
@@ -42,14 +42,17 @@ void bomberman::CollidersManager::RemoveCollider(bomberman::BaseCollider& collid
 	m_Colliders.erase(it);
 }
 
-void bomberman::CollidersManager::SetCollisionHandler(bomberman::CollisionType sourceType, bomberman::CollisionType otherType, CollisionHandler handler)
+void bomberman::CollidersManager::SetCollisionHandler(bomberman::CollisionType sourceType, bomberman::CollisionType otherType, CollisionHandler handler, bool alsoSetReverse)
 {
 	CollisionKey keyToAdd{ sourceType, otherType };
 	m_CollisionHandlers[keyToAdd] = handler;
-	m_CollisionHandlers[keyToAdd.Reverse()] = [&](BaseCollider* self, BaseCollider* other)
+	if (alsoSetReverse)
 	{
-		m_CollisionHandlers[keyToAdd](other, self);
-	};
+		m_CollisionHandlers[keyToAdd.Reverse()] = [&](BaseCollider* self, BaseCollider* other)
+		{
+			m_CollisionHandlers[keyToAdd](other, self);
+		};
+	}
 }
 
 void bomberman::CollidersManager::HandleCollision(bomberman::BaseCollider* self, bomberman::BaseCollider* other)
