@@ -29,10 +29,14 @@ void bomberman::BaseCollider::Update(float const /*deltaTime*/)
 
 	for (const auto& collider : colliders)
 	{
+		// Don't check collision with self
 		if (collider == this) continue;
 
-		auto otherPosition = collider->GetOwner()->GetTransform()->GetGlobalPosition();
+		// Don't check collision if the key pair is not registered
+		if (!collidersManager.IsKeySet(CollisionKey(m_CollisionType, collider->m_CollisionType))) continue;
 
+		// Check and handle collision
+		auto otherPosition = collider->GetOwner()->GetTransform()->GetGlobalPosition();
 		if (IsOverlapping(collider->GetHitBox(), otherPosition))
 		{
 			collidersManager.HandleCollision(this, collider);

@@ -27,14 +27,16 @@ void bomberman::CollidersManager::Init()
 			}
 		};
 
-	SetCollisionHandler(CollisionType::Player, CollisionType::Wall, stopMovement, true);
-	SetCollisionHandler(CollisionType::Player, CollisionType::Brick, stopMovement, true);
-	SetCollisionHandler(CollisionType::Enemy, CollisionType::Wall, stopMovementEnemy, true);
-	SetCollisionHandler(CollisionType::Enemy, CollisionType::Brick, stopMovementEnemy, true);
+	SetCollisionHandler(CollisionType::Player, CollisionType::Wall, stopMovement, false);
+	SetCollisionHandler(CollisionType::Player, CollisionType::Brick, stopMovement, false);
+	SetCollisionHandler(CollisionType::Enemy, CollisionType::Wall, stopMovementEnemy, false);
+	SetCollisionHandler(CollisionType::Enemy, CollisionType::Brick, stopMovementEnemy, false);
 
 	SetCollisionHandler(CollisionType::Bomb, CollisionType::Brick, damageOtherCollider, false);
 	SetCollisionHandler(CollisionType::Bomb, CollisionType::Enemy, damageOtherCollider, false);
 	SetCollisionHandler(CollisionType::Bomb, CollisionType::Player, damageOtherCollider, false);
+
+	SetCollisionHandler(CollisionType::Enemy, CollisionType::Player, damageOtherCollider, false);
 }
 
 void bomberman::CollidersManager::AddCollider(bomberman::BaseCollider& collider)
@@ -90,4 +92,11 @@ bool bomberman::CollidersManager::IsSourceType(bomberman::CollisionType sourceTy
 	}
 
 	return false;
+}
+
+bool bomberman::CollidersManager::IsKeySet(CollisionKey key) const
+{
+	auto it = m_CollisionHandlers.find(key);
+
+	return (it != m_CollisionHandlers.end());
 }
