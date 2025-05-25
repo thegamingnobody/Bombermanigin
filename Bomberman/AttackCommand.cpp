@@ -10,10 +10,13 @@
 bomberman::AttackCommand::AttackCommand(dae::GameObject& controllingObject)
 	: m_pControllingObject(&controllingObject)
 {
+	dae::EventManager::GetInstance().AddObserver(*this, static_cast<int>(bomberman::EventType::BOMB_EXPLODED));
 }
 
 void bomberman::AttackCommand::Execute()
 {
+	if (!m_CanSpawnBomb) return;
+
 	glm::vec3 position = m_pControllingObject->GetTransform()->GetGlobalPosition();
 	SpawnBombObject(position);
 }
@@ -34,4 +37,20 @@ void bomberman::AttackCommand::SpawnBombObject(glm::vec3 position)
 	bomb->AddComponent<bomberman::BombComponent>(*bomb.get(), 1, 3.0f, 0.5f);
 
 	activeScene->Add(bomb);
+	m_CanSpawnBomb = false;
+}
+
+void bomberman::AttackCommand::Notify(const dae::Event& event)
+{
+	switch (static_cast<bomberman::EventType>(event.GetEventType()))
+	{
+	case bomberman::EventType::BOMB_EXPLODED:
+	{
+		m_CanSpawnBomb = true;
+		break;
+	}
+	default:
+		break;
+	}
+
 }

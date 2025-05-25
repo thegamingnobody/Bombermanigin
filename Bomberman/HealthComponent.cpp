@@ -32,7 +32,3 @@ void bomberman::HealthComponent::Damage(int amount)
 		m_CurrentHealth = 0;
 	}
 }
-
-void bomberman::HealthComponent::Notify(const dae::Event&)
-{
-}

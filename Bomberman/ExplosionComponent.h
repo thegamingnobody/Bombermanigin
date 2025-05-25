@@ -6,12 +6,7 @@ namespace bomberman
     class ExplosionComponent : public dae::Component
     {
 	public:
-		ExplosionComponent(dae::GameObject& gameObject, int size, float explosionTime)
-			: dae::Component(gameObject)
-			, m_Size(size)
-			, m_ExplosionTime(explosionTime)
-		{
-		}
+		ExplosionComponent(dae::GameObject& gameObject, int size, float explosionTime);
 
 		void Update(float deltaTime) override;
 

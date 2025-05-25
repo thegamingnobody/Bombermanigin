@@ -39,6 +39,5 @@ void bomberman::BombComponent::SpawnExplosion(int size)
 	explosion->AddComponent<bomberman::CrossCollider>(*explosion.get(), bomberman::CollisionType::Bomb);
 	auto& textureComponent = explosion->AddComponent<dae::TextureComponent>(*explosion.get());
 	textureComponent.AddTexture("Explosion_1_1.png");
-	//textureComponent.SetOffset(glm::vec2(-1 * TILE_SIZE, -1 * TILE_SIZE));
 	activeScene->Add(explosion);
 }

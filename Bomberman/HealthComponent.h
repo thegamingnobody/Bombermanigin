@@ -7,7 +7,7 @@
 
 namespace bomberman
 {
-	class HealthComponent : public dae::Component, public dae::Observer
+	class HealthComponent : public dae::Component
 	{
 	public:
 		HealthComponent(dae::GameObject& ownerObject, int maxHealth, bool canSurpassMax = false);
@@ -17,8 +17,6 @@ namespace bomberman
 
 		void Heal(int amount);
 		void Damage(int amount);
-
-		void Notify(const dae::Event& event) override;
 
 	private:
 		int m_MaxHealth;
