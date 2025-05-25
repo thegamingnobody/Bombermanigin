@@ -6,6 +6,7 @@
 #include "GameObject.h"
 #include "TextureComponent.h"
 #include "BombComponent.h"
+#include "PlayerManager.h"
 
 bomberman::AttackCommand::AttackCommand(dae::GameObject& controllingObject)
 	: m_pControllingObject(&controllingObject)
@@ -15,7 +16,9 @@ bomberman::AttackCommand::AttackCommand(dae::GameObject& controllingObject)
 
 void bomberman::AttackCommand::Execute()
 {
-	if (!m_CanSpawnBomb) return;
+	auto& playerManager = bomberman::PlayerManager::GetInstance();
+
+	if (m_BombCount >= playerManager.GetPlayerInfo(0).maxBombs) return;
 
 	glm::vec3 position = m_pControllingObject->GetTransform()->GetGlobalPosition();
 	SpawnBombObject(position);
@@ -23,7 +26,6 @@ void bomberman::AttackCommand::Execute()
 
 void bomberman::AttackCommand::SpawnBombObject(glm::vec3 position)
 {
-	//Todo: limit bomb spawning to X per player (starting with 1)
 	auto activeScene = dae::SceneManager::GetInstance().GetScene("Objects");
 
 	if (!activeScene) return;
@@ -37,7 +39,7 @@ void bomberman::AttackCommand::SpawnBombObject(glm::vec3 position)
 	bomb->AddComponent<bomberman::BombComponent>(*bomb.get(), 1, 3.0f, 0.5f);
 
 	activeScene->Add(bomb);
-	m_CanSpawnBomb = false;
+	m_BombCount++;
 }
 
 void bomberman::AttackCommand::Notify(const dae::Event& event)
@@ -46,7 +48,7 @@ void bomberman::AttackCommand::Notify(const dae::Event& event)
 	{
 	case bomberman::EventType::BOMB_EXPLODED:
 	{
-		m_CanSpawnBomb = true;
+		m_BombCount--;
 		break;
 	}
 	default:

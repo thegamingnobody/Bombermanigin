@@ -128,6 +128,7 @@
     <ClCompile Include="ResetLevelCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -220,6 +221,7 @@
     <ClInclude Include="ResetLevelCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

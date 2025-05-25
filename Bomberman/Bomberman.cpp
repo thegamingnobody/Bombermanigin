@@ -33,6 +33,7 @@
 #include "SkipLevelCommand.h"
 #include "ResetLevelCommand.h"
 #include "CollidersManager.h"
+#include "PlayerManager.h"
 
 //Todo: add pickups
 void LoadSounds();
@@ -124,41 +125,11 @@ void LoadMap(dae::Scene& scene)
 	}
 }
 
-void LoadPlayer(dae::Scene& scene)
+void LoadPlayer(dae::Scene& /*scene*/)
 {
-	auto& inputManager = dae::InputManager::GetInstance();
-	auto& camera = dae::Camera::GetInstance();
-	auto& grid = bomberman::Grid::GetInstance();
+	auto& playerManager = bomberman::PlayerManager::GetInstance();
 
-	float tileScale{ camera.GetWindowScale() };
-
-	int const player1InputID = inputManager.AddInputDevice(dae::Action::DeviceType::Keyboard);
-	//int const player2InputID = inputManager.AddInputDevice(dae::Action::DeviceType::Gamepad);
-
-	bomberman::GridCell playerStartCell{ 1, 1 };
-	auto go = std::make_shared<dae::GameObject>("Player 1", grid.GridCoordToWorldPos(playerStartCell), player1InputID);
-	{
-		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
-		textureComponent.AddTexture("Bomberman_S_1.png");
-		auto textureSize = textureComponent.GetSize();
-		go->AddComponent<bomberman::HealthComponent>(*go.get(), 3);
-		go->AddComponent<bomberman::ScoreComponent>(*go.get());
-		go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Player, bomberman::Box(4 * tileScale, 1 * tileScale, 8 * tileScale, 14 * tileScale));
-	}
-	scene.Add(go);
-	camera.SetTrackingTarget(*go.get());
-
-	float const player2Movespeed{ 100 };
-	float const player1Movespeed{ player2Movespeed * 2 };
-
-	inputManager.AddAction(dae::KeyboardKeys::W, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, -1.0f, 0.0f) * player1Movespeed), player1InputID);
-	inputManager.AddAction(dae::KeyboardKeys::S, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, 1.0f, 0.0f) * player1Movespeed), player1InputID);
-	inputManager.AddAction(dae::KeyboardKeys::A, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(-1.0f, 0.0f, 0.0f) * player1Movespeed), player1InputID);
-	inputManager.AddAction(dae::KeyboardKeys::D, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(1.0f, 0.0f, 0.0f) * player1Movespeed), player1InputID);
-	inputManager.AddAction(dae::KeyboardKeys::C, dae::InputType::PressedThisFrame, std::make_shared<bomberman::AttackCommand>(*go.get()), player1InputID);
-
-	inputManager.AddAction(dae::KeyboardKeys::F1, dae::InputType::PressedThisFrame, std::make_shared<bomberman::SkipLevelCommand>(), player1InputID);
-	inputManager.AddAction(dae::KeyboardKeys::R, dae::InputType::PressedThisFrame, std::make_shared<bomberman::ResetLevelCommand>(), player1InputID);
+	playerManager.CreatePlayer(dae::Action::DeviceType::Keyboard);
 
 	//bomberman::GridCell enemyStartCell{ 4, 1 };
 	//go = std::make_shared<dae::GameObject>("Player2", bomberman::Grid::GridCoordToWorldPos(enemyStartCell), player2InputID);

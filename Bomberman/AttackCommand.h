@@ -1,5 +1,5 @@
-#ifndef DAE_ATTACKCOMMAND
-#define DAE_ATTACKCOMMAND
+#ifndef ATTACKCOMMAND
+#define ATTACKCOMMAND
 
 #include "Command.h"
 #include <GameObject.h>
@@ -19,7 +19,10 @@ namespace bomberman
 	private:
 		dae::GameObject* m_pControllingObject;
 
-		bool m_CanSpawnBomb{ true };
+		//bool m_CanSpawnBomb{ true };
+
+		int m_BombCount{ 0 };
+		//int m_MaxBombCount{ 1 };
 
 		void SpawnBombObject(glm::vec3 position);
     };
