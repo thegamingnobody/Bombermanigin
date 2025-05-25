@@ -242,9 +242,11 @@ void bomberman::Grid::CreateBrick(int gridID)
 	GridCell sourceCell = m_Grid[gridID];
 	auto objectsScene = dae::SceneManager::GetInstance().GetScene("Objects");
 
+	float collisionInset = 2.0f;
+
 	auto go = std::make_shared<dae::GameObject>("BrickWall", GridCoordToWorldPos(sourceCell.column, sourceCell.row));
 	go->AddComponent<dae::TextureComponent>(*go.get()).AddTexture("Brick.png");
-	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Brick, bomberman::Box(0.0f, 0.0f, TILE_SIZE, TILE_SIZE));
+	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Brick, bomberman::Box(collisionInset, collisionInset, TILE_SIZE - (2* collisionInset), TILE_SIZE - (2 * collisionInset)));
 	go->AddComponent<bomberman::HealthComponent>(*go.get(), 1);
 
 	//Giving the bricks their own state machine is maybe a bit redundant,

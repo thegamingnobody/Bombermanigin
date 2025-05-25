@@ -41,10 +41,10 @@ namespace dae
 		template<std::derived_from<Component> T, class... Arguments>
 		T& AddComponent(Arguments&&... arguments)
 		{
-			if (HasComponent<T>())
-			{
-				throw std::runtime_error("Component already exists");
-			}
+			//if (HasComponent<T>())
+			//{
+			//	throw std::runtime_error("Component already exists");
+			//}
 
 			std::shared_ptr<T> newComponent{ std::make_shared<T>(std::forward<Arguments>(arguments)...) };
 			m_pComponents.emplace_back(newComponent);

@@ -7,6 +7,7 @@
 #include "TextureComponent.h"
 #include "BombComponent.h"
 #include "PlayerManager.h"
+#include "Grid.h"
 
 bomberman::AttackCommand::AttackCommand(dae::GameObject& controllingObject)
 	: m_pControllingObject(&controllingObject)
@@ -30,7 +31,12 @@ void bomberman::AttackCommand::SpawnBombObject(glm::vec3 position)
 
 	if (!activeScene) return;
 
-	auto bomb = std::make_shared<dae::GameObject>("Bomb", position);
+	auto& grid = bomberman::Grid::GetInstance();
+
+	auto gridCoord = grid.WorldPosToGridCoord(position);
+	auto gridPos = grid.GridCoordToWorldPos(static_cast<int>(gridCoord.x), static_cast<int>(gridCoord.y));
+
+	auto bomb = std::make_shared<dae::GameObject>("Bomb", gridPos);
 	auto& textureComponent = bomb->AddComponent<dae::TextureComponent>(*bomb.get());
 	textureComponent.AddTexture("Bomb_1.png");
 	textureComponent.AddTexture("Bomb_2.png");

@@ -19,7 +19,8 @@ void bomberman::PlayerManager::CreatePlayer(dae::Action::DeviceType deviceType)
 	auto& sceneManager = dae::SceneManager::GetInstance();
 
 	float tileScale{ camera.GetWindowScale() };
-	float const playerSpeed{ 75.0f };
+	//float const playerSpeed{ 75.0f };
+	float const playerSpeed{ 150.0f };
 	auto playerScene = sceneManager.GetScene("Player");
 
 	int const playerInputID = inputManager.AddInputDevice(deviceType);

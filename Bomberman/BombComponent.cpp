@@ -36,7 +36,19 @@ void bomberman::BombComponent::SpawnExplosion(int size)
 
 	auto explosion = std::make_shared<dae::GameObject>("Explosion", position);
 	explosion->AddComponent<bomberman::ExplosionComponent>(*explosion.get(), size, m_ExplosionTime);
-	explosion->AddComponent<bomberman::CrossCollider>(*explosion.get(), bomberman::CollisionType::Bomb);
+
+	int crossSize = 3;
+
+	float lineWidth = crossSize * TILE_SIZE * 0.8f;
+	float lineHeight = TILE_SIZE / 2;
+	float lineX = crossSize * 0.1f * TILE_SIZE;
+	float lineY = (TILE_SIZE * crossSize * 0.41f);
+
+	Box horizontalLine{ lineX, lineY, lineWidth, lineHeight };
+	Box verticalLine{ lineY, lineX, lineHeight,	lineWidth };
+
+	explosion->AddComponent<bomberman::BoxCollider>(*explosion.get(), bomberman::CollisionType::Bomb, horizontalLine);
+	explosion->AddComponent<bomberman::BoxCollider>(*explosion.get(), bomberman::CollisionType::Bomb, verticalLine);
 	auto& textureComponent = explosion->AddComponent<dae::TextureComponent>(*explosion.get());
 	textureComponent.AddTexture("Explosion_1_1.png");
 	activeScene->Add(explosion);
