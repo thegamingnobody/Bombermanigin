@@ -12,10 +12,11 @@ namespace bomberman
 		None,
 		Wall,
 		Enemy,
-		Bomb,
+		Explosion,
 		Brick,
 		Player,
-		Door
+		Door,
+		Bomb
 	};
 
     class BaseCollider : public dae::Component

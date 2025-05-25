@@ -13,7 +13,7 @@ namespace bomberman
 		std::string name{};
 		dae::Action::DeviceType deviceType{};
 		int score{};
-		int lives{};
+		int lives{ 3 };
 		int maxBombs{ 1 };
 
 		PlayerInfo() = default;

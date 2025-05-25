@@ -6,6 +6,16 @@
 #include <TextureComponent.h>
 #include "Grid.h"
 #include "BoxCollider.h"
+#include "BombExplodedEvent.h"
+#include <EventManager.h>
+
+bomberman::BombComponent::~BombComponent()
+{
+	auto owner = GetOwner();
+
+	BombExplodedEvent event = BombExplodedEvent(glm::vec3(0.0f, 0.0f, 0.0f), 1, owner);
+	dae::EventManager::GetInstance().BroadcastEvent(std::move(std::make_unique<BombExplodedEvent>(event)));
+}
 
 void bomberman::BombComponent::Update(float deltaTime)
 {
@@ -48,8 +58,8 @@ void bomberman::BombComponent::SpawnExplosion(int size)
 	Box horizontalLine{ lineX, lineY, lineWidth, lineHeight };
 	Box verticalLine{ lineY, lineX, lineHeight,	lineWidth };
 
-	explosion->AddComponent<bomberman::BoxCollider>(*explosion.get(), bomberman::CollisionType::Bomb, horizontalLine);
-	explosion->AddComponent<bomberman::BoxCollider>(*explosion.get(), bomberman::CollisionType::Bomb, verticalLine);
+	explosion->AddComponent<bomberman::BoxCollider>(*explosion.get(), bomberman::CollisionType::Explosion, horizontalLine);
+	explosion->AddComponent<bomberman::BoxCollider>(*explosion.get(), bomberman::CollisionType::Explosion, verticalLine);
 	auto& textureComponent = explosion->AddComponent<dae::TextureComponent>(*explosion.get());
 	textureComponent.AddTexture("Explosion_1_1.png");
 	activeScene->Add(explosion);

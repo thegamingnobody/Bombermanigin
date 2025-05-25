@@ -14,6 +14,9 @@ namespace bomberman
 		{
 		}
 
+		~BombComponent();
+
+
 		void Update(float deltaTime) override;
 
 	private:

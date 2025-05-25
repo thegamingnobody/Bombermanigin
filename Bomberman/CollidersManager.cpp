@@ -44,10 +44,11 @@ void bomberman::CollidersManager::Init()
 	SetCollisionHandler(CollisionType::Player, CollisionType::Brick, stopMovement, false);
 	SetCollisionHandler(CollisionType::Enemy, CollisionType::Wall, stopMovementEnemy, false);
 	SetCollisionHandler(CollisionType::Enemy, CollisionType::Brick, stopMovementEnemy, false);
+	SetCollisionHandler(CollisionType::Enemy, CollisionType::Bomb, stopMovementEnemy, false);
 
-	SetCollisionHandler(CollisionType::Bomb, CollisionType::Brick, damageOtherCollider, false);
-	SetCollisionHandler(CollisionType::Bomb, CollisionType::Enemy, damageOtherCollider, false);
-	SetCollisionHandler(CollisionType::Bomb, CollisionType::Player, damageOtherCollider, false);
+	SetCollisionHandler(CollisionType::Explosion, CollisionType::Brick, damageOtherCollider, false);
+	SetCollisionHandler(CollisionType::Explosion, CollisionType::Enemy, damageOtherCollider, false);
+	SetCollisionHandler(CollisionType::Explosion, CollisionType::Player, damageOtherCollider, false);
 
 	SetCollisionHandler(CollisionType::Enemy, CollisionType::Player, resetLevel, false);
 

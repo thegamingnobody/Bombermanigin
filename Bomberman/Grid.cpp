@@ -265,7 +265,9 @@ void bomberman::Grid::CreateEnemy(int gridID)
 	auto objectsScene = dae::SceneManager::GetInstance().GetScene("Objects");
 	auto levelData = gameManager.GetLevelData();
 
-	auto go = enemyManager.CreateEnemy(bomberman::EnemyType(levelData.enemyTypes[0]), GridCoordToWorldPos(GetCell(gridID)));
+	int randomEnemy = rand() % (levelData.enemyTypes.size());
+
+	auto go = enemyManager.CreateEnemy(bomberman::EnemyType(levelData.enemyTypes[randomEnemy]), GridCoordToWorldPos(GetCell(gridID)));
 	objectsScene->Add(go);
 }
 

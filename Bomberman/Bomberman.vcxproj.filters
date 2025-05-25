@@ -91,7 +91,6 @@
     <ClCompile Include="StateMachineBase.cpp">
       <Filter>FSM\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Grid.cpp" />
     <ClCompile Include="StateMachineComponent.cpp">
       <Filter>Components\StandardComponents</Filter>
     </ClCompile>
@@ -126,6 +125,9 @@
       <Filter>Commands</Filter>
     </ClCompile>
     <ClCompile Include="PlayerManager.cpp" />
+    <ClCompile Include="Grid.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -146,7 +148,6 @@
     <ClInclude Include="RotatorComponent.h">
       <Filter>Components\PhysicsComponents</Filter>
     </ClInclude>
-    <ClInclude Include="Grid.h" />
     <ClInclude Include="BaseCollider.h">
       <Filter>Components\StandardComponents\Colliders</Filter>
     </ClInclude>
@@ -216,6 +217,9 @@
       <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="PlayerManager.h" />
+    <ClInclude Include="Grid.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
