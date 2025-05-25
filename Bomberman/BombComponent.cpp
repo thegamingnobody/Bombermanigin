@@ -1,10 +1,11 @@
 #include "BombComponent.h"
 #include "GameObject.h"
-#include "CrossCollider.h"
 #include <SceneManager.h>
 #include <Scene.h>
 #include "ExplosionComponent.h"
 #include <TextureComponent.h>
+#include "Grid.h"
+#include "BoxCollider.h"
 
 void bomberman::BombComponent::Update(float deltaTime)
 {

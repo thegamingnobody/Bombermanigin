@@ -26,7 +26,6 @@ namespace bomberman
 
 	private:
 		polygon CreateVerts(Box hitbox) const;
-		//std::vector<glm::vec2> CreateOctagon(float x, float y, float size) const;
 	};
 }
 

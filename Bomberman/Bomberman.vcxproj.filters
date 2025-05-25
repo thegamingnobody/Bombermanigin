@@ -82,9 +82,6 @@
     <ClCompile Include="ScoreAddedEvent.cpp">
       <Filter>Events</Filter>
     </ClCompile>
-    <ClCompile Include="CrossCollider.cpp">
-      <Filter>Components\StandardComponents\Colliders</Filter>
-    </ClCompile>
     <ClCompile Include="BombComponent.cpp">
       <Filter>Components\StandardComponents\Bomb</Filter>
     </ClCompile>
@@ -175,9 +172,6 @@
       <Filter>Events</Filter>
     </ClInclude>
     <ClInclude Include="SoundIds.h" />
-    <ClInclude Include="CrossCollider.h">
-      <Filter>Components\StandardComponents\Colliders</Filter>
-    </ClInclude>
     <ClInclude Include="BombComponent.h">
       <Filter>Components\StandardComponents\Bomb</Filter>
     </ClInclude>
