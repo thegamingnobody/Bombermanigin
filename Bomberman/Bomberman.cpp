@@ -70,7 +70,7 @@ void load()
 
 void LoadSounds()
 {
-	dae::ServiceLocator::RegisterSoundSystem(new dae::DAE_SDL_Soundsystem());
+	auto& soundSystem = dae::ServiceLocator::GetSoundSystem();
 
 	std::vector<std::string> SoundPaths =
 	{
@@ -79,8 +79,8 @@ void LoadSounds()
 		"BombPlace.wav"
 	};
 
-	dae::ServiceLocator::GetSoundSystem().AddSound(static_cast<int>(bomberman::SoundId::WalkHorizontal), SoundPaths[static_cast<int>(bomberman::SoundId::WalkHorizontal)]);
-	dae::ServiceLocator::GetSoundSystem().AddSound(static_cast<int>(bomberman::SoundId::WalkVertical), SoundPaths[static_cast<int>(bomberman::SoundId::WalkVertical)]);
+	soundSystem.AddSound(static_cast<int>(bomberman::SoundId::WalkHorizontal), SoundPaths[static_cast<int>(bomberman::SoundId::WalkHorizontal)]);
+	soundSystem.AddSound(static_cast<int>(bomberman::SoundId::WalkVertical), SoundPaths[static_cast<int>(bomberman::SoundId::WalkVertical)]);
 }
 
 void LoadMap(dae::Scene& scene)

@@ -26,11 +26,6 @@ void bomberman::CollidersManager::Init()
 				healthComponent.value()->Damage(1);
 			}
 		};
-	CollisionHandler resetLevel = [](BaseCollider* /*self*/, BaseCollider* /*other*/)
-		{
-			std::cout << "player Death Animation\n";
-			bomberman::GameManager::GetInstance().ResetLevel();
-		};
 	CollisionHandler tryNextLevel = [](BaseCollider* /*self*/, BaseCollider* /*other*/)
 		{
 			std::cout << "try next level\n";
@@ -46,11 +41,10 @@ void bomberman::CollidersManager::Init()
 	SetCollisionHandler(CollisionType::Enemy, CollisionType::Brick, stopMovementEnemy, false);
 	SetCollisionHandler(CollisionType::Enemy, CollisionType::Bomb, stopMovementEnemy, false);
 
+	SetCollisionHandler(CollisionType::Enemy, CollisionType::Player, damageOtherCollider, false);
 	SetCollisionHandler(CollisionType::Explosion, CollisionType::Brick, damageOtherCollider, false);
 	SetCollisionHandler(CollisionType::Explosion, CollisionType::Enemy, damageOtherCollider, false);
 	SetCollisionHandler(CollisionType::Explosion, CollisionType::Player, damageOtherCollider, false);
-
-	SetCollisionHandler(CollisionType::Enemy, CollisionType::Player, resetLevel, false);
 
 	SetCollisionHandler(CollisionType::Player, CollisionType::Door, tryNextLevel, false);
 }

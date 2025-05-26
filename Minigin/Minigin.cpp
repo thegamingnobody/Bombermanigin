@@ -95,6 +95,7 @@ dae::Minigin::Minigin(const std::string &dataPath)
 
 	EventManager::GetInstance().Init();
 
+	ServiceLocator::RegisterSoundSystem(new dae::DAE_SDL_Soundsystem());
 }
 
 dae::Minigin::~Minigin()

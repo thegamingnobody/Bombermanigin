@@ -18,12 +18,14 @@ void bomberman::MoveCommand::Execute()
 	auto deltaTime = dae::TimeManager::GetInstance().GetDeltaTime();
 	transform->Move(m_Direction * deltaTime);
 
+	float volume = 0.15f;
+
 	if (m_Direction.x != 0.0f)
 	{
-		dae::ServiceLocator::GetSoundSystem().PlaySound(static_cast<int>(bomberman::SoundId::WalkHorizontal), 1.0f, m_SoundChannel);
+		dae::ServiceLocator::GetSoundSystem().PlaySound(static_cast<int>(bomberman::SoundId::WalkHorizontal), volume, m_SoundChannel);
 	}
 	else
 	{
-		dae::ServiceLocator::GetSoundSystem().PlaySound(static_cast<int>(bomberman::SoundId::WalkVertical), 1.0f, m_SoundChannel);
+		dae::ServiceLocator::GetSoundSystem().PlaySound(static_cast<int>(bomberman::SoundId::WalkVertical), volume, m_SoundChannel);
 	}
 }

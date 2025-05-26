@@ -32,6 +32,8 @@ void bomberman::PlayerManager::CreatePlayer(dae::Action::DeviceType deviceType)
 	playerInfo.deviceType = deviceType;
 
 	m_Players.emplace_back(playerInfo);
+	
+	// Todo: add state machine to player
 
 	bomberman::GridCell playerStartCell{ 1, 1 };
 	auto go = std::make_shared<dae::GameObject>(playerInfo.name, grid.GridCoordToWorldPos(playerStartCell), playerInputID);
@@ -39,7 +41,7 @@ void bomberman::PlayerManager::CreatePlayer(dae::Action::DeviceType deviceType)
 		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
 		textureComponent.AddTexture("Bomberman_S_1.png");
 		auto textureSize = textureComponent.GetSize();
-		go->AddComponent<bomberman::HealthComponent>(*go.get(), 3);
+		go->AddComponent<bomberman::HealthComponent>(*go.get(), 1);
 		go->AddComponent<bomberman::ScoreComponent>(*go.get());
 		go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Player, bomberman::Box(4 * tileScale, 1 * tileScale, 8 * tileScale, 14 * tileScale));
 	}
