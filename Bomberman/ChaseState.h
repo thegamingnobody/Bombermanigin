@@ -8,7 +8,7 @@ namespace bomberman
 	class ChaseState : public StateMachineBase
 	{
 	public:
-		ChaseState(dae::GameObject& ownerObject);
+		ChaseState(dae::GameObject& ownerObject, const bomberman::EnemyData& enemyData);
 		~ChaseState() override = default;
 
 		ChaseState(const ChaseState&) = delete;

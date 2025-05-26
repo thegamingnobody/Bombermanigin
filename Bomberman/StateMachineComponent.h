@@ -28,13 +28,8 @@ namespace bomberman
 
 		StateMachineBase* GetCurrentState() const { return m_CurrentState.get(); }
 
-		bomberman::EnemyData GetEnemyData() const { return m_EnemyData; }
-
 	private:
-		void LoadEnemyData();
-
 		std::unique_ptr<StateMachineBase> m_CurrentState;
-		bomberman::EnemyData m_EnemyData;
 	};
 }
 

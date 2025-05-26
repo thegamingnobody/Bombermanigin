@@ -11,9 +11,10 @@
 #include "StateMachineComponent.h"
 #include "HealthComponent.h"
 
-bomberman::RoamingState::RoamingState(dae::GameObject& ownerObject)
+bomberman::RoamingState::RoamingState(dae::GameObject& ownerObject, const bomberman::EnemyData& enemyData)
 	: StateMachineBase(ownerObject)
 	, m_Direction(0.0f, 0.0f, 0.0f)
+	, m_EnemyData(enemyData)
 {
 }
 
@@ -50,7 +51,7 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::RoamingState::Update(flo
 
 	if (distanceSQ <= m_EnemyData.detectionRange * m_EnemyData.detectionRange)
 	{
-		return std::make_unique<bomberman::ChaseState>(*m_Owner);
+		return std::make_unique<bomberman::ChaseState>(*m_Owner, m_EnemyData);
 	}
 
 	return nullptr;
@@ -69,14 +70,6 @@ void bomberman::RoamingState::OnEnter()
 
 	//Subscribe to event
 	eventManager.AddObserver(*this, static_cast<int>(bomberman::EventType::ENEMY_COLLISION));
-
-	//Get the enemy data from the state machine component
-	//Store to avoid repeated calls to GetComponent
-	auto stateMachineComponent = m_Owner->GetComponent<bomberman::StateMachineComponent>();
-	if (stateMachineComponent.has_value())
-	{
-		m_EnemyData = stateMachineComponent.value()->GetEnemyData();
-	}
 }
 
 void bomberman::RoamingState::OnExit()

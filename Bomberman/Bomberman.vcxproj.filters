@@ -40,6 +40,9 @@
     <Filter Include="FSM\Bricks">
       <UniqueIdentifier>{7a1683d0-dd27-4bc1-9c5d-6e77a4eb24a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FSM\Player">
+      <UniqueIdentifier>{35980e0f-d02e-433f-b5fc-0ceac36832c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AttackCommand.cpp">
@@ -128,6 +131,7 @@
     <ClCompile Include="Grid.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerIdleState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -220,6 +224,7 @@
     <ClInclude Include="Grid.h">
       <Filter>Managers</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerIdleState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

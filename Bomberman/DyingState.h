@@ -3,7 +3,6 @@
 
 namespace bomberman
 {
-
 	class DyingState : public StateMachineBase
 	{
 	public:

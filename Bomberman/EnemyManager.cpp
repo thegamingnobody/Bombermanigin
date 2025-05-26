@@ -53,7 +53,7 @@ std::shared_ptr<dae::GameObject> bomberman::EnemyManager::CreateEnemy(bomberman:
 
 	auto& stateMachineComponent = go->AddComponent<bomberman::StateMachineComponent>(*go.get());
 
-	auto roamingState = std::make_unique<bomberman::RoamingState>(*go.get());
+	auto roamingState = std::make_unique<bomberman::RoamingState>(*go.get(), m_EnemyData[static_cast<int>(enemyType)]);
 	stateMachineComponent.ChangeState(std::move(roamingState));
 
 	std::stringstream ss;

@@ -9,7 +9,7 @@ namespace bomberman
 	class RoamingState : public StateMachineBase, public dae::Observer
 	{
 	public:
-		RoamingState(dae::GameObject& ownerObject);
+		RoamingState(dae::GameObject& ownerObject, const bomberman::EnemyData& enemyData);
 		~RoamingState() override = default;
 
 		RoamingState(const RoamingState&) = delete;
@@ -27,7 +27,6 @@ namespace bomberman
 		void FlipDirection();
 
 		glm::vec3 m_Direction;
-		bool m_HasDied{ false };
 		bomberman::EnemyData m_EnemyData;
 	};
 }
