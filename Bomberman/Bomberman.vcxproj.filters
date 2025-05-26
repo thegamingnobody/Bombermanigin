@@ -127,11 +127,16 @@
     <ClCompile Include="ResetLevelCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="Grid.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerIdleState.cpp" />
+    <ClCompile Include="PlayerIdleState.cpp">
+      <Filter>FSM\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerDeathState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -220,11 +225,16 @@
     <ClInclude Include="ResetLevelCommand.h">
       <Filter>Commands</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="Grid.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerIdleState.h" />
+    <ClInclude Include="PlayerIdleState.h">
+      <Filter>FSM\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerDeathState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

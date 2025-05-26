@@ -10,6 +10,8 @@
 #include "AttackCommand.h"
 #include "SkipLevelCommand.h"
 #include "ResetLevelCommand.h"
+#include "StateMachineComponent.h"
+#include "PlayerIdleState.h"
 
 void bomberman::PlayerManager::CreatePlayer(dae::Action::DeviceType deviceType)
 {
@@ -41,8 +43,12 @@ void bomberman::PlayerManager::CreatePlayer(dae::Action::DeviceType deviceType)
 		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
 		textureComponent.AddTexture("Bomberman_S_1.png");
 		auto textureSize = textureComponent.GetSize();
+	
+		auto& stateMachineComponent = go->AddComponent<bomberman::StateMachineComponent>(*go.get());
+		auto idleState = std::make_unique<bomberman::PlayerIdleState>(*go.get(), playerInfo.playerID);
+		stateMachineComponent.ChangeState(std::move(idleState));
+
 		go->AddComponent<bomberman::HealthComponent>(*go.get(), 1);
-		go->AddComponent<bomberman::ScoreComponent>(*go.get());
 		go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Player, bomberman::Box(4 * tileScale, 1 * tileScale, 8 * tileScale, 14 * tileScale));
 	}
 	playerScene->Add(go);

@@ -24,7 +24,7 @@ namespace bomberman
 	public:
 		void CreatePlayer(dae::Action::DeviceType deviceType);
 
-		PlayerInfo GetPlayerInfo(int playerID) const
+		PlayerInfo& GetPlayerInfo(int playerID)
 		{
 			if (playerID < 0 || playerID >= static_cast<int>(m_Players.size()))
 			{
