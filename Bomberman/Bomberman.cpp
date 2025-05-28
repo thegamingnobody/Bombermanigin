@@ -34,12 +34,16 @@
 #include "ResetLevelCommand.h"
 #include "CollidersManager.h"
 #include "PlayerManager.h"
+#include "HUDManager.h"
+#include <Renderer.h>
+#include "HUDUpdater.h"
 
 //Todo: add pickups
 void LoadSounds();
 void LoadMap(dae::Scene& scene);
 void LoadPlayer(dae::Scene& scene);
 //void LoadEnemies(dae::Scene& scene);
+void LoadHud(dae::Scene& scene);
 
 void load()
 {
@@ -47,12 +51,15 @@ void load()
 	bomberman::Grid::GetInstance().Init();
 	bomberman::CollidersManager::GetInstance().Init();
 
+	dae::Renderer::GetInstance().SetBackgroundColor(SDL_Color(161, 161, 161));
+
 	LoadSounds();
 
 	// 1 scene for the main menu											"Menu"
 	// 1 scene for the static elements (background texture, walls, etc.)	"Map"
 	// 1 scene for the player												"Player"
 	// 1 scene for the enemies, bricks, pickups, etc.						"Objects"
+	// 1 scene for the HUD													"Hud"
 	// possibly more if needed
 	
 	// This way we can easily reset the enemies, pickups, etc. without removing the map or player
@@ -60,12 +67,16 @@ void load()
 	auto& mapScene = dae::SceneManager::GetInstance().CreateScene("Map");
 	dae::SceneManager::GetInstance().CreateScene("Objects");
 	auto& playerScene = dae::SceneManager::GetInstance().CreateScene("Player");
+	auto& hudScene = dae::SceneManager::GetInstance().CreateScene("Hud");
 
 	LoadMap(mapScene);
 
 	bomberman::GameManager::GetInstance().LoadNextLevel();
 
+	LoadHud(hudScene);
+
 	LoadPlayer(playerScene);
+
 }
 
 void LoadSounds()
@@ -152,6 +163,27 @@ void LoadPlayer(dae::Scene& /*scene*/)
 	//inputManager.AddAction(dae::GamepadButtons::DpadRight, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(1.0f, 0.0f, 0.0f) * player2Movespeed), player2InputID);
 	//inputManager.AddAction(dae::GamepadButtons::FaceButtonLeft, dae::InputType::PressedThisFrame, std::make_shared<bomberman::AttackCommand>(*go.get()), player2InputID);
 }
+
+void LoadHud(dae::Scene& scene)
+{
+	auto& resourceManager = dae::ResourceManager::GetInstance();
+	auto& hudManager = bomberman::HUDManager::GetInstance();
+	auto windowSize = dae::Camera::GetInstance().GetWindowSize();
+	uint8_t fontSize = 32;
+	auto font = resourceManager.LoadFont("PixelFont.ttf", fontSize);
+
+	auto go = std::make_shared<dae::GameObject>("HUD_Updater", glm::vec3(windowSize.x - (4 * TILE_SIZE), -64.0f, 0.0f));
+	auto& textComponent = go->AddComponent<dae::TextComponent>(*go.get(), "Left", font);
+	go->AddComponent<bomberman::HUDUpdater>(*go.get());
+	scene.Add(go);
+
+	// feels like a hack
+	if (!hudManager.IsInitialized())
+	{
+		hudManager.Init(textComponent, glm::vec3(windowSize.x - (4 * TILE_SIZE), -64.0f, 0.0f));
+	}
+}
+
 
 int main(int, char* []) 
 {

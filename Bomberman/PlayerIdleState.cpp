@@ -2,6 +2,7 @@
 #include "PlayerManager.h"
 #include "HealthComponent.h"
 #include "PlayerDeathState.h"
+#include "HUDManager.h"
 
 bomberman::PlayerIdleState::PlayerIdleState(dae::GameObject& ownerObject, int playerID)
 	: StateMachineBase(ownerObject)
@@ -22,6 +23,8 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::PlayerIdleState::Update(
 
 void bomberman::PlayerIdleState::OnEnter()
 {
+	int lives = bomberman::PlayerManager::GetInstance().GetPlayerInfo(m_PlayerID).lives;
+	bomberman::HUDManager::GetInstance().SetLivesText(lives);
 }
 
 void bomberman::PlayerIdleState::OnExit()

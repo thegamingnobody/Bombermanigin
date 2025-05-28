@@ -13,7 +13,7 @@ namespace dae
 
 		void SetText(const std::string& text);
 
-		TextComponent(dae::GameObject& object, const std::string& text, std::shared_ptr<Font> font, GameObject* objectToTakeStatsFrom = nullptr);
+		TextComponent(dae::GameObject& object, const std::string& text, std::shared_ptr<Font> font);
 		virtual ~TextComponent() = default;
 		TextComponent(const TextComponent& other) = delete;
 		TextComponent(TextComponent&& other) = delete;
@@ -26,7 +26,6 @@ namespace dae
 		std::string m_text;
 		std::shared_ptr<Font> m_font;
 		bool m_needsUpdate;
-		GameObject* m_ObjectToTakeStatsFrom;
 	};
 }
 

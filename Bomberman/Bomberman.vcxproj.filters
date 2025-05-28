@@ -136,7 +136,11 @@
     <ClCompile Include="PlayerManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerDeathState.cpp" />
+    <ClCompile Include="PlayerDeathState.cpp">
+      <Filter>FSM\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="HUDManager.cpp" />
+    <ClCompile Include="HUDUpdater.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -234,7 +238,11 @@
     <ClInclude Include="PlayerManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerDeathState.h" />
+    <ClInclude Include="PlayerDeathState.h">
+      <Filter>FSM\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="HUDManager.h" />
+    <ClInclude Include="HUDUpdater.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
