@@ -12,6 +12,7 @@
 #include "ResetLevelCommand.h"
 #include "StateMachineComponent.h"
 #include "PlayerIdleState.h"
+#include "SceneNames.h"
 
 void bomberman::PlayerManager::CreatePlayer(dae::Action::DeviceType deviceType)
 {
@@ -23,7 +24,7 @@ void bomberman::PlayerManager::CreatePlayer(dae::Action::DeviceType deviceType)
 	float tileScale{ camera.GetWindowScale() };
 	//float const playerSpeed{ 75.0f };
 	float const playerSpeed{ 150.0f };
-	auto playerScene = sceneManager.GetScene("Player");
+	auto playerScene = sceneManager.GetScene(SCENE_PLAYERS);
 
 	int const playerInputID = inputManager.AddInputDevice(deviceType);
 

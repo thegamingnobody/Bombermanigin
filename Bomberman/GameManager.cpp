@@ -2,21 +2,20 @@
 #include <SceneManager.h>
 #include <Scene.h>
 #include "Grid.h"
+#include "SceneNames.h"
 
-// Todo: Add enemy counter to gamemanager
 // Todo: Add win condition to gamemanager
 // Todo: disable current scene and create a new scene for the next level
 //			=> store score in gamemanager
 // Todo: add a game over scene
-// Todo: add skip level button to skip to the next level
 
 void bomberman::GameManager::LoadLevel(int level)
 {
 	auto& sceneManager = dae::SceneManager::GetInstance();
 	auto& grid = bomberman::Grid::GetInstance();
 
-	auto objectsScene =	sceneManager.GetScene("Objects");
-	auto playerScene = sceneManager.GetScene("Player");
+	auto objectsScene =	sceneManager.GetScene(SCENE_OBJECTS);
+	auto playerScene = sceneManager.GetScene(SCENE_PLAYERS);
 
 	if (objectsScene == nullptr)
 	{
@@ -50,8 +49,8 @@ void bomberman::GameManager::ResetLevel()
 	auto& sceneManager = dae::SceneManager::GetInstance();
 	auto& grid = bomberman::Grid::GetInstance();
 
-	auto objectsScene =	sceneManager.GetScene("Objects");
-	auto playerScene = sceneManager.GetScene("Player");
+	auto objectsScene =	sceneManager.GetScene(SCENE_OBJECTS);
+	auto playerScene = sceneManager.GetScene(SCENE_PLAYERS);
 	
 	// Object Scene
 	objectsScene->RemoveAll();

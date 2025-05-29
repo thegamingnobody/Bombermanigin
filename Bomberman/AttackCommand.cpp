@@ -9,6 +9,7 @@
 #include "PlayerManager.h"
 #include "Grid.h"
 #include "BoxCollider.h"
+#include "SceneNames.h"
 
 bomberman::AttackCommand::AttackCommand(dae::GameObject& controllingObject)
 	: m_pControllingObject(&controllingObject)
@@ -28,7 +29,7 @@ void bomberman::AttackCommand::Execute()
 
 void bomberman::AttackCommand::SpawnBombObject(glm::vec3 position)
 {
-	auto activeScene = dae::SceneManager::GetInstance().GetScene("Objects");
+	auto activeScene = dae::SceneManager::GetInstance().GetScene(SCENE_OBJECTS);
 
 	if (!activeScene) return;
 

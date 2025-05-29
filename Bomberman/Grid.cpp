@@ -7,6 +7,7 @@
 #include "StateMachineComponent.h"
 #include "BrickIdleState.h"
 #include "GameManager.h"
+#include "SceneNames.h"
 
 using json = nlohmann::json;
 
@@ -240,7 +241,7 @@ void bomberman::Grid::LoadStaticMap()
 void bomberman::Grid::CreateBrick(int gridID)
 {
 	GridCell sourceCell = m_Grid[gridID];
-	auto objectsScene = dae::SceneManager::GetInstance().GetScene("Objects");
+	auto objectsScene = dae::SceneManager::GetInstance().GetScene(SCENE_OBJECTS);
 
 	float collisionInset = 2.0f;
 
@@ -262,7 +263,7 @@ void bomberman::Grid::CreateEnemy(int gridID)
 {
 	auto& enemyManager = bomberman::EnemyManager::GetInstance();
 	auto& gameManager = bomberman::GameManager::GetInstance();
-	auto objectsScene = dae::SceneManager::GetInstance().GetScene("Objects");
+	auto objectsScene = dae::SceneManager::GetInstance().GetScene(SCENE_OBJECTS);
 	auto levelData = gameManager.GetLevelData();
 
 	int randomEnemy = rand() % (levelData.enemyTypes.size());
@@ -274,7 +275,7 @@ void bomberman::Grid::CreateEnemy(int gridID)
 void bomberman::Grid::CreateDoor(int gridID)
 {
 	GridCell sourceCell = m_Grid[gridID];
-	auto objectsScene = dae::SceneManager::GetInstance().GetScene("Objects");
+	auto objectsScene = dae::SceneManager::GetInstance().GetScene(SCENE_OBJECTS);
 
 	auto go = std::make_shared<dae::GameObject>("Door", GridCoordToWorldPos(sourceCell.column, sourceCell.row));
 	go->AddComponent<dae::TextureComponent>(*go.get()).AddTexture("Door.png");

@@ -141,6 +141,7 @@
     </ClCompile>
     <ClCompile Include="HUDManager.cpp" />
     <ClCompile Include="HUDUpdater.cpp" />
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackCommand.h">
@@ -243,6 +244,7 @@
     </ClInclude>
     <ClInclude Include="HUDManager.h" />
     <ClInclude Include="HUDUpdater.h" />
+    <ClInclude Include="SceneNames.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

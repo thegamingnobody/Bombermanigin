@@ -38,6 +38,8 @@
 #include <Renderer.h>
 #include "HUDUpdater.h"
 
+#include "SceneNames.h"
+
 //Todo: add pickups
 void LoadSounds();
 void LoadMap(dae::Scene& scene);
@@ -50,6 +52,8 @@ void load()
 	bomberman::EnemyManager::GetInstance().Init();
 	bomberman::Grid::GetInstance().Init();
 	bomberman::CollidersManager::GetInstance().Init();
+
+	auto& sceneManager = dae::SceneManager::GetInstance();
 
 	dae::Renderer::GetInstance().SetBackgroundColor(SDL_Color(161, 161, 161));
 
@@ -64,10 +68,11 @@ void load()
 	
 	// This way we can easily reset the enemies, pickups, etc. without removing the map or player
 
-	auto& mapScene = dae::SceneManager::GetInstance().CreateScene("Map");
-	dae::SceneManager::GetInstance().CreateScene("Objects");
-	auto& playerScene = dae::SceneManager::GetInstance().CreateScene("Player");
-	auto& hudScene = dae::SceneManager::GetInstance().CreateScene("Hud");
+	/*auto& menuScene =*/ sceneManager.CreateScene(SCENE_MAIN_MENU);
+	auto& mapScene = sceneManager.CreateScene(SCENE_MAP);
+	sceneManager.CreateScene(SCENE_OBJECTS);
+	auto& playerScene = sceneManager.CreateScene(SCENE_PLAYERS);
+	auto& hudScene = sceneManager.CreateScene(SCENE_HUD);
 
 	LoadMap(mapScene);
 

@@ -10,6 +10,7 @@
 #include "DyingState.h"
 #include "StateMachineComponent.h"
 #include "HealthComponent.h"
+#include "SceneNames.h"
 
 bomberman::ChaseState::ChaseState(dae::GameObject& ownerObject, const bomberman::EnemyData& enemyData)
 	: StateMachineBase(ownerObject)
@@ -26,7 +27,7 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::ChaseState::Update(float
 	}
 
 	//Todo: improve
-	auto player = dae::SceneManager::GetInstance().GetScene("Player")->GetObject("Player 1");
+	auto player = dae::SceneManager::GetInstance().GetScene(SCENE_PLAYERS)->GetObject("Player 1");
 	if (!player)
 	{
 		throw std::runtime_error("Player not found");

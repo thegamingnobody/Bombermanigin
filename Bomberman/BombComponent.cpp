@@ -8,6 +8,7 @@
 #include "BoxCollider.h"
 #include "BombExplodedEvent.h"
 #include <EventManager.h>
+#include "SceneNames.h"
 
 bomberman::BombComponent::~BombComponent()
 {
@@ -38,7 +39,7 @@ void bomberman::BombComponent::Update(float deltaTime)
 
 void bomberman::BombComponent::SpawnExplosion(int size)
 {
-	auto activeScene = dae::SceneManager::GetInstance().GetScene("Objects");
+	auto activeScene = dae::SceneManager::GetInstance().GetScene(SCENE_OBJECTS);
 	if (!activeScene) return;
 
 	auto position = GetOwner()->GetTransform()->GetGlobalPosition();
