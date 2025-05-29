@@ -142,6 +142,9 @@
     <ClCompile Include="PlayerDeathState.cpp">
       <Filter>FSM\Player</Filter>
     </ClCompile>
+    <ClCompile Include="MenuState.cpp">
+      <Filter>FSM\Game</Filter>
+    </ClCompile>
     <ClCompile Include="HUDManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
@@ -247,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="PlayerDeathState.h">
       <Filter>FSM\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuState.h">
+      <Filter>FSM\Game</Filter>
     </ClInclude>
     <ClInclude Include="HUDManager.h">
       <Filter>Managers</Filter>
