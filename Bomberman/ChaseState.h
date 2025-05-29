@@ -20,6 +20,8 @@ namespace bomberman
 		void OnEnter() override;
 		void OnExit() override;
 
+		std::unique_ptr<StateMachineBase> Notify(const dae::Event& event) override;
+
 	private:
 		bool IsDirectionValid(glm::vec3 direction) const;
 

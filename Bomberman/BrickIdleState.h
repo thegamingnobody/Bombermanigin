@@ -14,9 +14,11 @@ namespace bomberman
 		BrickIdleState(dae::GameObject& ownerObject);
 		~BrickIdleState() override = default;
 	
-		void OnEnter() override;
 		std::unique_ptr<StateMachineBase> Update(float deltaTime) override;
+		void OnEnter() override;
 		void OnExit() override;
+
+		std::unique_ptr<StateMachineBase> Notify(const dae::Event& event) override;
 
 	private:
 		HealthComponent* m_pHealthComponent{ nullptr };

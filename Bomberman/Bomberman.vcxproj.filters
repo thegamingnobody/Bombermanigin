@@ -43,6 +43,9 @@
     <Filter Include="FSM\Player">
       <UniqueIdentifier>{35980e0f-d02e-433f-b5fc-0ceac36832c6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FSM\Game">
+      <UniqueIdentifier>{69f4d1ab-ae63-4638-b597-2fcaeba87ad2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AttackCommand.cpp">
@@ -139,8 +142,11 @@
     <ClCompile Include="PlayerDeathState.cpp">
       <Filter>FSM\Player</Filter>
     </ClCompile>
-    <ClCompile Include="HUDManager.cpp" />
-    <ClCompile Include="HUDUpdater.cpp" />
+    <ClCompile Include="HUDManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="HUDUpdater.cpp">
+      <Filter>Components\StandardComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -242,8 +248,12 @@
     <ClInclude Include="PlayerDeathState.h">
       <Filter>FSM\Player</Filter>
     </ClInclude>
-    <ClInclude Include="HUDManager.h" />
-    <ClInclude Include="HUDUpdater.h" />
+    <ClInclude Include="HUDManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="HUDUpdater.h">
+      <Filter>Components\StandardComponents</Filter>
+    </ClInclude>
     <ClInclude Include="SceneNames.h" />
   </ItemGroup>
   <ItemGroup>

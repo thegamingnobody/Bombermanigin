@@ -103,6 +103,11 @@ void bomberman::ChaseState::OnExit()
 {
 }
 
+std::unique_ptr<bomberman::StateMachineBase> bomberman::ChaseState::Notify(const dae::Event& /*event*/)
+{
+	return nullptr;
+}
+
 bool bomberman::ChaseState::IsDirectionValid(glm::vec3 direction) const
 {
 	auto& grid = bomberman::Grid::GetInstance();

@@ -27,3 +27,8 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::BrickDestroyedState::Upd
 void bomberman::BrickDestroyedState::OnExit()
 {
 }
+
+std::unique_ptr<bomberman::StateMachineBase> bomberman::BrickDestroyedState::Notify(const dae::Event& /*event*/)
+{
+	return nullptr;
+}

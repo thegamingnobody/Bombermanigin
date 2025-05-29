@@ -1,6 +1,7 @@
 #include "DyingState.h"
 #include <iostream>
 #include "EnemyManager.h"
+#include <Event.h>
 
 bomberman::DyingState::DyingState(dae::GameObject& ownerObject)
 	: StateMachineBase(ownerObject)
@@ -22,4 +23,9 @@ void bomberman::DyingState::OnEnter()
 
 void bomberman::DyingState::OnExit()
 {
+}
+
+std::unique_ptr<bomberman::StateMachineBase> bomberman::DyingState::Notify(const dae::Event& /*event*/)
+{
+	return nullptr;
 }

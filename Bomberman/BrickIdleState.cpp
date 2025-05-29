@@ -32,3 +32,8 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::BrickIdleState::Update(f
 
 void bomberman::BrickIdleState::OnExit()
 {}
+
+std::unique_ptr<bomberman::StateMachineBase> bomberman::BrickIdleState::Notify(const dae::Event & /*event*/)
+{
+	return nullptr;
+}

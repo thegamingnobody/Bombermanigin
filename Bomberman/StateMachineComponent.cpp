@@ -1,4 +1,5 @@
 #include "StateMachineComponent.h"
+#include <Event.h>
 
 bomberman::StateMachineComponent::StateMachineComponent(dae::GameObject& ownerObject)
 	: dae::Component(ownerObject)
@@ -36,4 +37,11 @@ void bomberman::StateMachineComponent::ChangeState(std::unique_ptr<StateMachineB
 	m_CurrentState = std::move(newState);
 
 	m_CurrentState->OnEnter();
+}
+
+void bomberman::StateMachineComponent::Notify(const dae::Event& event)
+{
+	if (!m_CurrentState) return;
+
+	m_CurrentState->Notify(event);
 }

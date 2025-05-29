@@ -1,5 +1,6 @@
 #pragma once
 #include "StateMachineBase.h"
+#include <Event.h>
 
 namespace bomberman
 {
@@ -11,9 +12,11 @@ namespace bomberman
 		BrickDestroyedState(dae::GameObject& ownerObject);
 		~BrickDestroyedState() override = default;
 		
-		void OnEnter() override;
 		std::unique_ptr<StateMachineBase> Update(float deltaTime) override;
+		void OnEnter() override;
 		void OnExit() override;
+
+		std::unique_ptr<StateMachineBase> Notify(const dae::Event& event) override;
 	};
 }
 

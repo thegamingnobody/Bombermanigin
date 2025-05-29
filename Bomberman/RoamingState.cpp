@@ -69,16 +69,24 @@ void bomberman::RoamingState::OnEnter()
 	m_Direction.x = static_cast<float>(randomDirection * positiveOrNegative);
 	m_Direction.y = (static_cast<int>(m_Direction.x) == 0) ? 1.0f * positiveOrNegative : 0.0f;
 
+	auto stateMachineComp = m_Owner->GetComponent<bomberman::StateMachineComponent>();
+
+	if (!stateMachineComp.has_value())
+	{
+		throw std::runtime_error("StateMachineComponent not found on owner object");
+	}
 	//Subscribe to event
-	eventManager.AddObserver(*this, static_cast<int>(bomberman::EventType::ENEMY_COLLISION));
+	eventManager.AddObserver(*stateMachineComp.value(), static_cast<int>(bomberman::EventType::ENEMY_COLLISION));
 }
 
 void bomberman::RoamingState::OnExit()
 {
-	dae::EventManager::GetInstance().RemoveObserver(*this);
+	auto stateMachineComp = m_Owner->GetComponent<bomberman::StateMachineComponent>();
+
+	dae::EventManager::GetInstance().RemoveObserver(*stateMachineComp.value());
 }
 
-void bomberman::RoamingState::Notify(const dae::Event& event)
+std::unique_ptr<bomberman::StateMachineBase> bomberman::RoamingState::Notify(const dae::Event& event)
 {
 	switch (static_cast<bomberman::EventType>(event.GetEventType()))
 	{
@@ -96,6 +104,8 @@ void bomberman::RoamingState::Notify(const dae::Event& event)
 	default:
 		break;
 	}
+
+	return nullptr;
 }
 
 void bomberman::RoamingState::FlipDirection()

@@ -33,3 +33,8 @@ void bomberman::PlayerDeathState::OnEnter()
 void bomberman::PlayerDeathState::OnExit()
 {
 }
+
+std::unique_ptr<bomberman::StateMachineBase> bomberman::PlayerDeathState::Notify(const dae::Event& /*event*/)
+{
+	return nullptr;
+}

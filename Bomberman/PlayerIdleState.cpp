@@ -30,3 +30,8 @@ void bomberman::PlayerIdleState::OnEnter()
 void bomberman::PlayerIdleState::OnExit()
 {
 }
+
+std::unique_ptr<bomberman::StateMachineBase> bomberman::PlayerIdleState::Notify(const dae::Event& /*event*/)
+{
+	return nullptr;
+}

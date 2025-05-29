@@ -1,5 +1,6 @@
 #pragma once
 #include <GameObject.h>
+#include <Event.h>
 
 namespace bomberman
 {
@@ -17,9 +18,11 @@ namespace bomberman
 		StateMachineBase& operator=(const StateMachineBase&) = delete;
 		StateMachineBase& operator=(StateMachineBase&&) = delete;
 
-		virtual std::unique_ptr<StateMachineBase> Update(float /*deltaTime*/) { return nullptr; }
-		virtual void OnEnter() {}
-		virtual void OnExit() {}
+		virtual std::unique_ptr<StateMachineBase> Update(float deltaTime) = 0;
+		virtual void OnEnter() = 0;
+		virtual void OnExit() = 0;
+
+		virtual std::unique_ptr<StateMachineBase> Notify(const dae::Event& event) = 0;
 
 	protected:
 		dae::GameObject* m_Owner{ nullptr };
