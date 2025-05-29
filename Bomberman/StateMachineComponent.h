@@ -36,14 +36,6 @@ namespace bomberman
 	};
 }
 
-
-
-
-
-
-
-// Todo: find way to sub this component to events from inside the current state
-// Todo: add a notify function to StateMachineBase that returns a std::unique_ptr<StateMachineBase> just like the Update function of the StateMachineBase
 // Todo: Forward all events to the current state, so that it can handle them
 // Todo: change state if notify returns a non nullptr value
 // Todo: ensure that onenter and onexit correctly sub to and unsub from events

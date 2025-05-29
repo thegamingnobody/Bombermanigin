@@ -17,14 +17,13 @@ bomberman::StateMachineComponent::~StateMachineComponent()
 
 void bomberman::StateMachineComponent::Update(float deltaTime)
 {
-	if (m_CurrentState)
-	{
-		auto returnValue = m_CurrentState->Update(deltaTime);
+	if (!m_CurrentState) return;
+		
+	std::unique_ptr<StateMachineBase> returnValue = m_CurrentState->Update(deltaTime);
 
-		if (returnValue == nullptr) return;
+	if (returnValue == nullptr) return;
 
-		ChangeState(std::move(returnValue));
-	}
+	ChangeState(std::move(returnValue));
 }
 
 void bomberman::StateMachineComponent::ChangeState(std::unique_ptr<StateMachineBase> newState)
@@ -43,5 +42,9 @@ void bomberman::StateMachineComponent::Notify(const dae::Event& event)
 {
 	if (!m_CurrentState) return;
 
-	m_CurrentState->Notify(event);
+	std::unique_ptr<StateMachineBase> returnValue = m_CurrentState->Notify(event);
+
+	if (returnValue == nullptr) return;
+
+	ChangeState(std::move(returnValue));
 }
