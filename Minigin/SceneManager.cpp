@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include "Scene.h"
+#include <stdexcept>
 
 void dae::SceneManager::Update(float const deltaTime)
 {
@@ -56,4 +57,18 @@ std::shared_ptr<dae::Scene> dae::SceneManager::GetScene(const std::string& name)
 	}
 
 	return nullptr;
+}
+
+void dae::SceneManager::SetSceneActive(const std::string& name, bool shouldBeActive)
+{
+	auto targetScene = GetScene(name);
+
+	if (targetScene)
+	{
+		targetScene->m_IsActive = shouldBeActive;
+	}
+	else
+	{
+		throw std::runtime_error("Scene not found: " + name);
+	}
 }
