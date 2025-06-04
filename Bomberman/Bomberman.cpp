@@ -47,10 +47,7 @@
 //Todo: check vr nog classes final te maken als mogelijk
 void LoadSounds();
 void LoadMenu(dae::Scene& scene);
-void LoadMap(dae::Scene& scene);
-void LoadPlayer(dae::Scene& scene);
-//void LoadEnemies(dae::Scene& scene);
-void LoadHud(dae::Scene& scene);
+void CreateGameState(dae::Scene& scene);
 
 void load()
 {
@@ -74,16 +71,10 @@ void load()
 	// This way we can easily reset the enemies, pickups, etc. without removing the map or player
 
 	auto& menuScene = sceneManager.CreateScene(SCENE_MAIN_MENU);
-	/*auto& mapScene = */sceneManager.CreateScene(SCENE_MAP);
-	//sceneManager.CreateScene(SCENE_OBJECTS);
-	/*auto& playerScene =*/ sceneManager.CreateScene(SCENE_PLAYERS);
-	/*auto& hudScene =*/ sceneManager.CreateScene(SCENE_HUD);
+	auto& gameStateScene = sceneManager.CreateScene(SCENE_GAME_STATE);
 
+	CreateGameState(gameStateScene);
 	LoadMenu(menuScene);
-
-	//LoadMap(mapScene);
-
-	//bomberman::GameManager::GetInstance().LoadNextLevel();
 
 	//LoadHud(hudScene);
 
@@ -110,16 +101,11 @@ void LoadMenu(dae::Scene& scene)
 {
 	auto& inputManager = dae::InputManager::GetInstance();
 
-	auto go = std::make_shared<dae::GameObject>("Title_Screen", glm::vec3(0.0f, -2 * TILE_SIZE, 0.0f));
+	auto go = std::make_shared<dae::GameObject>("Title_Screen_Image", glm::vec3(0.0f, -2 * TILE_SIZE, 0.0f));
 	{
 		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
 		textureComponent.AddTexture("TitleScreen.png");
 	}
-
-	auto& stateMachineComponent = go->AddComponent<bomberman::StateMachineComponent>(*go.get());
-	auto menuState = std::make_unique<bomberman::MenuState>(*go.get());
-	stateMachineComponent.ChangeState(std::move(menuState));
-
 	scene.Add(go);
 
 	go = std::make_shared<dae::GameObject>("Cursor", glm::vec3(5 * TILE_SIZE, static_cast<int>(bomberman::CursorOptions::SinglePlayer) * TILE_SIZE, 1.0f));
@@ -127,106 +113,21 @@ void LoadMenu(dae::Scene& scene)
 		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
 		textureComponent.AddTexture("Cursor.png");
 	}
-
 	int keyboardID = inputManager.AddInputDevice(dae::Action::DeviceType::Keyboard);
+	scene.Add(go);
 
 	inputManager.AddAction(dae::KeyboardKeys::W, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), false), keyboardID);
 	inputManager.AddAction(dae::KeyboardKeys::S, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), true),  keyboardID);
-
-	scene.Add(go);
-
 }
 
-void LoadMap(dae::Scene& scene)
+void CreateGameState(dae::Scene& scene)
 {
-	auto& camera = dae::Camera::GetInstance();
-	auto& grid = bomberman::Grid::GetInstance();
-
-	auto go = std::make_shared<dae::GameObject>("Background Texture");
-	{
-		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
-		textureComponent.AddTexture("Field.png");
-		glm::ivec2 textureDimentions = textureComponent.GetSize();
-		camera.SetCameraLimits(dae::CameraLimits(0.0f, static_cast<float>(textureDimentions.x), 0.0f, static_cast<float>(textureDimentions.y)));
-	}
+	auto go = std::make_shared<dae::GameObject>("GameState");
+	auto& stateMachineComponent = go->AddComponent<bomberman::StateMachineComponent>(*go.get());
+	auto menuState = std::make_unique<bomberman::MenuState>(*go.get());
+	stateMachineComponent.ChangeState(std::move(menuState));
 	scene.Add(go);
-
-	go = std::make_shared<dae::GameObject>("LeftWall", grid.GridCoordToWorldPos(0, 0));
-	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Wall, bomberman::Box(0.0f, 0.0f, TILE_SIZE, TILE_SIZE * TILES_AMOUNT_VERTICAL));
-	scene.Add(go);
-
-	go = std::make_shared<dae::GameObject>("RightWall", grid.GridCoordToWorldPos(TILES_AMOUNT_HORIZONTAL - 1, 0));
-	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Wall, bomberman::Box(0.0f, 0.0f, TILE_SIZE, TILE_SIZE * TILES_AMOUNT_VERTICAL));
-	scene.Add(go);
-
-	go = std::make_shared<dae::GameObject>("TopWall", grid.GridCoordToWorldPos(0, 0));
-	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Wall, bomberman::Box(0.0f, 0.0f, TILE_SIZE * (TILES_AMOUNT_HORIZONTAL - 1), TILE_SIZE));
-	scene.Add(go);
-
-	go = std::make_shared<dae::GameObject>("BottomWall", grid.GridCoordToWorldPos(0, TILES_AMOUNT_VERTICAL - 1));
-	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Wall, bomberman::Box(0.0f, 0.0f, TILE_SIZE * (TILES_AMOUNT_HORIZONTAL - 1), TILE_SIZE));
-	scene.Add(go);
-
-	bomberman::GridCell startCell{ 2, 2 };
-	for (int col = 0; col < (TILES_AMOUNT_HORIZONTAL - 4) / 2 + 1; col++)
-	{
-		for (int row = 0; row < (TILES_AMOUNT_VERTICAL - 4) / 2 + 1; row++)
-		{
-			go = std::make_shared<dae::GameObject>("StaticWall_" + std::to_string(col) + "_" + std::to_string(row), grid.GridCoordToWorldPos(startCell.column + col * 2, startCell.row + row * 2));
-			go->AddComponent<bomberman::OctagonCollider>(*go.get(), bomberman::CollisionType::Wall);
-			scene.Add(go);
-		}
-	}
 }
-
-void LoadPlayer(dae::Scene& /*scene*/)
-{
-	auto& playerManager = bomberman::PlayerManager::GetInstance();
-
-	playerManager.CreatePlayer(dae::Action::DeviceType::Keyboard);
-
-	//bomberman::GridCell enemyStartCell{ 4, 1 };
-	//go = std::make_shared<dae::GameObject>("Player2", bomberman::Grid::GridCoordToWorldPos(enemyStartCell), player2InputID);
-	//{
-	//	auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
-	//	textureComponent.AddTexture("Balloom_E_1.png");
-	//	auto textureSize = textureComponent.GetSize();
-	//	auto& healthComponent = go->AddComponent<bomberman::HealthComponent>(*go.get(), 3);
-	//	eventManager.AddObserver(healthComponent, static_cast<int>(bomberman::EventType::BOMB_EXPLODED));
-	//	auto& scoreComponent = go->AddComponent<bomberman::ScoreComponent>(*go.get());
-	//	eventManager.AddObserver(scoreComponent, static_cast<int>(bomberman::EventType::OBJECT_DAMAGED));
-	//	float const hitboxOffset{ 2.0f };
-	//	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Entity, bomberman::Box(hitboxOffset, hitboxOffset, static_cast<float>(textureSize.x) - hitboxOffset * 2, static_cast<float>(textureSize.y) - hitboxOffset * 2));
-	//}
-	//scene.Add(go);
-
-	//inputManager.AddAction(dae::GamepadButtons::DpadUp, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, -1.0f, 0.0f) * player2Movespeed), player2InputID);
-	//inputManager.AddAction(dae::GamepadButtons::DpadDown, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, 1.0f, 0.0f) * player2Movespeed), player2InputID);
-	//inputManager.AddAction(dae::GamepadButtons::DpadLeft, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(-1.0f, 0.0f, 0.0f) * player2Movespeed), player2InputID);
-	//inputManager.AddAction(dae::GamepadButtons::DpadRight, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(1.0f, 0.0f, 0.0f) * player2Movespeed), player2InputID);
-	//inputManager.AddAction(dae::GamepadButtons::FaceButtonLeft, dae::InputType::PressedThisFrame, std::make_shared<bomberman::AttackCommand>(*go.get()), player2InputID);
-}
-
-void LoadHud(dae::Scene& scene)
-{
-	auto& resourceManager = dae::ResourceManager::GetInstance();
-	auto& hudManager = bomberman::HUDManager::GetInstance();
-	auto windowSize = dae::Camera::GetInstance().GetWindowSize();
-	uint8_t fontSize = 32;
-	auto font = resourceManager.LoadFont("PixelFont.ttf", fontSize);
-
-	auto go = std::make_shared<dae::GameObject>("HUD_Updater", glm::vec3(windowSize.x - (4 * TILE_SIZE), -64.0f, 0.0f));
-	auto& textComponent = go->AddComponent<dae::TextComponent>(*go.get(), "Left", font);
-	go->AddComponent<bomberman::HUDUpdater>(*go.get());
-	scene.Add(go);
-
-	// feels like a hack
-	if (!hudManager.IsInitialized())
-	{
-		hudManager.Init(textComponent, glm::vec3(windowSize.x - (4 * TILE_SIZE), -64.0f, 0.0f));
-	}
-}
-
 
 int main(int, char* []) 
 {

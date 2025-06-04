@@ -160,6 +160,10 @@
     <ClCompile Include="SkipLevelCommand.cpp">
       <Filter>Commands\Game</Filter>
     </ClCompile>
+    <ClCompile Include="LoadLevelState.cpp">
+      <Filter>FSM\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGameState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScoreComponent.h">
@@ -273,6 +277,10 @@
     <ClInclude Include="SkipLevelCommand.h">
       <Filter>Commands\Game</Filter>
     </ClInclude>
+    <ClInclude Include="LoadLevelState.h">
+      <Filter>FSM\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGameState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

@@ -48,6 +48,19 @@ dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 	return *scene;
 }
 
+void dae::SceneManager::RemoveScene(const std::string& name)
+{
+	auto it = std::find_if(m_scenes.begin(), m_scenes.end(), [&name](const std::shared_ptr<Scene>& scene) {
+		return scene->GetName() == name;
+		});
+
+	if (it != m_scenes.end())
+	{
+		m_scenes.erase(it);
+	}
+
+}
+
 std::shared_ptr<dae::Scene> dae::SceneManager::GetScene(const std::string& name) const
 {
 	for (const auto& scene : m_scenes)

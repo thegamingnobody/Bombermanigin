@@ -11,6 +11,7 @@ namespace dae
 	{
 	public:
 		Scene& CreateScene(const std::string& name);
+		void RemoveScene(const std::string& name);
 
 		void Update(float const deltaTime);
 		void FixedUpdate(float const fixedTimeStep);

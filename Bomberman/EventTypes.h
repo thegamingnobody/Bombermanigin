@@ -10,6 +10,7 @@ namespace bomberman
 		SCORE_ADDED = 2,
 		PLAYER_DIED = 3,
 		ENEMY_COLLISION = 4,
+		START_GAME = 5,
 	};
 }
 

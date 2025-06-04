@@ -2,6 +2,10 @@
 #include "StateMachineBase.h"
 #include <SceneManager.h>
 #include "SceneNames.h"
+#include <EventManager.h>
+#include "StateMachineComponent.h"
+#include "EventTypes.h"
+#include "LoadLevelState.h"
 
 bomberman::MenuState::MenuState(dae::GameObject& ownerObject)
 	: StateMachineBase(ownerObject)
@@ -10,16 +14,16 @@ bomberman::MenuState::MenuState(dae::GameObject& ownerObject)
 
 void bomberman::MenuState::OnEnter()
 {
-	//auto& sceneManager = dae::SceneManager::GetInstance();
+	auto& eventManager = dae::EventManager::GetInstance();
+	auto stateMachineComp = m_Owner->GetComponent<bomberman::StateMachineComponent>();
 
-	//sceneManager.SetSceneActive(SCENE_MAP, false);
-	//sceneManager.SetSceneActive(SCENE_OBJECTS, false);
-	//sceneManager.SetSceneActive(SCENE_PLAYERS, false);
-	//sceneManager.SetSceneActive(SCENE_HUD, false);
+	eventManager.AddObserver(*stateMachineComp.value(), static_cast<int>(bomberman::EventType::START_GAME));
 }
 
 void bomberman::MenuState::OnExit()
 {
+	auto stateMachineComp = m_Owner->GetComponent<bomberman::StateMachineComponent>();
+	dae::EventManager::GetInstance().RemoveObserver(*stateMachineComp.value());
 }
 
 std::unique_ptr<bomberman::StateMachineBase> bomberman::MenuState::Update(float /*deltaTime*/)
@@ -27,10 +31,22 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::MenuState::Update(float 
 	return nullptr;
 }
 
-std::unique_ptr<bomberman::StateMachineBase> bomberman::MenuState::Notify(const dae::Event& /*event*/)
+std::unique_ptr<bomberman::StateMachineBase> bomberman::MenuState::Notify(const dae::Event& event)
 {
 	// Todo: switch to loading level state when a level is selected
 	//		=> unsub from events!!
+
+	switch (static_cast<bomberman::EventType>(event.GetEventType()))
+	{
+	case bomberman::EventType::START_GAME:
+	{
+		// Todo: change to loading level state
+		// => create seperate scene for the component this state machine is on, so that disabling the main menu scene doesn't stop this state machine
+		return std::make_unique<bomberman::LoadLevelState>(*m_Owner);
+	}
+	default:
+		break;
+	}
 
 	return nullptr;
 }

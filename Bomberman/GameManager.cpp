@@ -3,8 +3,10 @@
 #include <Scene.h>
 #include "Grid.h"
 #include "SceneNames.h"
+#include <TextureComponent.h>
+#include "BoxCollider.h"
+#include "OctagonCollider.h"
 
-// Todo: Add win condition to gamemanager
 // Todo: disable current scene and create a new scene for the next level
 //			=> store score in gamemanager
 // Todo: add a game over scene
@@ -17,10 +19,6 @@ void bomberman::GameManager::LoadLevel(int level)
 	auto objectsScene =	sceneManager.GetScene(SCENE_OBJECTS);
 	auto playerScene = sceneManager.GetScene(SCENE_PLAYERS);
 
-	if (objectsScene == nullptr)
-	{
-		throw std::runtime_error("Objects scene not found!");
-	}
 	objectsScene->RemoveAll();
 
 	m_CurrentLevelData = grid.LoadMap(level - 1);
