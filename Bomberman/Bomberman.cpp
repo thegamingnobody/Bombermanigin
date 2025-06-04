@@ -76,11 +76,6 @@ void load()
 
 	CreateGameState(gameStateScene);
 	LoadMenu(menuScene);
-
-	//LoadHud(hudScene);
-
-	//LoadPlayer(playerScene);
-
 }
 
 void LoadSounds()
@@ -119,7 +114,7 @@ void LoadMenu(dae::Scene& scene)
 
 	inputManager.AddAction(dae::KeyboardKeys::W, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), false), keyboardID);
 	inputManager.AddAction(dae::KeyboardKeys::S, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), true),  keyboardID);
-	inputManager.AddAction(dae::KeyboardKeys::Space, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorSelectCommand>(),  keyboardID);
+	inputManager.AddAction(dae::KeyboardKeys::Space, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorSelectCommand>(*go.get()),  keyboardID);
 }
 
 void CreateGameState(dae::Scene& scene)

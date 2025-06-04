@@ -8,9 +8,12 @@ namespace bomberman
 	class CursorSelectCommand : public dae::Command
 	{
 	public:
-		CursorSelectCommand();
+		CursorSelectCommand(dae::GameObject& controllingObject);
 
 		void Execute() override;
+
+	private:
+		dae::GameObject* m_pControllingObject;
 	};
 }
 
