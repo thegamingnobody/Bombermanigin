@@ -164,6 +164,8 @@
       <Filter>FSM\Game</Filter>
     </ClCompile>
     <ClCompile Include="MainGameState.cpp" />
+    <ClCompile Include="CursorSelectCommand.cpp" />
+    <ClCompile Include="StartGameEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScoreComponent.h">
@@ -281,6 +283,8 @@
       <Filter>FSM\Game</Filter>
     </ClInclude>
     <ClInclude Include="MainGameState.h" />
+    <ClInclude Include="CursorSelectCommand.h" />
+    <ClInclude Include="StartGameEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

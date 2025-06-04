@@ -6,6 +6,8 @@
 
 void dae::TextureComponent::Render() const
 {
+	if (m_pTextures.empty()) return;
+
 	if (m_pTextures[m_CurrentSpriteIndex] == nullptr)
 	{
 		throw std::invalid_argument("Texture does not exist");

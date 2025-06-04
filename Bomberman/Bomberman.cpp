@@ -42,6 +42,7 @@
 #include "StateMachineComponent.h"
 #include "MenuState.h"
 #include "CursorMoveCommand.h"
+#include "CursorSelectCommand.h"
 
 //Todo: add pickups
 //Todo: check vr nog classes final te maken als mogelijk
@@ -118,6 +119,7 @@ void LoadMenu(dae::Scene& scene)
 
 	inputManager.AddAction(dae::KeyboardKeys::W, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), false), keyboardID);
 	inputManager.AddAction(dae::KeyboardKeys::S, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), true),  keyboardID);
+	inputManager.AddAction(dae::KeyboardKeys::Space, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorSelectCommand>(),  keyboardID);
 }
 
 void CreateGameState(dae::Scene& scene)

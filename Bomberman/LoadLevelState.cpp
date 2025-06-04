@@ -30,6 +30,9 @@ void bomberman::LoadLevelState::OnEnter()
 	{
 		CreateScenes();
 	}
+	auto& gameManager = bomberman::GameManager::GetInstance();
+
+	gameManager.LoadNextLevel();
 }
 
 void bomberman::LoadLevelState::OnExit()
@@ -38,10 +41,6 @@ void bomberman::LoadLevelState::OnExit()
 
 std::unique_ptr<bomberman::StateMachineBase> bomberman::LoadLevelState::Update(float /*deltaTime*/)
 {
-	auto& gameManager = bomberman::GameManager::GetInstance();
-
-	gameManager.LoadNextLevel();
-
 	return std::make_unique<bomberman::MainGameState>(*m_Owner);
 }
 
@@ -58,9 +57,9 @@ void bomberman::LoadLevelState::CreateScenes()
 	LoadMap(mapScene);
 	sceneManager.CreateScene(SCENE_OBJECTS);
 	sceneManager.CreateScene(SCENE_PLAYERS);
-	LoadPlayer();
 	auto& hudScene = sceneManager.CreateScene(SCENE_HUD);
 	LoadHud(hudScene);
+	LoadPlayer();
 }
 
 void bomberman::LoadLevelState::LoadMap(dae::Scene& scene)

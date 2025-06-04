@@ -23,7 +23,10 @@ std::vector<std::shared_ptr<GameObject>>::iterator Scene::Remove(std::shared_ptr
 
 void Scene::RemoveAll()
 {
-	m_objects.clear();
+	if (m_objects.size() > 0)
+	{
+		m_objects.clear();
+	}
 }
 
 void Scene::Update(float const deltaTime)

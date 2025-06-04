@@ -190,6 +190,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="ChaseState.cpp" />
     <ClCompile Include="CollidersManager.cpp" />
     <ClCompile Include="CursorMoveCommand.cpp" />
+    <ClCompile Include="CursorSelectCommand.cpp" />
     <ClCompile Include="DyingState.cpp" />
     <ClCompile Include="EnemyCollisionEvent.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
@@ -215,6 +216,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="ScoreAddedEvent.cpp" />
     <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="SkipLevelCommand.cpp" />
+    <ClCompile Include="StartGameEvent.cpp" />
     <ClCompile Include="StateMachineBase.cpp" />
     <ClCompile Include="StateMachineComponent.cpp" />
   </ItemGroup>
@@ -229,6 +231,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="ChaseState.h" />
     <ClInclude Include="CollidersManager.h" />
     <ClInclude Include="CursorMoveCommand.h" />
+    <ClInclude Include="CursorSelectCommand.h" />
     <ClInclude Include="DyingState.h" />
     <ClInclude Include="EnemyCollisionEvent.h" />
     <ClInclude Include="EnemyManager.h" />
@@ -258,6 +261,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="SkipLevelCommand.h" />
     <ClInclude Include="SoundIds.h" />
+    <ClInclude Include="StartGameEvent.h" />
     <ClInclude Include="StateMachineBase.h" />
     <ClInclude Include="StateMachineComponent.h" />
   </ItemGroup>
