@@ -46,14 +46,14 @@
     <Filter Include="FSM\Game">
       <UniqueIdentifier>{69f4d1ab-ae63-4638-b597-2fcaeba87ad2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commands\Menu">
+      <UniqueIdentifier>{ab090780-768e-46b4-9cce-df0f01ee0225}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Commands\Game">
+      <UniqueIdentifier>{30299e0d-1049-4fd3-8843-295947fda530}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AttackCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
-    <ClCompile Include="MoveCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
     <ClCompile Include="HealthComponent.cpp">
       <Filter>Components\StandardComponents</Filter>
     </ClCompile>
@@ -112,9 +112,6 @@
     <ClCompile Include="BrickIdleState.cpp">
       <Filter>FSM\Bricks</Filter>
     </ClCompile>
-    <ClCompile Include="SkipLevelCommand.cpp">
-      <Filter>Commands</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
@@ -126,9 +123,6 @@
     </ClCompile>
     <ClCompile Include="BrickDestroyedState.cpp">
       <Filter>FSM\Bricks</Filter>
-    </ClCompile>
-    <ClCompile Include="ResetLevelCommand.cpp">
-      <Filter>Commands</Filter>
     </ClCompile>
     <ClCompile Include="Grid.cpp">
       <Filter>Managers</Filter>
@@ -151,14 +145,23 @@
     <ClCompile Include="HUDUpdater.cpp">
       <Filter>Components\StandardComponents</Filter>
     </ClCompile>
+    <ClCompile Include="CursorMoveCommand.cpp">
+      <Filter>Commands\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackCommand.cpp">
+      <Filter>Commands\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveCommand.cpp">
+      <Filter>Commands\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ResetLevelCommand.cpp">
+      <Filter>Commands\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="SkipLevelCommand.cpp">
+      <Filter>Commands\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AttackCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
     <ClInclude Include="ScoreComponent.h">
       <Filter>Components\StandardComponents</Filter>
     </ClInclude>
@@ -221,9 +224,6 @@
       <Filter>FSM\Bricks</Filter>
     </ClInclude>
     <ClInclude Include="LevelData.h" />
-    <ClInclude Include="SkipLevelCommand.h">
-      <Filter>Commands</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
@@ -235,9 +235,6 @@
     </ClInclude>
     <ClInclude Include="BrickDestroyedState.h">
       <Filter>FSM\Bricks</Filter>
-    </ClInclude>
-    <ClInclude Include="ResetLevelCommand.h">
-      <Filter>Commands</Filter>
     </ClInclude>
     <ClInclude Include="Grid.h">
       <Filter>Managers</Filter>
@@ -261,6 +258,21 @@
       <Filter>Components\StandardComponents</Filter>
     </ClInclude>
     <ClInclude Include="SceneNames.h" />
+    <ClInclude Include="CursorMoveCommand.h">
+      <Filter>Commands\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackCommand.h">
+      <Filter>Commands\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveCommand.h">
+      <Filter>Commands\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="ResetLevelCommand.h">
+      <Filter>Commands\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="SkipLevelCommand.h">
+      <Filter>Commands\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

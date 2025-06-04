@@ -39,9 +39,14 @@
 #include "HUDUpdater.h"
 
 #include "SceneNames.h"
+#include "StateMachineComponent.h"
+#include "MenuState.h"
+#include "CursorMoveCommand.h"
 
 //Todo: add pickups
+//Todo: check vr nog classes final te maken als mogelijk
 void LoadSounds();
+void LoadMenu(dae::Scene& scene);
 void LoadMap(dae::Scene& scene);
 void LoadPlayer(dae::Scene& scene);
 //void LoadEnemies(dae::Scene& scene);
@@ -68,19 +73,21 @@ void load()
 	
 	// This way we can easily reset the enemies, pickups, etc. without removing the map or player
 
-	/*auto& menuScene =*/ sceneManager.CreateScene(SCENE_MAIN_MENU);
-	auto& mapScene = sceneManager.CreateScene(SCENE_MAP);
-	sceneManager.CreateScene(SCENE_OBJECTS);
-	auto& playerScene = sceneManager.CreateScene(SCENE_PLAYERS);
-	auto& hudScene = sceneManager.CreateScene(SCENE_HUD);
+	auto& menuScene = sceneManager.CreateScene(SCENE_MAIN_MENU);
+	/*auto& mapScene = */sceneManager.CreateScene(SCENE_MAP);
+	//sceneManager.CreateScene(SCENE_OBJECTS);
+	/*auto& playerScene =*/ sceneManager.CreateScene(SCENE_PLAYERS);
+	/*auto& hudScene =*/ sceneManager.CreateScene(SCENE_HUD);
 
-	LoadMap(mapScene);
+	LoadMenu(menuScene);
 
-	bomberman::GameManager::GetInstance().LoadNextLevel();
+	//LoadMap(mapScene);
 
-	LoadHud(hudScene);
+	//bomberman::GameManager::GetInstance().LoadNextLevel();
 
-	LoadPlayer(playerScene);
+	//LoadHud(hudScene);
+
+	//LoadPlayer(playerScene);
 
 }
 
@@ -97,6 +104,37 @@ void LoadSounds()
 
 	soundSystem.AddSound(static_cast<int>(bomberman::SoundId::WalkHorizontal), SoundPaths[static_cast<int>(bomberman::SoundId::WalkHorizontal)]);
 	soundSystem.AddSound(static_cast<int>(bomberman::SoundId::WalkVertical), SoundPaths[static_cast<int>(bomberman::SoundId::WalkVertical)]);
+}
+
+void LoadMenu(dae::Scene& scene)
+{
+	auto& inputManager = dae::InputManager::GetInstance();
+
+	auto go = std::make_shared<dae::GameObject>("Title_Screen", glm::vec3(0.0f, -2 * TILE_SIZE, 0.0f));
+	{
+		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
+		textureComponent.AddTexture("TitleScreen.png");
+	}
+
+	auto& stateMachineComponent = go->AddComponent<bomberman::StateMachineComponent>(*go.get());
+	auto menuState = std::make_unique<bomberman::MenuState>(*go.get());
+	stateMachineComponent.ChangeState(std::move(menuState));
+
+	scene.Add(go);
+
+	go = std::make_shared<dae::GameObject>("Cursor", glm::vec3(5 * TILE_SIZE, static_cast<int>(bomberman::CursorOptions::SinglePlayer) * TILE_SIZE, 1.0f));
+	{
+		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
+		textureComponent.AddTexture("Cursor.png");
+	}
+
+	int keyboardID = inputManager.AddInputDevice(dae::Action::DeviceType::Keyboard);
+
+	inputManager.AddAction(dae::KeyboardKeys::W, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), false), keyboardID);
+	inputManager.AddAction(dae::KeyboardKeys::S, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), true),  keyboardID);
+
+	scene.Add(go);
+
 }
 
 void LoadMap(dae::Scene& scene)
