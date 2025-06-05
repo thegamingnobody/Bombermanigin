@@ -108,8 +108,10 @@ void LoadMenu(dae::Scene& scene)
 		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
 		textureComponent.AddTexture("Cursor.png");
 	}
-	int keyboardID = inputManager.AddInputDevice(dae::Action::DeviceType::Keyboard);
 	scene.Add(go);
+
+	int keyboardID = inputManager.AddInputDevice(dae::Action::DeviceType::Keyboard);
+	int controllerID = inputManager.AddInputDevice(dae::Action::DeviceType::Gamepad);
 
 	inputManager.AddAction(dae::KeyboardKeys::W, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), false), keyboardID);
 	inputManager.AddAction(dae::KeyboardKeys::S, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), true),  keyboardID);
@@ -118,6 +120,13 @@ void LoadMenu(dae::Scene& scene)
 	inputManager.AddAction(dae::KeyboardKeys::Down, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), true),  keyboardID);
 	
 	inputManager.AddAction(dae::KeyboardKeys::Space, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorSelectCommand>(*go.get()),  keyboardID);
+	
+	inputManager.AddAction(dae::GamepadButtons::DpadUp, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), false), controllerID);
+	inputManager.AddAction(dae::GamepadButtons::DpadDown, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), true), controllerID);
+	
+	inputManager.AddAction(dae::GamepadButtons::FaceButtonDown, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorSelectCommand>(*go.get()), controllerID);
+
+
 }
 
 void CreateGameState(dae::Scene& scene)
