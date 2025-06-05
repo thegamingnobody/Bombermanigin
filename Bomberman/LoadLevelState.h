@@ -1,13 +1,14 @@
 #pragma once
 #include "StateMachineBase.h"
 #include <Scene.h>
+#include "GameManager.h"
 
 namespace bomberman
 {
-    class LoadLevelState : public StateMachineBase
+    class LoadLevelState final : public StateMachineBase
     {
     public:
-        LoadLevelState(dae::GameObject& ownerObject);
+        LoadLevelState(dae::GameObject& ownerObject, GameMode chosenGameMode);
         ~LoadLevelState() override = default;
 
         void OnEnter() override;
@@ -24,6 +25,7 @@ namespace bomberman
         void LoadHud(dae::Scene& scene);
 
 		bool m_ScenesCreated{ false };
+        GameMode m_ChosenGameMode;
     };
 }
 

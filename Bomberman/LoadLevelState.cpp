@@ -14,8 +14,9 @@
 #include "GameManager.h"
 #include "MainGameState.h"
 
-bomberman::LoadLevelState::LoadLevelState(dae::GameObject& ownerObject)
+bomberman::LoadLevelState::LoadLevelState(dae::GameObject& ownerObject, GameMode chosenGameMode)
 	: StateMachineBase(ownerObject)
+	, m_ChosenGameMode(chosenGameMode)
 {
 }
 

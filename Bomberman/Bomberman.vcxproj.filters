@@ -163,9 +163,15 @@
     <ClCompile Include="LoadLevelState.cpp">
       <Filter>FSM\Game</Filter>
     </ClCompile>
-    <ClCompile Include="MainGameState.cpp" />
-    <ClCompile Include="CursorSelectCommand.cpp" />
-    <ClCompile Include="StartGameEvent.cpp" />
+    <ClCompile Include="StartGameEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="CursorSelectCommand.cpp">
+      <Filter>Commands\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGameState.cpp">
+      <Filter>FSM\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScoreComponent.h">
@@ -282,9 +288,15 @@
     <ClInclude Include="LoadLevelState.h">
       <Filter>FSM\Game</Filter>
     </ClInclude>
-    <ClInclude Include="MainGameState.h" />
-    <ClInclude Include="CursorSelectCommand.h" />
-    <ClInclude Include="StartGameEvent.h" />
+    <ClInclude Include="StartGameEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="CursorSelectCommand.h">
+      <Filter>Commands\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGameState.h">
+      <Filter>FSM\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

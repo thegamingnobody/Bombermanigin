@@ -5,6 +5,14 @@
 
 namespace bomberman
 {
+	enum class GameMode
+	{
+		Selecting,
+		Singleplayer,
+		Coop,
+		Versus
+	};
+
 	class GameManager : public dae::Singleton<GameManager>
 	{
 	public:
@@ -16,6 +24,8 @@ namespace bomberman
 
 		void ResetLevel();
 
+		GameMode GetGameMode() const { return m_GameMode; }
+
 	private:
 		void LoadLevel(int level); 
 
@@ -25,6 +35,7 @@ namespace bomberman
 		// Current map state is handled by the "Grid" class.
 		LevelData m_CurrentLevelData{};
 
+		GameMode m_GameMode{ GameMode::Selecting };
 	};
 
 }

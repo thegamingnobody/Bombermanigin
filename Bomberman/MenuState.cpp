@@ -6,6 +6,7 @@
 #include "StateMachineComponent.h"
 #include "EventTypes.h"
 #include "LoadLevelState.h"
+#include "StartGameEvent.h"
 
 bomberman::MenuState::MenuState(dae::GameObject& ownerObject)
 	: StateMachineBase(ownerObject)
@@ -42,7 +43,9 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::MenuState::Notify(const 
 	{
 		// Todo: change to loading level state
 		// => create seperate scene for the component this state machine is on, so that disabling the main menu scene doesn't stop this state machine
-		return std::make_unique<bomberman::LoadLevelState>(*m_Owner);
+		const auto& castedEvent = dynamic_cast<const bomberman::StartGameEvent&>(event);
+
+		return std::make_unique<bomberman::LoadLevelState>(*m_Owner, castedEvent.GetChosenGameMode());
 	}
 	default:
 		break;
