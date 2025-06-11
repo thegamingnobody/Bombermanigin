@@ -10,7 +10,7 @@ namespace bomberman
     class AttackCommand final : public dae::Command, public dae::Observer
     {
 	public:
-		AttackCommand(dae::GameObject& controllingObject);
+		AttackCommand(dae::GameObject& controllingObject, int playerNumber);
 
 		void Execute() override;
 
@@ -20,6 +20,7 @@ namespace bomberman
 		dae::GameObject* m_pControllingObject;
 
 		int m_BombCount{ 0 };
+		int m_PlayerNumber{ -1 };
 
 		void SpawnBombObject(glm::vec3 position);
     };

@@ -57,7 +57,7 @@ void bomberman::PlayerManager::CreatePlayer(dae::Action::DeviceType deviceType, 
 	auto downCommand = std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, 1.0f, 0.0f) * playerSpeed);
 	auto leftCommand = std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(-1.0f, 0.0f, 0.0f) * playerSpeed);
 	auto rightCommand = std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(1.0f, 0.0f, 0.0f) * playerSpeed);
-	auto attackCommand = std::make_shared<bomberman::AttackCommand>(*go.get());
+	auto attackCommand = std::make_shared<bomberman::AttackCommand>(*go.get(), playerInfo.playerID);
 
 	switch (inputMapping.deviceType)
 	{

@@ -13,8 +13,9 @@
 
 //Todo: limit to player bomb limit
 
-bomberman::AttackCommand::AttackCommand(dae::GameObject& controllingObject)
+bomberman::AttackCommand::AttackCommand(dae::GameObject& controllingObject, int playerNumber)
 	: m_pControllingObject(&controllingObject)
+	, m_PlayerNumber(playerNumber)
 {
 	dae::EventManager::GetInstance().AddObserver(*this, static_cast<int>(bomberman::EventType::BOMB_EXPLODED));
 }
@@ -23,10 +24,7 @@ void bomberman::AttackCommand::Execute()
 {
 	auto& playerManager = bomberman::PlayerManager::GetInstance();
 
-	if (m_BombCount >= playerManager.GetPlayerInfo(0).maxBombs)
-	{
-		return;
-	}
+	if (m_BombCount >= playerManager.GetPlayerInfo(m_PlayerNumber).maxBombs) return;
 
 	glm::vec3 position = m_pControllingObject->GetTransform()->GetGlobalPosition();
 	SpawnBombObject(position);
