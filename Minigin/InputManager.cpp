@@ -65,14 +65,64 @@ int dae::InputManager::AddInputDevice(const Action::DeviceType& deviceType)
 	return result;
 }
 
+void dae::InputManager::RemoveInputDevice(const Action::DeviceType& deviceType)
+{
+	int index{-1};
+	switch (deviceType)
+	{
+	case Action::DeviceType::Gamepad:
+		for (int i = 3; i >= 0; --i)
+		{
+			if (!m_InputDevices[i]->IsInUse()) continue;
+
+			index = i;
+		}
+		break;
+	case Action::DeviceType::Keyboard:
+		index = m_KeyboardId;
+		break;
+	}
+
+	if (index != -1)
+	{
+		m_InputDevices[index]->SetInUse(false);
+
+		m_Actions.erase(
+			std::remove_if(m_Actions.begin(), m_Actions.end(),
+				[index](const std::unique_ptr<Action>& action)
+				{
+					return action && action->GetDeviceID() == index;
+				}),
+			m_Actions.end()
+		);
+	}
+}
+
 void dae::InputManager::AddAction(const GamepadButtons& gamepadButton, const InputType& inputType, std::shared_ptr<Command> command, int const deviceID)
 {
-	m_Actions.emplace_back(std::make_unique<Action>(gamepadButton, inputType, command, deviceID));
+	auto it = std::find_if(m_Actions.begin(), m_Actions.end(), [gamepadButton, deviceID](const std::unique_ptr<dae::Action>& action) {
+		return ((action->GetButton() == static_cast<int>(gamepadButton)) and (action->GetDeviceID() == deviceID));
+		});
+
+	if (it == m_Actions.end())
+	{
+		//only add if button is not already present
+		m_Actions.emplace_back(std::make_unique<Action>(gamepadButton, inputType, command, deviceID));
+	}
+
 }
 
 void dae::InputManager::AddAction(const KeyboardKeys& keyboardKey, const InputType& inputType, std::shared_ptr<Command> command, int const deviceID)
 {
-	m_Actions.emplace_back(std::make_unique<Action>(keyboardKey, inputType, command, deviceID));
+	auto it = std::find_if(m_Actions.begin(), m_Actions.end(), [keyboardKey](const std::unique_ptr<dae::Action>& action) {
+		return (action->GetButton() == static_cast<int>(keyboardKey));
+		});
+
+	if (it == m_Actions.end())
+	{
+		//only add if button is not already present
+		m_Actions.emplace_back(std::make_unique<Action>(keyboardKey, inputType, command, deviceID));
+	}
 }
 
 int dae::InputManager::GetAvailableGamepadIndex()

@@ -18,8 +18,8 @@ namespace dae
 		bool ProcessInput();
 
 
-		//Todo: Add Remove input device
 		int AddInputDevice(const Action::DeviceType& deviceType);
+		void RemoveInputDevice(const Action::DeviceType& deviceType);
 
 		//Todo: Add Remove action
 		//Todo: moet command een shared pointer zijn?

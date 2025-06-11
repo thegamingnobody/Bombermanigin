@@ -14,7 +14,7 @@
 #include "PlayerIdleState.h"
 #include "SceneNames.h"
 
-void bomberman::PlayerManager::CreatePlayer(dae::Action::DeviceType deviceType)
+void bomberman::PlayerManager::CreatePlayer(dae::Action::DeviceType deviceType, InputMapping inputMapping)
 {
 	auto& inputManager = dae::InputManager::GetInstance();
 	auto& camera = dae::Camera::GetInstance();
@@ -55,14 +55,32 @@ void bomberman::PlayerManager::CreatePlayer(dae::Action::DeviceType deviceType)
 	playerScene->Add(go);
 	camera.SetTrackingTarget(*go.get());
 
-	// Todo: change to use keyboard or gamepad
-	inputManager.AddAction(dae::KeyboardKeys::W, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, -1.0f, 0.0f) * playerSpeed), playerInputID);
-	inputManager.AddAction(dae::KeyboardKeys::S, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, 1.0f, 0.0f)	* playerSpeed), playerInputID);
-	inputManager.AddAction(dae::KeyboardKeys::A, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(-1.0f, 0.0f, 0.0f) * playerSpeed), playerInputID);
-	inputManager.AddAction(dae::KeyboardKeys::D, dae::InputType::Held, std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(1.0f, 0.0f, 0.0f)	* playerSpeed), playerInputID);
-	inputManager.AddAction(dae::KeyboardKeys::C, dae::InputType::PressedThisFrame, std::make_shared<bomberman::AttackCommand>(*go.get()), playerInputID);
+	auto upCommand = std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, -1.0f, 0.0f) * playerSpeed);
+	auto downCommand = std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(0.0f, 1.0f, 0.0f) * playerSpeed);
+	auto leftCommand = std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(-1.0f, 0.0f, 0.0f) * playerSpeed);
+	auto rightCommand = std::make_shared<bomberman::MoveCommand>(*go.get(), glm::vec3(1.0f, 0.0f, 0.0f) * playerSpeed);
+	auto attackCommand = std::make_shared<bomberman::AttackCommand>(*go.get());
 
-	// Todo: should only be added once
-	inputManager.AddAction(dae::KeyboardKeys::F1, dae::InputType::PressedThisFrame, std::make_shared<bomberman::SkipLevelCommand>(), playerInputID);
-	inputManager.AddAction(dae::KeyboardKeys::R, dae::InputType::PressedThisFrame, std::make_shared<bomberman::ResetLevelCommand>(), playerInputID);
+	switch (inputMapping.deviceType)
+	{
+	case dae::Action::DeviceType::Keyboard:
+		inputManager.AddAction(dae::KeyboardKeys(inputMapping.upButton),	dae::InputType::Held, upCommand,	playerInputID);
+		inputManager.AddAction(dae::KeyboardKeys(inputMapping.downButton),	dae::InputType::Held, downCommand,	playerInputID);
+		inputManager.AddAction(dae::KeyboardKeys(inputMapping.leftButton),	dae::InputType::Held, leftCommand,	playerInputID);
+		inputManager.AddAction(dae::KeyboardKeys(inputMapping.rightButton), dae::InputType::Held, rightCommand, playerInputID);
+		inputManager.AddAction(dae::KeyboardKeys(inputMapping.bombButton),	dae::InputType::PressedThisFrame, attackCommand, playerInputID);
+
+		// Todo: should only be added once
+		inputManager.AddAction(dae::KeyboardKeys::F1, dae::InputType::PressedThisFrame, std::make_shared<bomberman::SkipLevelCommand>(), playerInputID);
+		inputManager.AddAction(dae::KeyboardKeys::R, dae::InputType::PressedThisFrame, std::make_shared<bomberman::ResetLevelCommand>(), playerInputID);
+		break;
+	case dae::Action::DeviceType::Gamepad:
+		inputManager.AddAction(dae::GamepadButtons(inputMapping.upButton),		dae::InputType::Held, upCommand,	playerInputID);
+		inputManager.AddAction(dae::GamepadButtons(inputMapping.downButton),	dae::InputType::Held, downCommand,	playerInputID);
+		inputManager.AddAction(dae::GamepadButtons(inputMapping.leftButton),	dae::InputType::Held, leftCommand,	playerInputID);
+		inputManager.AddAction(dae::GamepadButtons(inputMapping.rightButton),	dae::InputType::Held, rightCommand, playerInputID);
+		inputManager.AddAction(dae::GamepadButtons(inputMapping.bombButton),	dae::InputType::PressedThisFrame, attackCommand, playerInputID);
+		break;
+	}
+
 }

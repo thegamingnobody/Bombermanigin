@@ -125,8 +125,6 @@ void LoadMenu(dae::Scene& scene)
 	inputManager.AddAction(dae::GamepadButtons::DpadDown, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), true), controllerID);
 	
 	inputManager.AddAction(dae::GamepadButtons::FaceButtonDown, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorSelectCommand>(*go.get()), controllerID);
-
-
 }
 
 void CreateGameState(dae::Scene& scene)

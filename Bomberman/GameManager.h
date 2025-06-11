@@ -25,6 +25,7 @@ namespace bomberman
 		void ResetLevel();
 
 		GameMode GetGameMode() const { return m_GameMode; }
+		void SetGameMode(GameMode mode) { m_GameMode = mode; }
 
 	private:
 		void LoadLevel(int level); 

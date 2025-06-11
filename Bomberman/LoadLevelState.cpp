@@ -13,6 +13,7 @@
 #include "HUDUpdater.h"
 #include "GameManager.h"
 #include "MainGameState.h"
+#include <InputManager.h>
 
 bomberman::LoadLevelState::LoadLevelState(dae::GameObject& ownerObject, GameMode chosenGameMode)
 	: StateMachineBase(ownerObject)
@@ -23,15 +24,16 @@ bomberman::LoadLevelState::LoadLevelState(dae::GameObject& ownerObject, GameMode
 void bomberman::LoadLevelState::OnEnter()
 {
 	auto& sceneManager = dae::SceneManager::GetInstance();
+	auto& gameManager = bomberman::GameManager::GetInstance();
 
 	auto playerScene = sceneManager.GetScene(SCENE_PLAYERS);
 
 	// Check if the game scene already exist 
-	if (playerScene == nullptr)
+	if (gameManager.GetGameMode() == GameMode::Selecting)
 	{
+		gameManager.SetGameMode(m_ChosenGameMode);
 		CreateScenes();
 	}
-	auto& gameManager = bomberman::GameManager::GetInstance();
 
 	gameManager.LoadNextLevel();
 }
@@ -108,8 +110,27 @@ void bomberman::LoadLevelState::LoadMap(dae::Scene& scene)
 void bomberman::LoadLevelState::LoadPlayer()
 {
 	auto& playerManager = bomberman::PlayerManager::GetInstance();
+	auto& gameManager = bomberman::GameManager::GetInstance();
 
-	playerManager.CreatePlayer(dae::Action::DeviceType::Keyboard);
+	InputMapping keyboardMapping = InputMapping(dae::KeyboardKeys::W, dae::KeyboardKeys::S, dae::KeyboardKeys::A, dae::KeyboardKeys::D, dae::KeyboardKeys::C);
+	InputMapping gamepadMapping = InputMapping(dae::GamepadButtons::DpadUp, dae::GamepadButtons::DpadDown, dae::GamepadButtons::DpadLeft, dae::GamepadButtons::DpadRight, dae::GamepadButtons::FaceButtonDown);
+
+	// Todo: in single player, both keyboard and gamepad control player 1
+	switch (gameManager.GetGameMode())
+	{
+	case GameMode::Singleplayer:
+		playerManager.CreatePlayer(dae::Action::DeviceType::Keyboard, keyboardMapping);
+		break;
+	case GameMode::Coop:
+		playerManager.CreatePlayer(dae::Action::DeviceType::Keyboard, keyboardMapping);
+		playerManager.CreatePlayer(dae::Action::DeviceType::Gamepad, gamepadMapping);
+		break;
+	case GameMode::Versus:
+		playerManager.CreatePlayer(dae::Action::DeviceType::Keyboard, keyboardMapping);
+		playerManager.CreatePlayer(dae::Action::DeviceType::Gamepad, gamepadMapping);
+		break;
+	}
+
 }
 
 void bomberman::LoadLevelState::LoadHud(dae::Scene& scene)

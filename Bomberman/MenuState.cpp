@@ -7,6 +7,7 @@
 #include "EventTypes.h"
 #include "LoadLevelState.h"
 #include "StartGameEvent.h"
+#include <InputManager.h>
 
 bomberman::MenuState::MenuState(dae::GameObject& ownerObject)
 	: StateMachineBase(ownerObject)
@@ -25,6 +26,11 @@ void bomberman::MenuState::OnExit()
 {
 	auto stateMachineComp = m_Owner->GetComponent<bomberman::StateMachineComponent>();
 	dae::EventManager::GetInstance().RemoveObserver(*stateMachineComp.value());
+
+
+	// Remove gamepad temporarily so that the player can correctly start using them
+	dae::InputManager::GetInstance().RemoveInputDevice(dae::Action::DeviceType::Keyboard);
+	dae::InputManager::GetInstance().RemoveInputDevice(dae::Action::DeviceType::Gamepad);
 }
 
 std::unique_ptr<bomberman::StateMachineBase> bomberman::MenuState::Update(float /*deltaTime*/)
