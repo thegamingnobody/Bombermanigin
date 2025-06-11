@@ -18,7 +18,6 @@ namespace bomberman
 	private:
 		dae::GameObject* m_pControllingObject;
 		glm::vec3 m_Direction;
-		//todo: find better solution?
 		int const m_SoundChannel{ 0 };
 
     };

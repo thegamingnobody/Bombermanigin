@@ -27,7 +27,6 @@ void bomberman::MenuState::OnExit()
 	auto stateMachineComp = m_Owner->GetComponent<bomberman::StateMachineComponent>();
 	dae::EventManager::GetInstance().RemoveObserver(*stateMachineComp.value());
 
-
 	// Remove gamepad temporarily so that the player can correctly start using them
 	dae::InputManager::GetInstance().RemoveInputDevice(dae::Action::DeviceType::Keyboard);
 	dae::InputManager::GetInstance().RemoveInputDevice(dae::Action::DeviceType::Gamepad);
@@ -40,15 +39,10 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::MenuState::Update(float 
 
 std::unique_ptr<bomberman::StateMachineBase> bomberman::MenuState::Notify(const dae::Event& event)
 {
-	// Todo: switch to loading level state when a level is selected
-	//		=> unsub from events!!
-
 	switch (static_cast<bomberman::EventType>(event.GetEventType()))
 	{
 	case bomberman::EventType::START_GAME:
 	{
-		// Todo: change to loading level state
-		// => create seperate scene for the component this state machine is on, so that disabling the main menu scene doesn't stop this state machine
 		const auto& castedEvent = dynamic_cast<const bomberman::StartGameEvent&>(event);
 
 		return std::make_unique<bomberman::LoadLevelState>(*m_Owner, castedEvent.GetChosenGameMode());

@@ -33,5 +33,5 @@ void bomberman::ScoreComponent::RemoveScore(int removedScore)
 
 void bomberman::ScoreComponent::Notify(const dae::Event&)
 {
-	//Todo: fix?
+	//Todo: fix score?
 }

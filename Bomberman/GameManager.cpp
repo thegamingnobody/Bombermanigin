@@ -7,8 +7,6 @@
 #include "BoxCollider.h"
 #include "OctagonCollider.h"
 
-// Todo: disable current scene and create a new scene for the next level
-//			=> store score in gamemanager
 // Todo: add a game over scene
 
 void bomberman::GameManager::LoadLevel(int level)

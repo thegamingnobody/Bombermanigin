@@ -114,6 +114,7 @@ void dae::InputManager::AddAction(const GamepadButtons& gamepadButton, const Inp
 
 void dae::InputManager::AddAction(const KeyboardKeys& keyboardKey, const InputType& inputType, std::shared_ptr<Command> command, int const deviceID)
 {
+	// Check if the action already exists for the given key/button and device ID
 	auto it = std::find_if(m_Actions.begin(), m_Actions.end(), [keyboardKey](const std::unique_ptr<dae::Action>& action) {
 		return (action->GetButton() == static_cast<int>(keyboardKey));
 		});

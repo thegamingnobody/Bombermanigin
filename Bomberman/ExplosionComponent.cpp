@@ -10,10 +10,6 @@ bomberman::ExplosionComponent::ExplosionComponent(dae::GameObject& gameObject, i
 	, m_Size(size)
 	, m_ExplosionTime(explosionTime)
 {
-	auto owner = GetOwner();
-
-	BombExplodedEvent event = BombExplodedEvent(owner->GetTransform()->GetGlobalPosition(), 1, owner);
-	dae::EventManager::GetInstance().BroadcastEvent(std::move(std::make_unique<BombExplodedEvent>(event)));
 }
 
 void bomberman::ExplosionComponent::Update(float deltaTime)

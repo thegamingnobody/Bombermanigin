@@ -10,7 +10,7 @@ bomberman::DyingState::DyingState(dae::GameObject& ownerObject)
 
 std::unique_ptr<bomberman::StateMachineBase> bomberman::DyingState::Update(float /*deltaTime*/)
 {
-	//Todo: animate death of game object
+	//Todo: animate death of game object here
     return nullptr;
 }
 

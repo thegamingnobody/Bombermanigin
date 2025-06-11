@@ -36,8 +36,6 @@ void bomberman::PlayerManager::CreatePlayer(dae::Action::DeviceType deviceType, 
 
 	m_Players.emplace_back(playerInfo);
 	
-	// Todo: add state machine to player
-
 	bomberman::GridCell playerStartCell{ 1, 1 };
 	auto go = std::make_shared<dae::GameObject>(playerInfo.name, grid.GridCoordToWorldPos(playerStartCell), playerInputID);
 	{
@@ -70,7 +68,6 @@ void bomberman::PlayerManager::CreatePlayer(dae::Action::DeviceType deviceType, 
 		inputManager.AddAction(dae::KeyboardKeys(inputMapping.rightButton), dae::InputType::Held, rightCommand, playerInputID);
 		inputManager.AddAction(dae::KeyboardKeys(inputMapping.bombButton),	dae::InputType::PressedThisFrame, attackCommand, playerInputID);
 
-		// Todo: should only be added once
 		inputManager.AddAction(dae::KeyboardKeys::F1, dae::InputType::PressedThisFrame, std::make_shared<bomberman::SkipLevelCommand>(), playerInputID);
 		inputManager.AddAction(dae::KeyboardKeys::R, dae::InputType::PressedThisFrame, std::make_shared<bomberman::ResetLevelCommand>(), playerInputID);
 		break;

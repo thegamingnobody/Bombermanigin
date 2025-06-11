@@ -46,9 +46,6 @@ void bomberman::BaseCollider::Update(float const /*deltaTime*/)
 
 void bomberman::BaseCollider::Render() const
 {
-	//Todo: Copilot suggested this, could be worth looking into
-	//bool shouldRenderHitboxes{ dae::ServiceLocator::GetConfig().GetBool("RenderHitboxes") };
-	
 	if (!m_ShouldRender) return;
 
 	glm::vec3 position = GetOwner()->GetTransform()->GetGlobalPosition();

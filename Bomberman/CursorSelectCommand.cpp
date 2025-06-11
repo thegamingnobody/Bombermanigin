@@ -34,7 +34,6 @@ void bomberman::CursorSelectCommand::Execute()
 		break;
 	case CursorOptions::Quit:
 	{
-		// Todo: is this ok?
 		SDL_Event quitEvent;
 		quitEvent.type = SDL_QUIT;
 		SDL_PushEvent(&quitEvent);

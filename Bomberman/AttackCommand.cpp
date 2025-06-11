@@ -11,6 +11,8 @@
 #include "BoxCollider.h"
 #include "SceneNames.h"
 
+//Todo: limit to player bomb limit
+
 bomberman::AttackCommand::AttackCommand(dae::GameObject& controllingObject)
 	: m_pControllingObject(&controllingObject)
 {
@@ -21,7 +23,10 @@ void bomberman::AttackCommand::Execute()
 {
 	auto& playerManager = bomberman::PlayerManager::GetInstance();
 
-	if (m_BombCount >= playerManager.GetPlayerInfo(0).maxBombs) return;
+	if (m_BombCount >= playerManager.GetPlayerInfo(0).maxBombs)
+	{
+		return;
+	}
 
 	glm::vec3 position = m_pControllingObject->GetTransform()->GetGlobalPosition();
 	SpawnBombObject(position);
