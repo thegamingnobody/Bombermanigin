@@ -197,6 +197,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="ExplosionComponent.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameOverMenuState.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="HUDManager.cpp" />
@@ -208,6 +209,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="ObjectDamagedEvent.cpp" />
     <ClCompile Include="OctagonCollider.cpp" />
     <ClCompile Include="PlayerDeathState.cpp" />
+    <ClCompile Include="PlayerDiedEvent.cpp" />
+    <ClCompile Include="PlayerGameOverState.cpp" />
     <ClCompile Include="PlayerIdleState.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="ResetLevelCommand.cpp" />
@@ -239,6 +242,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="ExplosionComponent.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameOverMenuState.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="HUDManager.h" />
@@ -251,6 +255,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="ObjectDamagedEvent.h" />
     <ClInclude Include="OctagonCollider.h" />
     <ClInclude Include="PlayerDeathState.h" />
+    <ClInclude Include="PlayerDiedEvent.h" />
+    <ClInclude Include="PlayerGameOverState.h" />
     <ClInclude Include="PlayerIdleState.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="ResetLevelCommand.h" />

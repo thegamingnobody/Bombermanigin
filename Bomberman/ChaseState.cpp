@@ -26,7 +26,7 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::ChaseState::Update(float
 		return std::make_unique<bomberman::DyingState>(*m_Owner);
 	}
 
-	//Todo: improve
+	//Todo: fix for multiplayer
 	auto player = dae::SceneManager::GetInstance().GetScene(SCENE_PLAYERS)->GetObject("Player 1");
 	if (!player)
 	{

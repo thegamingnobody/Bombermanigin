@@ -6,3 +6,4 @@
 #define SCENE_OBJECTS "Objects"
 #define SCENE_PLAYERS "Player"
 #define SCENE_HUD "Hud"
+#define SCENE_GAMEOVER "GameOver"

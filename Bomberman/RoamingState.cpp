@@ -34,7 +34,7 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::RoamingState::Update(flo
 	glm::vec3 deltaPosition{ m_Direction.x * m_EnemyData.speed * deltaTime, m_Direction.y * m_EnemyData.speed * deltaTime, 0.0f };
 	transform->Move(deltaPosition);
 
-	//Todo: improve
+	//Todo: fix for multiplayer
 	auto player = dae::SceneManager::GetInstance().GetScene(SCENE_PLAYERS)->GetObject("Player 1");
 	if (!player)
 	{

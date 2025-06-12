@@ -11,8 +11,6 @@
 #include "BoxCollider.h"
 #include "SceneNames.h"
 
-//Todo: limit to player bomb limit
-
 bomberman::AttackCommand::AttackCommand(dae::GameObject& controllingObject, int playerNumber)
 	: m_pControllingObject(&controllingObject)
 	, m_PlayerNumber(playerNumber)

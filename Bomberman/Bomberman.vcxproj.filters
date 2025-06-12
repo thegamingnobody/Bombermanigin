@@ -172,6 +172,11 @@
     <ClCompile Include="MainGameState.cpp">
       <Filter>FSM\Game</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerGameOverState.cpp" />
+    <ClCompile Include="PlayerDiedEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverMenuState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScoreComponent.h">
@@ -297,6 +302,11 @@
     <ClInclude Include="MainGameState.h">
       <Filter>FSM\Game</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerGameOverState.h" />
+    <ClInclude Include="PlayerDiedEvent.h">
+      <Filter>Events</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverMenuState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />
