@@ -6,6 +6,8 @@ namespace bomberman
     class GameOverMenuState : public StateMachineBase
     {
     public:
+        using ScoreEntry = std::pair<std::string, int>;
+
         GameOverMenuState(dae::GameObject& ownerObject);
 		~GameOverMenuState() override = default;
 
@@ -17,6 +19,11 @@ namespace bomberman
 
     private:
 		void CreateGameOverScreen();
+
+		void LoadScores();
+
+        std::vector<ScoreEntry> m_Scores;
+        const size_t m_MaxScores = 5;
     };
 }
 

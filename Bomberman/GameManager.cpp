@@ -28,6 +28,7 @@ void bomberman::GameManager::LoadLevel(int level)
 	m_CurrentLevelData = grid.LoadMap(level - 1);
 	grid.CreateGameObjects();
 
+	// Todo: fix for multiplayer
 	auto player = playerScene->GetObject("Player 1");
 
 	if (player == nullptr) return;
