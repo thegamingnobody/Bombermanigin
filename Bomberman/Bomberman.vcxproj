@@ -221,7 +221,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="RoamingState.cpp" />
     <ClCompile Include="RotatorComponent.cpp" />
     <ClCompile Include="ScoreAddedEvent.cpp" />
-    <ClCompile Include="ScoreComponent.cpp" />
     <ClCompile Include="SkipLevelCommand.cpp" />
     <ClCompile Include="StartGameEvent.cpp" />
     <ClCompile Include="StateMachineBase.cpp" />
@@ -273,7 +272,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="RotatorComponent.h" />
     <ClInclude Include="SceneNames.h" />
     <ClInclude Include="ScoreAddedEvent.h" />
-    <ClInclude Include="ScoreComponent.h" />
     <ClInclude Include="SkipLevelCommand.h" />
     <ClInclude Include="SoundIds.h" />
     <ClInclude Include="StartGameEvent.h" />

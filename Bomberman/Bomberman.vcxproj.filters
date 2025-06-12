@@ -60,9 +60,6 @@
     <ClCompile Include="FPSComponent.cpp">
       <Filter>Components\StandardComponents</Filter>
     </ClCompile>
-    <ClCompile Include="ScoreComponent.cpp">
-      <Filter>Components\StandardComponents</Filter>
-    </ClCompile>
     <ClCompile Include="RotatorComponent.cpp">
       <Filter>Components\PhysicsComponents</Filter>
     </ClCompile>
@@ -198,9 +195,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ScoreComponent.h">
-      <Filter>Components\StandardComponents</Filter>
-    </ClInclude>
     <ClInclude Include="HealthComponent.h">
       <Filter>Components\StandardComponents</Filter>
     </ClInclude>

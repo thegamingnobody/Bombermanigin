@@ -23,7 +23,7 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::ChaseState::Update(float
 	auto healthComp = m_Owner->GetComponent<bomberman::HealthComponent>();
 	if (healthComp.has_value() and healthComp.value()->GetCurrentHealth() <= 0)
 	{
-		return std::make_unique<bomberman::DyingState>(*m_Owner);
+		return std::make_unique<bomberman::DyingState>(*m_Owner, m_EnemyData.score);
 	}
 
 	//Todo: fix for multiplayer

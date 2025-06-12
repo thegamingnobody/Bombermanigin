@@ -4,7 +4,6 @@
 #include "Grid.h"
 #include <TextureComponent.h>
 #include "HealthComponent.h"
-#include "ScoreComponent.h"
 #include "BoxCollider.h"
 #include "MoveCommand.h"
 #include "AttackCommand.h"
@@ -13,6 +12,7 @@
 #include "StateMachineComponent.h"
 #include "PlayerIdleState.h"
 #include "SceneNames.h"
+#include "HUDManager.h"
 
 void bomberman::PlayerManager::CreatePlayer(dae::Action::DeviceType deviceType, InputMapping inputMapping)
 {
@@ -95,4 +95,18 @@ void bomberman::PlayerManager::RemovePlayer(int playerID)
 void bomberman::PlayerManager::ClearPlayers()
 {
 	m_Players.clear();
+}
+
+void bomberman::PlayerManager::ResetScore()
+{
+	m_Score = 0;
+
+	bomberman::HUDManager::GetInstance().SetScoreText(m_Score);
+}
+
+void bomberman::PlayerManager::AddScore(int score)
+{
+	m_Score += score;
+
+	bomberman::HUDManager::GetInstance().SetScoreText(m_Score);
 }

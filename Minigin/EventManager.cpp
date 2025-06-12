@@ -19,7 +19,7 @@ void dae::EventManager::ProcessQueue()
        ProcessEvent(std::move(event));
    }
 }
-//todo: take damage event broadcasting
+
 void dae::EventManager::BroadcastEvent(std::unique_ptr<Event> event)
 {
 	m_EventQueue.push(std::move(event));

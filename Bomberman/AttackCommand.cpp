@@ -18,6 +18,11 @@ bomberman::AttackCommand::AttackCommand(dae::GameObject& controllingObject, int 
 	dae::EventManager::GetInstance().AddObserver(*this, static_cast<int>(bomberman::EventType::BOMB_EXPLODED));
 }
 
+bomberman::AttackCommand::~AttackCommand()
+{
+	dae::EventManager::GetInstance().RemoveObserver(*this);
+}
+
 void bomberman::AttackCommand::Execute()
 {
 	auto& playerManager = bomberman::PlayerManager::GetInstance();

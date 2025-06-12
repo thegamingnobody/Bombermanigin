@@ -143,10 +143,11 @@ void bomberman::LoadLevelState::LoadHud(dae::Scene& scene)
 	uint8_t fontSize = 32;
 	auto font = resourceManager.LoadFont("PixelFont.ttf", fontSize);
 
+	// the only purpose of this gameobject is to update the HUD manager singleton and display the text
 	auto go = std::make_shared<dae::GameObject>("HUD_Updater", glm::vec3(windowSize.x - (4 * TILE_SIZE), -64.0f, 0.0f));
 	auto& textComponent = go->AddComponent<dae::TextComponent>(*go.get(), "Left", font);
 	go->AddComponent<bomberman::HUDUpdater>(*go.get());
 	scene.Add(go);
 
-	hudManager.Init(textComponent, glm::vec3(windowSize.x - (4 * TILE_SIZE), -64.0f, 0.0f));
+	hudManager.Init(textComponent, glm::vec3(windowSize.x - (4 * TILE_SIZE) - (7 * TILE_SIZE), -64.0f, 0.0f));
 }

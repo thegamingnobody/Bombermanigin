@@ -11,6 +11,7 @@ namespace bomberman
     {
 	public:
 		AttackCommand(dae::GameObject& controllingObject, int playerNumber);
+		~AttackCommand();
 
 		void Execute() override;
 

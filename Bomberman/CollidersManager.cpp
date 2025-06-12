@@ -28,7 +28,6 @@ void bomberman::CollidersManager::Init()
 		};
 	CollisionHandler tryNextLevel = [](BaseCollider* /*self*/, BaseCollider* /*other*/)
 		{
-			std::cout << "try next level\n";
 			if (bomberman::EnemyManager::GetInstance().AreAllEnemiesDead())
 			{
 				bomberman::GameManager::GetInstance().LoadNextLevel();

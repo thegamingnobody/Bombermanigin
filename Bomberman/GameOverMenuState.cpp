@@ -95,31 +95,37 @@ void bomberman::GameOverMenuState::CreateGameOverScreen()
 	dae::Camera::GetInstance().SetTrackingTarget(*go.get());
 
 	uint8_t fontSize = 32;
+	float biggerFontScale = 1.5f;
 	auto font = resourceManager.LoadFont("PixelFont.ttf", fontSize);
-	auto test = font->GetFont();
+	auto biggerFont = resourceManager.LoadFont("PixelFont.ttf", static_cast<uint8_t>(fontSize * biggerFontScale));
 	int width;
 	int height;
-	TTF_SizeText(test, "A", &width, &height);
+	// Get width of a single character in the smaller font to space the letters and cursor correctly
+	TTF_SizeText(font->GetFont(), "A", &width, &height);
 
 	auto middleLetterX = TILE_SIZE * 7;
 
-	go = std::make_shared<dae::GameObject>("Letter0", glm::vec3(middleLetterX - width, TILE_SIZE * 4, 0.0f));
-	go->AddComponent<dae::TextComponent>(*go.get(), "A", font);
-	gameOverScene.Add(go);
-	go = std::make_shared<dae::GameObject>("Letter1", glm::vec3(middleLetterX, TILE_SIZE * 4, 0.0f));
-	go->AddComponent<dae::TextComponent>(*go.get(), "A", font);
-	gameOverScene.Add(go);
-	go = std::make_shared<dae::GameObject>("Letter2", glm::vec3(middleLetterX + width, TILE_SIZE * 4, 0.0f));
-	go->AddComponent<dae::TextComponent>(*go.get(), "A", font);
+	for (int i = 0; i < 3; i++)
+	{
+		go = std::make_shared<dae::GameObject>("Letter"+std::to_string(i), glm::vec3(middleLetterX + (width * (i - 1)), TILE_SIZE * 5, 0.0f));
+		go->AddComponent<dae::TextComponent>(*go.get(), "A", font);
+		gameOverScene.Add(go);
+	}
+
+	go = std::make_shared<dae::GameObject>("Cursor", glm::vec3(middleLetterX - width, TILE_SIZE * 4, 0.0f));
+	go->AddComponent<dae::TextComponent>(*go.get(), "V  ", font);
 	gameOverScene.Add(go);
 
-	go = std::make_shared<dae::GameObject>("Cursor", glm::vec3(middleLetterX - width, TILE_SIZE * 3, 0.0f));
-	go->AddComponent<dae::TextComponent>(*go.get(), "V  ", font);
+
+
+	go = std::make_shared<dae::GameObject>("GameOverText", glm::vec3(middleLetterX - ((width * biggerFontScale) * 4), TILE_SIZE * 2, 0.0f));
+	go->AddComponent<dae::TextComponent>(*go.get(), "Game Over!", biggerFont);
 	gameOverScene.Add(go);
 
 	inputManager.RemoveInputDevice(dae::Action::DeviceType::Keyboard);
 	inputManager.RemoveInputDevice(dae::Action::DeviceType::Gamepad);
 
+	// Todo: add gamepad controls
 	int keyboardID = inputManager.AddInputDevice(dae::Action::DeviceType::Keyboard);
 
 	inputManager.AddAction(dae::KeyboardKeys::W, dae::InputType::PressedThisFrame, std::make_shared<IncDecLetterCommand>(true), keyboardID);

@@ -20,6 +20,8 @@ namespace dae
 
 		void RemoveObserver(Observer& observer)
 		{
+			if (m_Observers.size() <= 0) return;
+
 			auto it = std::find_if(m_Observers.begin(), m_Observers.end(), [&observer](const std::pair<Observer*, int>& pair) -> bool
 				{
 					return (pair.first == &observer);
@@ -37,6 +39,11 @@ namespace dae
 			{
 				if (event.GetEventType() != observer.second) continue;
 				
+				if (observer.first == nullptr)
+				{
+					continue; // Check if observer is still valid
+				}
+
 				observer.first->Notify(event);
 			}
 

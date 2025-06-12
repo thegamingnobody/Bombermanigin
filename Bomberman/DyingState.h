@@ -6,7 +6,7 @@ namespace bomberman
 	class DyingState : public StateMachineBase
 	{
 	public:
-		DyingState(dae::GameObject& ownerObject);
+		DyingState(dae::GameObject& ownerObject, int scoreValue);
 		~DyingState() override = default;
 
 		DyingState(const DyingState&) = delete;
