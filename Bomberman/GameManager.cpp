@@ -9,6 +9,12 @@
 
 // Todo: add a game over scene
 
+void bomberman::GameManager::ResetLevelCount()
+{
+	m_CurrentLevelData = bomberman::LevelData{};
+	m_GameMode = GameMode::Selecting;
+}
+
 void bomberman::GameManager::LoadLevel(int level)
 {
 	auto& sceneManager = dae::SceneManager::GetInstance();

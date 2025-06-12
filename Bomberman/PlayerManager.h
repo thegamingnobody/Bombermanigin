@@ -13,7 +13,7 @@ namespace bomberman
 		std::string name{};
 		dae::Action::DeviceType deviceType{};
 		int score{};
-		int lives{ 3 };
+		int lives{ 0 };
 		int maxBombs{ 1 };
 		std::vector<int> inputIDs{}; // Store all input device IDs for this player
 
@@ -84,6 +84,9 @@ namespace bomberman
 
 			return m_Players[playerID];
 		}
+
+		void RemovePlayer(int playerID);
+		void ClearPlayers();
 
 	private:
 		std::vector<PlayerInfo> m_Players;

@@ -35,7 +35,8 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::RoamingState::Update(flo
 	transform->Move(deltaPosition);
 
 	//Todo: fix for multiplayer
-	auto player = dae::SceneManager::GetInstance().GetScene(SCENE_PLAYERS)->GetObject("Player 1");
+	auto scene = dae::SceneManager::GetInstance().GetScene(SCENE_PLAYERS);
+	auto player = scene->GetObject("Player 1");
 	if (!player)
 	{
 		throw std::runtime_error("Player not found");

@@ -14,6 +14,9 @@ namespace bomberman
         std::unique_ptr<StateMachineBase> Update(float deltaTime) override;
 
         std::unique_ptr<StateMachineBase> Notify(const dae::Event& event) override;
+
+    private:
+        void CreateMenu();
     };
 }
 

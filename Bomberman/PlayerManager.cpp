@@ -81,3 +81,18 @@ void bomberman::PlayerManager::CreatePlayer(dae::Action::DeviceType deviceType, 
 	}
 
 }
+
+void bomberman::PlayerManager::RemovePlayer(int playerID)
+{
+	if (playerID < 0 || playerID >= static_cast<int>(m_Players.size()))
+	{
+		throw std::out_of_range("Player ID is out of range.");
+	}
+
+	m_Players[playerID] = PlayerInfo{}; // Reset player info
+}
+
+void bomberman::PlayerManager::ClearPlayers()
+{
+	m_Players.clear();
+}

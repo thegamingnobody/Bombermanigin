@@ -26,6 +26,8 @@ void bomberman::LoadLevelState::OnEnter()
 	auto& sceneManager = dae::SceneManager::GetInstance();
 	auto& gameManager = bomberman::GameManager::GetInstance();
 
+	gameManager.ResetLevelCount();
+
 	auto playerScene = sceneManager.GetScene(SCENE_PLAYERS);
 
 	// Check if the game scene already exist 
@@ -146,9 +148,5 @@ void bomberman::LoadLevelState::LoadHud(dae::Scene& scene)
 	go->AddComponent<bomberman::HUDUpdater>(*go.get());
 	scene.Add(go);
 
-	// feels like a hack
-	if (!hudManager.IsInitialized())
-	{
-		hudManager.Init(textComponent, glm::vec3(windowSize.x - (4 * TILE_SIZE), -64.0f, 0.0f));
-	}
+	hudManager.Init(textComponent, glm::vec3(windowSize.x - (4 * TILE_SIZE), -64.0f, 0.0f));
 }

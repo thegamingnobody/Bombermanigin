@@ -26,8 +26,6 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::PlayerDeathState::Update
 	bomberman::GameManager::GetInstance().ResetLevel();
 	healthComp.value()->Heal(1);
 	return std::make_unique<bomberman::PlayerIdleState>(*m_Owner, m_PlayerID);
-
-	//return nullptr;
 }
 
 void bomberman::PlayerDeathState::OnEnter()

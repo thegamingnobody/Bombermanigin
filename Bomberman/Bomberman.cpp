@@ -46,7 +46,6 @@
 //Todo: add pickups
 //Todo: check vr nog classes final te maken als mogelijk
 void LoadSounds();
-void LoadMenu(dae::Scene& scene);
 void CreateGameState(dae::Scene& scene);
 
 void load()
@@ -70,11 +69,9 @@ void load()
 	
 	// This way we can easily reset the enemies, pickups, etc. without removing the map or player
 
-	auto& menuScene = sceneManager.CreateScene(SCENE_MAIN_MENU);
 	auto& gameStateScene = sceneManager.CreateScene(SCENE_GAME_STATE);
 
 	CreateGameState(gameStateScene);
-	LoadMenu(menuScene);
 }
 
 void LoadSounds()
@@ -90,41 +87,6 @@ void LoadSounds()
 
 	soundSystem.AddSound(static_cast<int>(bomberman::SoundId::WalkHorizontal), SoundPaths[static_cast<int>(bomberman::SoundId::WalkHorizontal)]);
 	soundSystem.AddSound(static_cast<int>(bomberman::SoundId::WalkVertical), SoundPaths[static_cast<int>(bomberman::SoundId::WalkVertical)]);
-}
-
-void LoadMenu(dae::Scene& scene)
-{
-	auto& inputManager = dae::InputManager::GetInstance();
-
-	auto go = std::make_shared<dae::GameObject>("Title_Screen_Image", glm::vec3(0.0f, -2 * TILE_SIZE, 0.0f));
-	{
-		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
-		textureComponent.AddTexture("TitleScreen.png");
-	}
-	scene.Add(go);
-
-	go = std::make_shared<dae::GameObject>("Cursor", glm::vec3(5 * TILE_SIZE, static_cast<int>(bomberman::CursorOptions::SinglePlayer) * TILE_SIZE, 1.0f));
-	{
-		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
-		textureComponent.AddTexture("Cursor.png");
-	}
-	scene.Add(go);
-
-	int keyboardID = inputManager.AddInputDevice(dae::Action::DeviceType::Keyboard);
-	int controllerID = inputManager.AddInputDevice(dae::Action::DeviceType::Gamepad);
-
-	inputManager.AddAction(dae::KeyboardKeys::W, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), false), keyboardID);
-	inputManager.AddAction(dae::KeyboardKeys::S, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), true),  keyboardID);
-
-	inputManager.AddAction(dae::KeyboardKeys::Up, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), false), keyboardID);
-	inputManager.AddAction(dae::KeyboardKeys::Down, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), true),  keyboardID);
-	
-	inputManager.AddAction(dae::KeyboardKeys::Space, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorSelectCommand>(*go.get()),  keyboardID);
-	
-	inputManager.AddAction(dae::GamepadButtons::DpadUp, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), false), controllerID);
-	inputManager.AddAction(dae::GamepadButtons::DpadDown, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorMoveCommand>(*go.get(), true), controllerID);
-	
-	inputManager.AddAction(dae::GamepadButtons::FaceButtonDown, dae::InputType::PressedThisFrame, std::make_shared<bomberman::CursorSelectCommand>(*go.get()), controllerID);
 }
 
 void CreateGameState(dae::Scene& scene)
