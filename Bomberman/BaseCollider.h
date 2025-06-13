@@ -56,7 +56,7 @@ namespace bomberman
 		polygon m_Polygon;
 		polygon m_Axes;
 		CollisionType m_CollisionType;
-		bool m_ShouldRender{ false };
+		bool m_ShouldRender{ true };
     };
 }
 

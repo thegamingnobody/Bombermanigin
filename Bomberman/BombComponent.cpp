@@ -9,6 +9,10 @@
 #include "BombExplodedEvent.h"
 #include <EventManager.h>
 #include "SceneNames.h"
+#include <ServiceLocator.h>
+#include "SoundIds.h"
+#include "PlayerManager.h"
+#include <sstream>
 
 bomberman::BombComponent::~BombComponent()
 {
@@ -43,13 +47,13 @@ void bomberman::BombComponent::SpawnExplosion(int size)
 	if (!activeScene) return;
 
 	auto position = GetOwner()->GetTransform()->GetGlobalPosition();
-	position.x -= TILE_SIZE;
-	position.y -= TILE_SIZE;
+	position.x -= size * TILE_SIZE;
+	position.y -= size * TILE_SIZE;
 
 	auto explosion = std::make_shared<dae::GameObject>("Explosion", position);
 	explosion->AddComponent<bomberman::ExplosionComponent>(*explosion.get(), size, m_ExplosionTime);
 
-	int crossSize = 3;
+	int crossSize = size * 2 + 1;
 
 	float lineWidth = crossSize * TILE_SIZE * 0.8f;
 	float lineHeight = TILE_SIZE / 2;
@@ -62,6 +66,15 @@ void bomberman::BombComponent::SpawnExplosion(int size)
 	explosion->AddComponent<bomberman::BoxCollider>(*explosion.get(), bomberman::CollisionType::Explosion, horizontalLine);
 	explosion->AddComponent<bomberman::BoxCollider>(*explosion.get(), bomberman::CollisionType::Explosion, verticalLine);
 	auto& textureComponent = explosion->AddComponent<dae::TextureComponent>(*explosion.get());
-	textureComponent.AddTexture("Explosion_1_1.png");
+
+	std::stringstream ss;
+
+	ss << "Explosion_" << size << "_" << 1 << ".png";
+
+	textureComponent.AddTexture(ss.str());
 	activeScene->Add(explosion);
+
+	float volume = 0.15f;
+	dae::ServiceLocator::GetSoundSystem().PlaySound(static_cast<int>(bomberman::SoundId::Explosion), volume, -1);
+
 }

@@ -30,18 +30,19 @@ void bomberman::AttackCommand::Execute()
 	if (m_pControllingObject->IsHidden()) return;
 
 	auto& playerManager = bomberman::PlayerManager::GetInstance();
+	auto playerInfo = playerManager.GetPlayerInfo(m_PlayerNumber);
 
-	if (m_BombCount >= playerManager.GetPlayerInfo(m_PlayerNumber).maxBombs) return;
+	if (m_BombCount >= playerInfo.maxBombs) return;
 
 	glm::vec3 position = m_pControllingObject->GetTransform()->GetGlobalPosition();
-	SpawnBombObject(position);
+	SpawnBombObject(position, playerInfo.GetBombRange());
 
 	float volume = 0.15f;
 	dae::ServiceLocator::GetSoundSystem().PlaySound(static_cast<int>(bomberman::SoundId::BombPlace), volume, -1);
 
 }
 
-void bomberman::AttackCommand::SpawnBombObject(glm::vec3 position)
+void bomberman::AttackCommand::SpawnBombObject(glm::vec3 position, int bombSize)
 {
 	auto activeScene = dae::SceneManager::GetInstance().GetScene(SCENE_OBJECTS);
 
@@ -58,7 +59,7 @@ void bomberman::AttackCommand::SpawnBombObject(glm::vec3 position)
 	textureComponent.AddTexture("Bomb_2.png");
 	textureComponent.AddTexture("Bomb_3.png");
 	textureComponent.SetCurrentIndex(0);
-	bomb->AddComponent<bomberman::BombComponent>(*bomb.get(), 1, 3.0f, 0.5f);
+	bomb->AddComponent<bomberman::BombComponent>(*bomb.get(), bombSize, 3.0f, 0.5f);
 	bomb->AddComponent<bomberman::BoxCollider>(*bomb.get(), CollisionType::Bomb);
 
 	activeScene->Add(bomb);

@@ -23,7 +23,7 @@ namespace bomberman
 		int m_BombCount{ 0 };
 		int m_PlayerNumber{ -1 };
 
-		void SpawnBombObject(glm::vec3 position);
+		void SpawnBombObject(glm::vec3 position, int bombSize);
     };
 }
 

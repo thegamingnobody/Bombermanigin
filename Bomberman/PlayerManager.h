@@ -72,6 +72,23 @@ namespace bomberman
 		bool isAlive{ true };
 
 		PlayerInfo() = default;
+
+		int GetBombRange() const { return bombRange; }
+		void SetBombRange(int range) 
+		{
+			bombRange = range;
+			if (bombRange < 1) 
+			{
+				bombRange = 1;
+			}
+			if (bombRange > maxBombRange)
+			{
+				bombRange = maxBombRange;
+			}
+		}
+	private:
+		int bombRange{ 2 };
+		int maxBombRange{ 2 }; // Max range for bombs, can be set by power-ups
 	};
 
 	class PlayerManager : public dae::Singleton<PlayerManager>

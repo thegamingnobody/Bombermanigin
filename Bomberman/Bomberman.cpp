@@ -80,12 +80,16 @@ void LoadSounds()
 	{
 		"WalkHorizontal.wav",
 		"WalkVertical.wav",
-		"BombPlace.wav"
+		"BombPlace.wav",
+		"Pickup.wav",
+		"Explosion.mp3"
 	};
 
 	soundSystem.AddSound(static_cast<int>(bomberman::SoundId::WalkHorizontal), SoundPaths[static_cast<int>(bomberman::SoundId::WalkHorizontal)]);
 	soundSystem.AddSound(static_cast<int>(bomberman::SoundId::WalkVertical), SoundPaths[static_cast<int>(bomberman::SoundId::WalkVertical)]);
 	soundSystem.AddSound(static_cast<int>(bomberman::SoundId::BombPlace), SoundPaths[static_cast<int>(bomberman::SoundId::BombPlace)]);
+	soundSystem.AddSound(static_cast<int>(bomberman::SoundId::Pickup), SoundPaths[static_cast<int>(bomberman::SoundId::Pickup)]);
+	soundSystem.AddSound(static_cast<int>(bomberman::SoundId::Explosion), SoundPaths[static_cast<int>(bomberman::SoundId::Explosion)]);
 }
 
 void CreateGameState(dae::Scene& scene)

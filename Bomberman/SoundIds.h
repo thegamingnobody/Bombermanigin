@@ -10,5 +10,7 @@ namespace bomberman
 		WalkHorizontal = 0,
 		WalkVertical = 1,
 		BombPlace = 2,
+		Pickup = 3,
+		Explosion = 4,
 	};
 }
