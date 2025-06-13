@@ -4,6 +4,8 @@
 #include "PlayerIdleState.h"
 #include "GameManager.h"
 #include "PlayerGameOverState.h"
+#include "PlayerDiedEvent.h"
+#include "EventManager.h"
 
 bomberman::PlayerDeathState::PlayerDeathState(dae::GameObject& ownerObject, int playerID)
 	: StateMachineBase(ownerObject)
@@ -13,15 +15,30 @@ bomberman::PlayerDeathState::PlayerDeathState(dae::GameObject& ownerObject, int 
 
 std::unique_ptr<bomberman::StateMachineBase> bomberman::PlayerDeathState::Update(float /*deltaTime*/)
 {
-	// animate death
-	auto healthComp = m_Owner->GetComponent<bomberman::HealthComponent>();
+	auto& playerManager = bomberman::PlayerManager::GetInstance();
 
-	if (!(healthComp.has_value()) or !(healthComp.value()->GetCurrentHealth() <= 0)) return nullptr;
-	
-	if (bomberman::PlayerManager::GetInstance().GetPlayerInfo(m_PlayerID).lives < 0)
+	if (playerManager.GetPlayerInfo(m_PlayerID).isAlive)
 	{
+		// Only triggers once
+		bomberman::PlayerDiedEvent event(m_PlayerID);
+		dae::EventManager::GetInstance().BroadcastEvent(std::make_unique<PlayerDiedEvent>(event));
+	}
+
+	bool playersLeft = playerManager.SetPlayerDied(m_PlayerID);
+
+	if (playersLeft) return nullptr;
+
+	// no players left, reset
+
+	if (playerManager.GetPlayerInfo(m_PlayerID).lives < 0)
+	{
+		// only game over if no lives left
 		return std::make_unique<bomberman::PlayerGameOverState>(*m_Owner, m_PlayerID);
 	}
+
+	auto healthComp = m_Owner->GetComponent<bomberman::HealthComponent>();
+
+	if (!healthComp.has_value()) return nullptr;
 
 	bomberman::GameManager::GetInstance().ResetLevel();
 	healthComp.value()->Heal(1);
@@ -30,8 +47,6 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::PlayerDeathState::Update
 
 void bomberman::PlayerDeathState::OnEnter()
 {
-	auto& playerManager = bomberman::PlayerManager::GetInstance();
-	playerManager.GetPlayerInfo(m_PlayerID).lives--;
 }
 
 void bomberman::PlayerDeathState::OnExit()

@@ -73,7 +73,6 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::GameOverMenuState::Notif
 	{
 	case bomberman::EventType::NAME_CONFIRM:
 	{
-		//Todo: save name & score to file
 		auto& castedEvent = static_cast<const bomberman::NameConfirmEvent&>(event);
 		ScoreEntry newScoreEntry{ castedEvent.GetName(),  bomberman::PlayerManager::GetInstance().GetScore() };
 
@@ -131,7 +130,7 @@ void bomberman::GameOverMenuState::CreateGameOverScreen()
 
 	LoadScores();
 
-	for (int i = 0; i < m_Scores.size(); i++)
+	for (int i = 0; i < static_cast<int>(m_Scores.size()); i++)
 	{
 		std::string scoreEntry = m_Scores[i].first + " " + std::to_string(m_Scores[i].second);
 		go = std::make_shared<dae::GameObject>("HighScoreEntry", glm::vec3(15.0f, TILE_SIZE * (i+8), 0.0f));
@@ -199,7 +198,7 @@ void bomberman::GameOverMenuState::SortAndTrimScores()
 	}
 	else if (m_Scores.size() < m_MaxScores)
 	{
-		for (int i = 0; i <= (m_MaxScores - m_Scores.size()); i++)
+		for (int i = 0; i <= static_cast<int>(m_MaxScores - m_Scores.size()); i++)
 		{
 			m_Scores.emplace_back("---", 0);
 		}

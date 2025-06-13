@@ -34,24 +34,38 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::RoamingState::Update(flo
 	glm::vec3 deltaPosition{ m_Direction.x * m_EnemyData.speed * deltaTime, m_Direction.y * m_EnemyData.speed * deltaTime, 0.0f };
 	transform->Move(deltaPosition);
 
-	//Todo: fix for multiplayer
 	auto scene = dae::SceneManager::GetInstance().GetScene(SCENE_PLAYERS);
-	auto player = scene->GetObject("Player 1");
-	if (!player)
+	auto player1 = scene->GetObject("Player 1");
+	auto player2 = scene->GetObject("Player 2");
+
+	if (!player1 && !player2)
 	{
-		throw std::runtime_error("Player not found");
+		throw std::runtime_error("No players found");
 	}
 
-	glm::vec3 playerPos = player->GetTransform()->GetGlobalPosition();
+	dae::GameObject* closestPlayer = nullptr;
+	float closestDistSq = std::numeric_limits<float>::max();
+	glm::vec3 enemyPos = transform->GetGlobalPosition();
 
-	glm::vec3 enemyPos = m_Owner->GetTransform()->GetGlobalPosition();
+	auto tryPlayer = [&](dae::GameObject* player)
+		{
+			if (!player) return;
 
-	float distanceSQ =	(playerPos.x - enemyPos.x) * (playerPos.x - enemyPos.x) + 
-						(playerPos.y - enemyPos.y) * (playerPos.y - enemyPos.y);
+			glm::vec3 pos = player->GetTransform()->GetGlobalPosition();
+			glm::vec3 diff = pos - enemyPos;
+			float distSq = diff.x * diff.x + diff.y * diff.y;
 
-	//float distance = (playerPos - enemyPos);
+			if (distSq <= m_EnemyData.detectionRange * m_EnemyData.detectionRange && distSq < closestDistSq)
+			{
+				closestPlayer = player;
+				closestDistSq = distSq;
+			}
+		};
 
-	if (distanceSQ <= m_EnemyData.detectionRange * m_EnemyData.detectionRange)
+	tryPlayer(player1.get());
+	tryPlayer(player2.get());
+
+	if (closestPlayer)
 	{
 		return std::make_unique<bomberman::ChaseState>(*m_Owner, m_EnemyData);
 	}

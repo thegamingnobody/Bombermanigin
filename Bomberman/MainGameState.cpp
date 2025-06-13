@@ -4,7 +4,8 @@
 #include <GameObject.h>
 #include "StateMachineComponent.h"
 #include "GameOverMenuState.h"
-
+#include "PlayerManager.h"
+#include "PlayerDiedEvent.h"
 
 bomberman::MainGameState::MainGameState(dae::GameObject& ownerObject)
 	: StateMachineBase(ownerObject)
@@ -21,7 +22,6 @@ void bomberman::MainGameState::OnExit()
 {
 	auto stateMachineComp = m_Owner->GetComponent<bomberman::StateMachineComponent>();
 	dae::EventManager::GetInstance().RemoveObserver(*stateMachineComp.value());
-	//Todo: transition to game over state + make game over screen
 }
 
 std::unique_ptr<bomberman::StateMachineBase> bomberman::MainGameState::Update(float /*deltaTime*/)
@@ -36,8 +36,12 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::MainGameState::Notify(co
 	{
 	case bomberman::EventType::PLAYER_DIED:
 	{
-		//Todo: decrease player count
-		//Todo: transition to game over when all players are dead
+		auto castedEvent = static_cast<const bomberman::PlayerDiedEvent&>(event);
+
+		if (bomberman::PlayerManager::GetInstance().SetPlayerDied(castedEvent.GetPlayerId()))
+		{
+			return nullptr;
+		}
 		return std::make_unique<bomberman::GameOverMenuState>(*m_Owner);
 	}
 	}

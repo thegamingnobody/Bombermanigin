@@ -25,7 +25,7 @@ namespace bomberman
         void UpdateLetterDisplay() const;
 
         std::vector<char> m_Name;
-        int m_CurrentIndex;
+        int m_CurrentIndex{};
         int const m_MaxIndex{ 2 };
     };
 }

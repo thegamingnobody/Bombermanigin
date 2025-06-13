@@ -13,6 +13,7 @@
 #include "PlayerIdleState.h"
 #include "SceneNames.h"
 #include "HUDManager.h"
+#include <algorithm>
 
 void bomberman::PlayerManager::CreatePlayer(InputMapping mapping1, InputMapping mapping2)
 {
@@ -50,6 +51,34 @@ void bomberman::PlayerManager::ClearPlayers()
 
 void bomberman::PlayerManager::ResetScore()
 {
+	m_Score = 0;
+}
+
+bool bomberman::PlayerManager::SetPlayerDied(int playerID)
+{
+	if (playerID < 0 || playerID >= static_cast<int>(m_Players.size()))
+	{
+		throw std::out_of_range("Player ID is out of range.");
+	}
+
+	if (m_Players[playerID].isAlive)
+	{
+		m_Players[playerID].lives--;
+		m_Players[playerID].isAlive = false;
+	}
+
+	int playersLeft = static_cast<int>(std::count_if(m_Players.begin(), m_Players.end(), [](const PlayerInfo& player) { return player.isAlive; }));
+
+	return (playersLeft > 0);
+}
+
+void bomberman::PlayerManager::ResetPlayersLifeState()
+{
+	for (auto& player : m_Players)
+	{
+		player.isAlive = true;
+	}
+
 	m_Score = 0;
 }
 
@@ -104,7 +133,7 @@ void bomberman::PlayerManager::CreatePlayerActions(dae::GameObject& playerObject
 	playerInfo.inputIDs = {	inputManager.AddInputDevice(playerInfo.inputMappings[0].deviceType),
 							inputManager.AddInputDevice(playerInfo.inputMappings[1].deviceType) };
 
-	for (int i = 0; i < playerInfo.inputIDs.size(); i++)
+	for (int i = 0; i < static_cast<int>(playerInfo.inputIDs.size()); i++)
 	{
 		switch (playerInfo.inputMappings[i].deviceType)
 		{

@@ -7,8 +7,6 @@
 #include "BoxCollider.h"
 #include "OctagonCollider.h"
 
-// Todo: add a game over scene
-
 void bomberman::GameManager::ResetLevelCount()
 {
 	m_CurrentLevelData = bomberman::LevelData{};
@@ -21,19 +19,32 @@ void bomberman::GameManager::LoadLevel(int level)
 	auto& grid = bomberman::Grid::GetInstance();
 
 	auto objectsScene =	sceneManager.GetScene(SCENE_OBJECTS);
-	auto playerScene = sceneManager.GetScene(SCENE_PLAYERS);
 
 	objectsScene->RemoveAll();
 
 	m_CurrentLevelData = grid.LoadMap(level - 1);
 	grid.CreateGameObjects();
 
-	// Todo: fix for multiplayer
+	ResetPlayerPositions();
+}
+
+void bomberman::GameManager::ResetPlayerPositions()
+{
+	auto& sceneManager = dae::SceneManager::GetInstance();
+	auto& grid = bomberman::Grid::GetInstance();
+
+	auto playerScene = sceneManager.GetScene(SCENE_PLAYERS);
 	auto player = playerScene->GetObject("Player 1");
 
 	if (player == nullptr) return;
 
-	player->GetTransform()->SetLocalPosition(grid.GridCoordToWorldPos(1, 1));
+	player->GetTransform()->SetLocalPosition(grid.GridCoordToWorldPos(m_CurrentLevelData.playerSpawns[0]));
+
+	player = playerScene->GetObject("Player 2");
+
+	if (player == nullptr) return;
+
+	player->GetTransform()->SetLocalPosition(grid.GridCoordToWorldPos(m_CurrentLevelData.playerSpawns[1]));
 }
 
 void bomberman::GameManager::LoadNextLevel()
@@ -53,7 +64,6 @@ void bomberman::GameManager::ResetLevel()
 	auto& grid = bomberman::Grid::GetInstance();
 
 	auto objectsScene =	sceneManager.GetScene(SCENE_OBJECTS);
-	auto playerScene = sceneManager.GetScene(SCENE_PLAYERS);
 	
 	// Object Scene
 	objectsScene->RemoveAll();
@@ -61,8 +71,5 @@ void bomberman::GameManager::ResetLevel()
 	grid.CreateGameObjects();
 
 	// Player Scene
-
-	// Todo: fix for multiplayer
-	playerScene->GetObject("Player 1")->GetTransform()->SetLocalPosition(grid.GridCoordToWorldPos(1, 1));
-
+	ResetPlayerPositions();
 }

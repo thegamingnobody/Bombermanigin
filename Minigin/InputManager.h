@@ -21,11 +21,11 @@ namespace dae
 		int AddInputDevice(const Action::DeviceType& deviceType);
 		void RemoveInputDevice(const Action::DeviceType& deviceType);
 
-		//Todo: Add Remove action
-		//Todo: moet command een shared pointer zijn?
 		void AddAction(const GamepadButtons& gamepadButton, const InputType& inputType, std::shared_ptr<Command> command, int const deviceID);
 		void AddAction(const KeyboardKeys& keyboardKey, const InputType& inputType, std::shared_ptr<Command> command, int const deviceID);
 
+		void RemoveAction(const GamepadButtons& gamepadButton, int const deviceID);
+		void RemoveAction(const KeyboardKeys& keyboardKey, int const deviceID);
 
 		bool IsDeviceConnected(int const deviceID) const;
 

@@ -11,7 +11,7 @@ namespace dae
 	{
 	public:
 		static SoundSystemBase& GetSoundSystem() { return *m_SoundSystemInstance.get(); }
-		//Todo: delete old system when registering a new one
+
 		static void RegisterSoundSystem(SoundSystemBase* soundSystem)
 		{
 			if (soundSystem != nullptr)

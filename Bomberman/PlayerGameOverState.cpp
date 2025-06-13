@@ -20,8 +20,6 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::PlayerGameOverState::Not
 
 void bomberman::PlayerGameOverState::OnEnter()
 {
-	bomberman::PlayerDiedEvent event(m_PlayerID);
-	dae::EventManager::GetInstance().BroadcastEvent(std::make_unique<PlayerDiedEvent>(event));
 }
 
 void bomberman::PlayerGameOverState::OnExit()

@@ -97,8 +97,7 @@ void dae::InputManager::RemoveInputDevice(const Action::DeviceType& deviceType)
 		m_InputDevices[index]->SetInUse(false);
 
 		m_Actions.erase(
-			std::remove_if(m_Actions.begin(), m_Actions.end(),
-				[index](const std::unique_ptr<Action>& action)
+			std::remove_if(m_Actions.begin(), m_Actions.end(), [index](const std::unique_ptr<Action>& action)
 				{
 					return action && action->GetDeviceID() == index;
 				}),
@@ -109,8 +108,9 @@ void dae::InputManager::RemoveInputDevice(const Action::DeviceType& deviceType)
 
 void dae::InputManager::AddAction(const GamepadButtons& gamepadButton, const InputType& inputType, std::shared_ptr<Command> command, int const deviceID)
 {
-	auto it = std::find_if(m_Actions.begin(), m_Actions.end(), [gamepadButton, deviceID](const std::unique_ptr<dae::Action>& action) {
-		return ((action->GetButton() == static_cast<int>(gamepadButton)) and (action->GetDeviceID() == deviceID));
+	auto it = std::find_if(m_Actions.begin(), m_Actions.end(), [gamepadButton, deviceID](const std::unique_ptr<dae::Action>& action)
+		{
+			return ((action->GetButton() == static_cast<int>(gamepadButton)) and (action->GetDeviceID() == deviceID));
 		});
 
 	if (it == m_Actions.end())
@@ -124,8 +124,9 @@ void dae::InputManager::AddAction(const GamepadButtons& gamepadButton, const Inp
 void dae::InputManager::AddAction(const KeyboardKeys& keyboardKey, const InputType& inputType, std::shared_ptr<Command> command, int const deviceID)
 {
 	// Check if the action already exists for the given key/button and device ID
-	auto it = std::find_if(m_Actions.begin(), m_Actions.end(), [keyboardKey](const std::unique_ptr<dae::Action>& action) {
-		return (action->GetButton() == static_cast<int>(keyboardKey));
+	auto it = std::find_if(m_Actions.begin(), m_Actions.end(), [keyboardKey](const std::unique_ptr<dae::Action>& action)
+		{
+			return (action->GetButton() == static_cast<int>(keyboardKey));
 		});
 
 	if (it == m_Actions.end())
@@ -133,6 +134,24 @@ void dae::InputManager::AddAction(const KeyboardKeys& keyboardKey, const InputTy
 		//only add if button is not already present
 		m_Actions.emplace_back(std::make_unique<Action>(keyboardKey, inputType, command, deviceID));
 	}
+}
+
+void dae::InputManager::RemoveAction(const GamepadButtons& gamepadButton, int const deviceID)
+{
+	m_Actions.erase(std::remove_if(m_Actions.begin(), m_Actions.end(), [gamepadButton, deviceID](const std::unique_ptr<dae::Action>& action)
+		{
+			return ((action->GetButton() == static_cast<int>(gamepadButton)) && (action->GetDeviceID() == deviceID));
+		}),
+		m_Actions.end());
+}
+
+void dae::InputManager::RemoveAction(const KeyboardKeys& keyboardKey, int const deviceID)
+{
+	m_Actions.erase(std::remove_if(m_Actions.begin(), m_Actions.end(), [keyboardKey, deviceID](const std::unique_ptr<dae::Action>& action)
+		{
+			return ((action->GetButton() == static_cast<int>(keyboardKey)) && (action->GetDeviceID() == deviceID));
+		}),
+		m_Actions.end());
 }
 
 bool dae::InputManager::IsDeviceConnected(int const deviceID) const
@@ -144,7 +163,6 @@ bool dae::InputManager::IsDeviceConnected(int const deviceID) const
 
 int dae::InputManager::GetAvailableGamepadIndex()
 {
-	//todo: kan dit improved worden?
 	int const maxAantalGamepads{ 4 };
 	for (int gamepad = 0; gamepad < maxAantalGamepads; gamepad++)
 	{

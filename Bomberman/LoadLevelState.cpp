@@ -117,11 +117,9 @@ void bomberman::LoadLevelState::LoadPlayer()
 	InputMapping keyboardMapping = InputMapping(dae::KeyboardKeys::W, dae::KeyboardKeys::S, dae::KeyboardKeys::A, dae::KeyboardKeys::D, dae::KeyboardKeys::C);
 	InputMapping gamepadMapping = InputMapping(dae::GamepadButtons::DpadUp, dae::GamepadButtons::DpadDown, dae::GamepadButtons::DpadLeft, dae::GamepadButtons::DpadRight, dae::GamepadButtons::FaceButtonDown);
 
-	// Todo: in single player, both keyboard and gamepad control player 1
 	switch (gameManager.GetGameMode())
 	{
 	case GameMode::Singleplayer:
-		//Todo: connect gamepad to player 1 as well
 		playerManager.CreatePlayer(keyboardMapping, gamepadMapping);
 		break;
 	case GameMode::Coop:

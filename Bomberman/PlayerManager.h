@@ -68,6 +68,7 @@ namespace bomberman
 		int maxBombs{ 1 };
 		std::vector<int> inputIDs{2}; // Store all input device IDs for this player
 		std::vector<bomberman::InputMapping> inputMappings{2};
+		bool isAlive{ true };
 
 		PlayerInfo() = default;
 	};
@@ -94,6 +95,11 @@ namespace bomberman
 		void ResetScore();
 
 		int GetScore() const { return m_Score; }
+		
+		// Returns false if no players left, returns true if players left
+		bool SetPlayerDied(int playerID);
+
+		void ResetPlayersLifeState();
 
 	private:
 		PlayerInfo CreatePlayerInfo(InputMapping mapping1, InputMapping mapping2 = InputMapping());

@@ -30,6 +30,7 @@ namespace bomberman
 		void ResetLevelCount();
 	private:
 		void LoadLevel(int level); 
+		void ResetPlayerPositions();
 
 		int const m_MaxLevelAmount{ 3 };
 

@@ -91,6 +91,22 @@ bomberman::LevelData bomberman::Grid::LoadMap(int const levelID)
 		levelData.enemyTypes.emplace_back(type);
 	}
 
+	auto jsonPlayerSpawns = data[levelID]["playerSpawns"];
+	for (int playerSpawn = 0; playerSpawn < static_cast<int>(jsonPlayerSpawns.size()); playerSpawn++)
+	{
+		auto position = jsonPlayerSpawns[playerSpawn];
+		GridCell playerSpawnToAdd = GridCell(position[0], position[1], CellTypes::PlayerSpawn);
+		int cellNumber = GetCellID(playerSpawnToAdd.column, playerSpawnToAdd.row);
+
+		if (IsCellValid(cellNumber) == false)
+		{
+			throw std::out_of_range("Cell number out of range");
+		}
+
+		m_Grid[cellNumber] = playerSpawnToAdd;
+		levelData.playerSpawns.emplace_back(playerSpawnToAdd);
+	}
+
 	// Add player spawns to the grid
 	auto playerSpawn = GridCell(1, 1, CellTypes::PlayerSpawn);
 	m_Grid[GetCellID(1, 1)] = playerSpawn;
