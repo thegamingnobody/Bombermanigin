@@ -45,9 +45,6 @@
 //Todo: add pickups
 //Todo: check vr nog classes final te maken als mogelijk
 
-// Todo: display score on game over screen
-// Todo: save name & score to file (top 5 only)
-// Todo: display highscore list on game over screen
 // Todo: display highscore on main menu
 
 void LoadSounds();

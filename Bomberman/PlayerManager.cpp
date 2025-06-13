@@ -95,6 +95,7 @@ void bomberman::PlayerManager::RemovePlayer(int playerID)
 void bomberman::PlayerManager::ClearPlayers()
 {
 	m_Players.clear();
+	m_Score = 0;
 }
 
 void bomberman::PlayerManager::ResetScore()

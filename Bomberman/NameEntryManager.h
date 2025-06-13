@@ -1,7 +1,7 @@
 #pragma once
 #include <Singleton.h>
 #include <vector>
-
+#include <string>
 
 namespace bomberman
 {
@@ -19,12 +19,13 @@ namespace bomberman
 
 		void ConfirmName();
 
+        std::string GetName() const;
+
     private:
         void UpdateLetterDisplay() const;
 
         std::vector<char> m_Name;
         int m_CurrentIndex;
-        int const m_MaxIndex{2};
+        int const m_MaxIndex{ 2 };
     };
 }
-

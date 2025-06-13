@@ -85,7 +85,7 @@ void bomberman::NameEntryManager::ConfirmName()
 
 	if (gameStateComponent.has_value())
 	{
-		NameConfirmEvent event{};
+		NameConfirmEvent event{ GetName() };
 		gameStateComponent.value()->Notify(event);
 	}
 }
@@ -110,4 +110,9 @@ void bomberman::NameEntryManager::UpdateLetterDisplay() const
 		cursorText[m_CurrentIndex] = 'V';
 		textComponent.value()->SetText(cursorText);
 	}
+}
+
+std::string bomberman::NameEntryManager::GetName() const
+{
+	return std::string(m_Name.data(), m_Name.size());
 }

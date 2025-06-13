@@ -247,7 +247,6 @@ xcopy /E /I /Y /Q "$(SolutionDir)Data" "$(OutDir)Data"
     <ClInclude Include="ButtonEnums.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Command.h" />
-    <ClInclude Include="CommandBase.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DAE_SDL_Soundsystem.h" />
     <ClInclude Include="Event.h" />
@@ -290,7 +289,6 @@ xcopy /E /I /Y /Q "$(SolutionDir)Data" "$(OutDir)Data"
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Command.cpp" />
-    <ClCompile Include="CommandBase.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DAE_SDL_Soundsystem.cpp" />
     <ClCompile Include="EventManager.cpp" />

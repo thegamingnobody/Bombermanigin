@@ -19,6 +19,7 @@
 #include "PlayerManager.h"
 #include <string> 
 #include <fstream>
+#include "NameConfirmEvent.h"
 
 bomberman::GameOverMenuState::GameOverMenuState(dae::GameObject& ownerObject)
 	: StateMachineBase(ownerObject)
@@ -58,6 +59,7 @@ void bomberman::GameOverMenuState::OnExit()
 
 	auto& playerManager = bomberman::PlayerManager::GetInstance();
 	playerManager.ClearPlayers();
+	playerManager.ResetScore();
 }
 
 std::unique_ptr<bomberman::StateMachineBase> bomberman::GameOverMenuState::Update(float /*deltaTime*/)
@@ -72,8 +74,11 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::GameOverMenuState::Notif
 	case bomberman::EventType::NAME_CONFIRM:
 	{
 		//Todo: save name & score to file
-		//auto& nameEntryManager = bomberman::NameEntryManager::GetInstance();
-		//nameEntryManager.SaveName();
+		auto& castedEvent = static_cast<const bomberman::NameConfirmEvent&>(event);
+		ScoreEntry newScoreEntry{ castedEvent.GetName(),  bomberman::PlayerManager::GetInstance().GetScore() };
+
+		SaveScores(newScoreEntry);
+
 		return std::make_unique<bomberman::MenuState>(*m_Owner);
 	}
 	default:
@@ -172,6 +177,27 @@ void bomberman::GameOverMenuState::CreateGameOverScreen()
 	bomberman::NameEntryManager::GetInstance().Reset();
 }
 
+void bomberman::GameOverMenuState::SortAndTrimScores()
+{
+	std::sort(m_Scores.begin(), m_Scores.end(), [](const ScoreEntry& a, const ScoreEntry& b)
+		{
+			return a.second > b.second;
+		});
+
+	if (m_Scores.size() > m_MaxScores)
+	{
+		m_Scores.resize(m_MaxScores);
+	}
+	else if (m_Scores.size() < m_MaxScores)
+	{
+		for (int i = 0; i <= (m_MaxScores - m_Scores.size()); i++)
+		{
+			m_Scores.emplace_back("---", 0);
+		}
+	}
+
+}
+
 void bomberman::GameOverMenuState::LoadScores()
 {
 	m_Scores.clear();
@@ -201,20 +227,34 @@ void bomberman::GameOverMenuState::LoadScores()
 		m_Scores.emplace_back(name, score);
 	}
 
-	std::sort(m_Scores.begin(), m_Scores.end(), [](const ScoreEntry& a, const ScoreEntry& b)
-		{
-			return a.second > b.second;
-		});
+	SortAndTrimScores();
+}
 
-	if (m_Scores.size() > m_MaxScores)
+void bomberman::GameOverMenuState::SaveScores(ScoreEntry newScoreEntry)
+{
+	m_Scores.emplace_back(newScoreEntry);
+
+	SortAndTrimScores();
+
+	std::filesystem::path filePath = __FILE__;
+	std::filesystem::path fileDir = filePath.parent_path();
+	auto dataPath = "Scores\\Scores.txt";
+
+	fileDir.append(dataPath);
+	std::ofstream f(fileDir.c_str());
+
+	// Fallback if primary path fails
+	if (!f.is_open())
 	{
-		m_Scores.resize(m_MaxScores);
-	}
-	else if (m_Scores.size() < m_MaxScores)
-	{
-		for (int i = 0; i <= (m_MaxScores - m_Scores.size()); i++)
+		f = std::ofstream(dataPath);
+		if (!f.is_open())
 		{
-			m_Scores.emplace_back("---", 0);
+			return;
 		}
+	}
+
+	for (const auto& [name, score] : m_Scores)
+	{
+		f << name << ' ' << score << '\n';
 	}
 }

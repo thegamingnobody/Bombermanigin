@@ -78,9 +78,6 @@
     <ClInclude Include="ButtonEnums.h">
       <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="CommandBase.h">
-      <Filter>Input</Filter>
-    </ClInclude>
     <ClInclude Include="GamepadDevice.h">
       <Filter>Input</Filter>
     </ClInclude>
@@ -201,9 +198,6 @@
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Action.cpp">
-      <Filter>Input</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandBase.cpp">
       <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="GamepadDevice.cpp">

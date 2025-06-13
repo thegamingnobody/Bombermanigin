@@ -20,7 +20,10 @@ namespace bomberman
     private:
 		void CreateGameOverScreen();
 
+		void SortAndTrimScores();
+
 		void LoadScores();
+		void SaveScores(ScoreEntry newScoreEntry = ScoreEntry());
 
         std::vector<ScoreEntry> m_Scores;
         const size_t m_MaxScores = 5;
