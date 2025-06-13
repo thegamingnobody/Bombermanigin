@@ -19,6 +19,8 @@ namespace bomberman
 
 		void Update(float deltaTime) override;
 
+		void Explode();
+
 	private:
 
 		void SpawnExplosion(int size);

@@ -6,6 +6,7 @@
 #include "EnemyManager.h"
 #include "PickupComponent.h"
 #include "PlayerManager.h"
+#include "BombComponent.h"
 
 void bomberman::CollidersManager::Init()
 {
@@ -49,6 +50,15 @@ void bomberman::CollidersManager::Init()
 			}
 		};
 
+	CollisionHandler ExplodeBomb = [](BaseCollider* /*self*/, BaseCollider* other)
+		{
+			auto bomb = other->GetOwner()->GetComponent<bomberman::BombComponent>();
+			if (bomb.has_value())
+			{
+				bomb.value()->Explode();
+			}
+		};
+
 	SetCollisionHandler(CollisionType::Player, CollisionType::Wall, stopMovement, false);
 	SetCollisionHandler(CollisionType::Player, CollisionType::Brick, stopMovement, false);
 	SetCollisionHandler(CollisionType::Enemy, CollisionType::Wall, stopMovementEnemy, false);
@@ -59,6 +69,8 @@ void bomberman::CollidersManager::Init()
 	SetCollisionHandler(CollisionType::Explosion, CollisionType::Brick, damageOtherCollider, false);
 	SetCollisionHandler(CollisionType::Explosion, CollisionType::Enemy, damageOtherCollider, false);
 	SetCollisionHandler(CollisionType::Explosion, CollisionType::Player, damageOtherCollider, false);
+
+	SetCollisionHandler(CollisionType::Explosion, CollisionType::Bomb, ExplodeBomb, false);
 
 	SetCollisionHandler(CollisionType::Player, CollisionType::Door, tryNextLevel, false);
 

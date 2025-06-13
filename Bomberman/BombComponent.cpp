@@ -41,6 +41,11 @@ void bomberman::BombComponent::Update(float deltaTime)
 	}
 }
 
+void bomberman::BombComponent::Explode()
+{
+	m_TimeToExplode = 0.0f;
+}
+
 void bomberman::BombComponent::SpawnExplosion(int size)
 {
 	auto activeScene = dae::SceneManager::GetInstance().GetScene(SCENE_OBJECTS);
