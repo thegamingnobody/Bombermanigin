@@ -8,6 +8,8 @@
 #include "BrickIdleState.h"
 #include "GameManager.h"
 #include "SceneNames.h"
+#include "ExtraBombPickup.h"
+#include "PickupComponent.h"
 
 using json = nlohmann::json;
 
@@ -195,6 +197,15 @@ void bomberman::Grid::BrickDestroyed(int cellID)
 		m_DoorFound = true;
 		m_Grid[cellID].cellType = CellTypes::Door;
 		CreateDoor(cellID);
+		return;
+	}
+	
+	if (m_PickupSpawned) return;
+
+	if (rand() % 100 == 0)
+	{
+		m_PickupSpawned = true;
+		CreatePickUp(cellID);
 	}
 
 }
@@ -296,6 +307,20 @@ void bomberman::Grid::CreateDoor(int gridID)
 	auto go = std::make_shared<dae::GameObject>("Door", GridCoordToWorldPos(sourceCell.column, sourceCell.row));
 	go->AddComponent<dae::TextureComponent>(*go.get()).AddTexture("Door.png");
 	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Door, bomberman::Box(0.0f, 0.0f, TILE_SIZE, TILE_SIZE));
+
+	objectsScene->Add(go);
+}
+
+void bomberman::Grid::CreatePickUp(int gridID)
+{
+	GridCell sourceCell = m_Grid[gridID];
+	auto objectsScene = dae::SceneManager::GetInstance().GetScene(SCENE_OBJECTS);
+
+	auto go = std::make_shared<dae::GameObject>("Pickup", GridCoordToWorldPos(sourceCell.column, sourceCell.row));
+	go->AddComponent<dae::TextureComponent>(*go.get()).AddTexture("ExtraBomb.png");
+	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::PickUp, bomberman::Box(0.0f, 0.0f, TILE_SIZE, TILE_SIZE));
+	ExtraBombPickup pickup{};
+	go->AddComponent<bomberman::PickupComponent>(*go.get(), std::make_shared<ExtraBombPickup>(pickup));
 
 	objectsScene->Add(go);
 }

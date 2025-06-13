@@ -25,6 +25,8 @@ bomberman::AttackCommand::~AttackCommand()
 
 void bomberman::AttackCommand::Execute()
 {
+	if (m_pControllingObject->IsHidden()) return;
+
 	auto& playerManager = bomberman::PlayerManager::GetInstance();
 
 	if (m_BombCount >= playerManager.GetPlayerInfo(m_PlayerNumber).maxBombs) return;

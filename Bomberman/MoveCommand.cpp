@@ -16,6 +16,8 @@ bomberman::MoveCommand::MoveCommand(dae::GameObject& controllingObject, glm::vec
 
 void bomberman::MoveCommand::Execute()
 {
+	if (m_pControllingObject->IsHidden()) return;
+
 	auto transform = m_pControllingObject->GetTransform();
 	auto deltaTime = dae::TimeManager::GetInstance().GetDeltaTime();
 	transform->Move(m_Direction * deltaTime);
