@@ -10,6 +10,8 @@
 #include "Grid.h"
 #include "BoxCollider.h"
 #include "SceneNames.h"
+#include <ServiceLocator.h>
+#include "SoundIds.h"
 
 bomberman::AttackCommand::AttackCommand(dae::GameObject& controllingObject, int playerNumber)
 	: m_pControllingObject(&controllingObject)
@@ -33,6 +35,10 @@ void bomberman::AttackCommand::Execute()
 
 	glm::vec3 position = m_pControllingObject->GetTransform()->GetGlobalPosition();
 	SpawnBombObject(position);
+
+	float volume = 0.15f;
+	dae::ServiceLocator::GetSoundSystem().PlaySound(static_cast<int>(bomberman::SoundId::BombPlace), volume, -1);
+
 }
 
 void bomberman::AttackCommand::SpawnBombObject(glm::vec3 position)

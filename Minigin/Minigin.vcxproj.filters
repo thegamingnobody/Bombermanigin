@@ -153,9 +153,6 @@
     <ClInclude Include="Command.h">
       <Filter>Command</Filter>
     </ClInclude>
-    <ClInclude Include="ImGuiComponent.h">
-      <Filter>Components\RenderComponents</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Misc Classes</Filter>
     </ClInclude>
@@ -268,9 +265,6 @@
     </ClCompile>
     <ClCompile Include="Command.cpp">
       <Filter>Command</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGuiComponent.cpp">
-      <Filter>Components\RenderComponents</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Misc Classes</Filter>

@@ -254,7 +254,6 @@ xcopy /E /I /Y /Q "$(SolutionDir)Data" "$(OutDir)Data"
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GamepadDevice.h" />
-    <ClInclude Include="ImGuiComponent.h" />
     <ClInclude Include="InputDeviceBase.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="KeyboardDevice.h" />
@@ -295,7 +294,6 @@ xcopy /E /I /Y /Q "$(SolutionDir)Data" "$(OutDir)Data"
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GamepadDevice.cpp" />
-    <ClCompile Include="ImGuiComponent.cpp" />
     <ClCompile Include="InputDeviceBase.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="KeyboardDevice.cpp" />

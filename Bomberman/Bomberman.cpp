@@ -26,7 +26,6 @@
 #include <DAE_SDL_Soundsystem.h>
 #include <ServiceLocator.h>
 #include "SoundIds.h"
-#include <ImGuiComponent.h>
 #include "EnemyManager.h"
 #include "GameManager.h"
 #include "SkipLevelCommand.h"
@@ -86,6 +85,7 @@ void LoadSounds()
 
 	soundSystem.AddSound(static_cast<int>(bomberman::SoundId::WalkHorizontal), SoundPaths[static_cast<int>(bomberman::SoundId::WalkHorizontal)]);
 	soundSystem.AddSound(static_cast<int>(bomberman::SoundId::WalkVertical), SoundPaths[static_cast<int>(bomberman::SoundId::WalkVertical)]);
+	soundSystem.AddSound(static_cast<int>(bomberman::SoundId::BombPlace), SoundPaths[static_cast<int>(bomberman::SoundId::BombPlace)]);
 }
 
 void CreateGameState(dae::Scene& scene)

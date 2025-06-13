@@ -202,7 +202,7 @@ void bomberman::Grid::BrickDestroyed(int cellID)
 	
 	if (m_PickupSpawned) return;
 
-	if (rand() % 100 == 0)
+	if (rand() % 50 == 0)
 	{
 		m_PickupSpawned = true;
 		CreatePickUp(cellID);
