@@ -114,6 +114,10 @@ void bomberman::LoadLevelState::LoadMap(dae::Scene& scene)
 	// Todo: spawn pickups when destroying bricks
 	go = std::make_shared<dae::GameObject>("TestPickup", grid.GridCoordToWorldPos(2, 1));
 	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::PickUp, bomberman::Box(0.0f, 0.0f, TILE_SIZE, TILE_SIZE));
+	{
+		auto& textureComponent = go->AddComponent<dae::TextureComponent>(*go.get());
+		textureComponent.AddTexture("ExtraBomb.png");
+	}
 	ExtraBombPickup pickup{};
 	go->AddComponent<bomberman::PickupComponent>(*go.get(), std::make_shared<ExtraBombPickup>(pickup));
 	scene.Add(go);

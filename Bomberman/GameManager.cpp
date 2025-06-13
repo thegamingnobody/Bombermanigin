@@ -6,6 +6,7 @@
 #include <TextureComponent.h>
 #include "BoxCollider.h"
 #include "OctagonCollider.h"
+#include "PlayerManager.h"
 
 void bomberman::GameManager::ResetLevelCount()
 {
@@ -20,7 +21,7 @@ void bomberman::GameManager::LoadLevel(int level)
 
 	auto objectsScene =	sceneManager.GetScene(SCENE_OBJECTS);
 
-	objectsScene->RemoveAll();
+	objectsScene->SetRemoveAll();
 
 	m_CurrentLevelData = grid.LoadMap(level - 1);
 	grid.CreateGameObjects();
@@ -45,6 +46,8 @@ void bomberman::GameManager::ResetPlayerPositions()
 	if (player == nullptr) return;
 
 	player->GetTransform()->SetLocalPosition(grid.GridCoordToWorldPos(m_CurrentLevelData.playerSpawns[1]));
+
+	bomberman::PlayerManager::GetInstance().ResetPlayersLifeState();
 }
 
 void bomberman::GameManager::LoadNextLevel()
@@ -66,7 +69,7 @@ void bomberman::GameManager::ResetLevel()
 	auto objectsScene =	sceneManager.GetScene(SCENE_OBJECTS);
 	
 	// Object Scene
-	objectsScene->RemoveAll();
+	objectsScene->SetRemoveAll();
 	grid.LoadMap(m_CurrentLevelData);
 	grid.CreateGameObjects();
 

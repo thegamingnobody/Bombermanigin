@@ -62,8 +62,6 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::PlayerDeathState::Notify
 	{
 	case bomberman::EventType::RESET_LEVEL:
 	{
-		//Todo: test reset level event
-		//Todo: PICKUPS!!!!!!!!!!!
 		auto healthComp = m_Owner->GetComponent<bomberman::HealthComponent>();
 		if (healthComp.has_value())
 		{

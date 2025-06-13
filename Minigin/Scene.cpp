@@ -23,12 +23,7 @@ std::vector<std::shared_ptr<GameObject>>::iterator Scene::Remove(std::shared_ptr
 
 void Scene::RemoveAll()
 {
-	if (m_objects.size() <= 0) return;
-
-	for (auto& object : m_objects)
-	{
-		object->SetShouldBeRemoved();
-	}
+	SetRemoveAll();
 
 	m_objects.erase(std::remove_if(m_objects.begin(), m_objects.end(), [](const std::shared_ptr<GameObject>& object)
 		{
@@ -36,6 +31,16 @@ void Scene::RemoveAll()
 
 		}), m_objects.end());
 
+}
+
+void dae::Scene::SetRemoveAll()
+{
+	if (m_objects.size() <= 0) return;
+
+	for (auto& object : m_objects)
+	{
+		object->SetShouldBeRemoved();
+	}
 }
 
 void Scene::Update(float const deltaTime)
