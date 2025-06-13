@@ -51,8 +51,6 @@ void bomberman::PlayerManager::ClearPlayers()
 void bomberman::PlayerManager::ResetScore()
 {
 	m_Score = 0;
-
-	bomberman::HUDManager::GetInstance().SetScoreText(m_Score);
 }
 
 bomberman::PlayerInfo bomberman::PlayerManager::CreatePlayerInfo(InputMapping mapping1, InputMapping mapping2)

@@ -1,7 +1,7 @@
 #include "Action.h"
 #include <iostream>
 #include <string>
-//TODO: add commands
+
 dae::Action::Action(const GamepadButtons& gamepadButton, const InputType& inputType, std::shared_ptr<Command> command, int const deviceID)
 	: m_DeviceID(deviceID)
 	, m_ButtonValue(static_cast<int>(gamepadButton))

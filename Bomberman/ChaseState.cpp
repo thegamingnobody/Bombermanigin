@@ -26,26 +26,46 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::ChaseState::Update(float
 		return std::make_unique<bomberman::DyingState>(*m_Owner, m_EnemyData.score);
 	}
 
-	//Todo: fix for multiplayer
-	auto player = dae::SceneManager::GetInstance().GetScene(SCENE_PLAYERS)->GetObject("Player 1");
-	if (!player)
+	auto scene = dae::SceneManager::GetInstance().GetScene(SCENE_PLAYERS);
+	auto player1 = scene->GetObject("Player 1");
+	auto player2 = scene->GetObject("Player 2");
+
+	if (!player1 && !player2)
 	{
-		throw std::runtime_error("Player not found");
+		throw std::runtime_error("No players found");
 	}
-	auto transform = m_Owner->GetTransform();
+	dae::GameObject* closestPlayer{};
+	float closestDistSq = std::numeric_limits<float>::max();
+	glm::vec3 enemyPos = m_Owner->GetTransform()->GetGlobalPosition();
+	
+	auto tryPlayer = [&](dae::GameObject* player) 
+		{
+			if (!player) return;
 
-	glm::vec3 playerPos = player->GetTransform()->GetGlobalPosition();
-	glm::vec3 enemyPos = transform->GetGlobalPosition();
+			glm::vec3 pos = player->GetTransform()->GetGlobalPosition();
+			glm::vec3 diff = pos - enemyPos;
+			float distSq = diff.x * diff.x + diff.y * diff.y;
 
-	glm::vec3 directionToPlayer = playerPos - enemyPos;
-	float distanceSQ = (directionToPlayer.x * directionToPlayer.x + directionToPlayer.y * directionToPlayer.y);
+			if (distSq <= m_EnemyData.detectionRange * m_EnemyData.detectionRange && distSq < closestDistSq)
+			{
+				closestPlayer = player;
+				closestDistSq = distSq;
+			}
+		};
 
-	//float distance = (playerPos - enemyPos);
+	tryPlayer(player1.get());
+	tryPlayer(player2.get());
 
-	if (distanceSQ > m_EnemyData.detectionRange * m_EnemyData.detectionRange)
+	if (!closestPlayer)
 	{
 		return std::make_unique<bomberman::RoamingState>(*m_Owner, m_EnemyData);
 	}
+
+	auto transform = m_Owner->GetTransform();
+
+	glm::vec3 playerPos = closestPlayer->GetTransform()->GetGlobalPosition();
+
+	glm::vec3 directionToPlayer = playerPos - enemyPos;
 
 	glm::vec3 directionToTest{0.0f, 0.0f, 0.0f};
 	float const tolerance{ 2.0f };

@@ -64,7 +64,7 @@ namespace bomberman
 	{
 		int playerID{};
 		std::string name{};
-		int lives{ 0 };
+		int lives{ 3 };
 		int maxBombs{ 1 };
 		std::vector<int> inputIDs{2}; // Store all input device IDs for this player
 		std::vector<bomberman::InputMapping> inputMappings{2};

@@ -16,9 +16,9 @@ namespace dae
         float GetFixedTimeStep() const { return m_FixedTimeStep; }
         std::chrono::milliseconds GetSleepTime();
     private:
-        float m_DeltaTime;
-        long long m_MsPerFrame;
-        float m_FixedTimeStep;
+        float m_DeltaTime{};
+        long long m_MsPerFrame{};
+        float m_FixedTimeStep{};
 
         std::chrono::steady_clock::time_point m_CurrentTime;
         std::chrono::steady_clock::time_point m_LastTime;
