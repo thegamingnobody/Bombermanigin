@@ -7,17 +7,19 @@
 namespace dae
 {
 	struct SoundInfo
+	{
+		SoundInfo(const SoundId& soundId, float const volume, int const channel = -1, bool const loop = false)
+			: m_SoundId(soundId)
+			, m_Volume(volume)
+			, m_Channel(channel)
+			, m_Loop(loop)
 		{
-			SoundInfo(const SoundId& soundId, float const volume, int const channel = -1)
-				: m_SoundId(soundId)
-				, m_Volume(volume)
-				, m_Channel(channel)
-			{
-			}
+		}
 
-			SoundId m_SoundId{};
-			float m_Volume{};
-			int m_Channel{ -1 };
+		SoundId m_SoundId{};
+		float m_Volume{};
+		int m_Channel{ -1 };
+		bool m_Loop{false};
 
 		};
 
@@ -32,7 +34,7 @@ namespace dae
 		DAE_SDL_Soundsystem& operator=(const DAE_SDL_Soundsystem& other) = delete;
 		DAE_SDL_Soundsystem& operator=(DAE_SDL_Soundsystem&& other) = delete;
 
-		void PlaySound(const SoundId soundId, const float volume, int const channel = -1) override;
+		void PlaySound(const SoundId soundId, const float volume, int const channel = -1, bool loop = false) override;
 		void StopSound(const SoundId soundId) override;
 		void StopAllSounds() override;
 
@@ -44,9 +46,6 @@ namespace dae
 	private:
 		class SDLSoundImpl;
 		std::unique_ptr<SDLSoundImpl> m_Impl;
-
-
-
     };
 }
 

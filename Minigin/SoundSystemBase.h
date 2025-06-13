@@ -18,7 +18,7 @@ namespace dae
 		SoundSystemBase& operator=(const SoundSystemBase& other) = delete;
 		SoundSystemBase& operator=(SoundSystemBase&& other) = delete;
 
-		virtual void PlaySound(const SoundId soundId, const float volume, int const channel = -1) = 0;
+		virtual void PlaySound(const SoundId soundId, const float volume, int const channel = -1, bool loop = false) = 0;
 		virtual void StopSound(const SoundId soundId) = 0;
 		virtual void StopAllSounds() = 0;
 

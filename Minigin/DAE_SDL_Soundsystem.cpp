@@ -49,9 +49,9 @@ public:
 		Mix_Quit();
 	}
 
-	void PlaySound(const SoundId soundId, const float volume, int const channel = -1)
+	void PlaySound(const SoundId soundId, const float volume, int const channel = -1, bool loop = false)
 	{
-		SoundInfo soundInfo{ soundId, volume, channel };
+		SoundInfo soundInfo{ soundId, volume, channel, loop };
 
 		{
 			std::scoped_lock<std::mutex> lock(m_Mutex);
@@ -60,13 +60,25 @@ public:
 
 		m_ConditionVar.notify_one();
 	}
-	void StopSound(const SoundId)
+	void StopSound(const SoundId soundId)
 	{
-		//todo: do
+		auto it = m_Sounds.find(soundId);
+
+		if (it == m_Sounds.end() || !it->second.isLoaded) return;
+
+		int numChannels = Mix_AllocateChannels(-1); // returns current number of channels
+		for (int ch = 0; ch < numChannels; ++ch)
+		{
+			if (Mix_GetChunk(ch) == it->second.m_Sound)
+			{
+				Mix_HaltChannel(ch);
+			}
+		}
+
 	}
 	void StopAllSounds()
 	{
-		//todo: do
+		Mix_HaltChannel(-1);
 	}
 
 	void ProcessQueue()
@@ -130,7 +142,6 @@ private:
 
 	struct SDL_SoundInfo
 	{
-		//Todo: add looping sounds
 		std::string m_SoundPath;
 		Mix_Chunk* m_Sound{ nullptr };
 		bool isLoaded{ false };
@@ -151,8 +162,10 @@ private:
 				return;
 		}
 
+		int loops = soundInfo.m_Loop ? -1 : 0;
+
 		Mix_VolumeChunk(sound.m_Sound, static_cast<int>(soundInfo.m_Volume * MIX_MAX_VOLUME));
-		Mix_PlayChannel(soundInfo.m_Channel, sound.m_Sound, 0);
+		Mix_PlayChannel(soundInfo.m_Channel, sound.m_Sound, loops);
 	}
 
 	SDL_SoundInfo GetSound(SoundId soundID)
@@ -218,9 +231,9 @@ dae::DAE_SDL_Soundsystem::DAE_SDL_Soundsystem()
 dae::DAE_SDL_Soundsystem::~DAE_SDL_Soundsystem()
 {}
 
-void dae::DAE_SDL_Soundsystem::PlaySound(const SoundId soundId, const float volume, int const channel)
+void dae::DAE_SDL_Soundsystem::PlaySound(const SoundId soundId, const float volume, int const channel, bool loop)
 {
-	m_Impl->PlaySound(soundId, volume, channel);
+	m_Impl->PlaySound(soundId, volume, channel, loop);
 }
 
 void dae::DAE_SDL_Soundsystem::StopSound(const SoundId soundId)
