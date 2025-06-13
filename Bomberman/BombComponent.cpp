@@ -56,13 +56,20 @@ void bomberman::BombComponent::SpawnExplosion(int size)
 	int crossSize = size * 2 + 1;
 
 	float lineWidth = crossSize * TILE_SIZE * 0.8f;
-	float lineHeight = TILE_SIZE / 2;
-	float lineX = crossSize * 0.1f * TILE_SIZE;
-	float lineY = (TILE_SIZE * crossSize * 0.41f);
+	float lineHeight = TILE_SIZE / 2.0f;
 
-	Box horizontalLine{ lineX, lineY, lineWidth, lineHeight };
-	Box verticalLine{ lineY, lineX, lineHeight,	lineWidth };
+	float centerOffset = size * TILE_SIZE;
 
+	// Horizontal line: spans left-right, centered vertically
+	float horizontalX = 0.0f;
+	float horizontalY = centerOffset + TILE_SIZE / 2.0f - lineHeight / 2.0f;
+
+	// Vertical line: spans top-bottom, centered horizontally
+	float verticalX = centerOffset + TILE_SIZE / 2.0f - lineHeight / 2.0f;
+	float verticalY = 0.0f;
+
+	Box horizontalLine{ horizontalX, horizontalY, lineWidth, lineHeight };
+	Box verticalLine{ verticalX, verticalY, lineHeight, lineWidth };
 	explosion->AddComponent<bomberman::BoxCollider>(*explosion.get(), bomberman::CollisionType::Explosion, horizontalLine);
 	explosion->AddComponent<bomberman::BoxCollider>(*explosion.get(), bomberman::CollisionType::Explosion, verticalLine);
 	auto& textureComponent = explosion->AddComponent<dae::TextureComponent>(*explosion.get());

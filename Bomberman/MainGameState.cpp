@@ -25,9 +25,18 @@ void bomberman::MainGameState::OnExit()
 std::unique_ptr<bomberman::StateMachineBase> bomberman::MainGameState::Update(float /*deltaTime*/)
 {
 	// Check if players are dead
-	if (bomberman::PlayerManager::GetInstance().AreAllPlayersDead())
+	auto& playerManager = bomberman::PlayerManager::GetInstance();
+
+	if (playerManager.AreAllPlayersDead())
 	{
-		return std::make_unique<bomberman::GameOverMenuState>(*m_Owner);
+		if (playerManager.GetPlayerInfo(0).lives <= 0)
+		{
+			return std::make_unique<bomberman::GameOverMenuState>(*m_Owner);
+		}
+		else
+		{
+			playerManager.ResetPlayersLifeState();
+		}
 	}
 
 	return nullptr;

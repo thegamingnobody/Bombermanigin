@@ -87,8 +87,8 @@ namespace bomberman
 			}
 		}
 	private:
-		int bombRange{ 2 };
-		int maxBombRange{ 2 }; // Max range for bombs, can be set by power-ups
+		int bombRange{ 1 };
+		int maxBombRange{ 3 };
 	};
 
 	class PlayerManager : public dae::Singleton<PlayerManager>
