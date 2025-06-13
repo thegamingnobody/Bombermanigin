@@ -44,9 +44,6 @@
 
 //Todo: add pickups
 //Todo: check vr nog classes final te maken als mogelijk
-
-// Todo: display highscore on main menu
-
 void LoadSounds();
 void CreateGameState(dae::Scene& scene);
 

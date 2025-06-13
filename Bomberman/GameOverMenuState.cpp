@@ -141,9 +141,12 @@ void bomberman::GameOverMenuState::CreateGameOverScreen()
 
 	inputManager.RemoveInputDevice(dae::Action::DeviceType::Keyboard);
 	inputManager.RemoveInputDevice(dae::Action::DeviceType::Gamepad);
-	// Todo: add gamepad controls
+
 	int keyboardID = inputManager.AddInputDevice(dae::Action::DeviceType::Keyboard);
-	inputManager.AddAction(dae::KeyboardKeys::Enter, dae::InputType::PressedThisFrame, std::make_shared<bomberman::NameConfirmCommand>(), keyboardID);
+	int gamepadID = inputManager.AddInputDevice(dae::Action::DeviceType::Gamepad);
+
+	inputManager.AddAction(dae::KeyboardKeys::Space, dae::InputType::PressedThisFrame, std::make_shared<bomberman::NameConfirmCommand>(), keyboardID);
+	inputManager.AddAction(dae::GamepadButtons::FaceButtonDown, dae::InputType::PressedThisFrame, std::make_shared<bomberman::NameConfirmCommand>(), gamepadID);
 #pragma endregion
 
 #pragma region NameEntry
@@ -172,6 +175,12 @@ void bomberman::GameOverMenuState::CreateGameOverScreen()
 
 	inputManager.AddAction(dae::KeyboardKeys::A, dae::InputType::PressedThisFrame, std::make_shared<SwitchLetterIndex>(false), keyboardID);
 	inputManager.AddAction(dae::KeyboardKeys::D, dae::InputType::PressedThisFrame, std::make_shared<SwitchLetterIndex>(true), keyboardID);	
+
+	inputManager.AddAction(dae::GamepadButtons::DpadUp, dae::InputType::PressedThisFrame, std::make_shared<IncDecLetterCommand>(true), gamepadID);
+	inputManager.AddAction(dae::GamepadButtons::DpadDown, dae::InputType::PressedThisFrame, std::make_shared<IncDecLetterCommand>(false), gamepadID);
+
+	inputManager.AddAction(dae::GamepadButtons::DpadLeft, dae::InputType::PressedThisFrame, std::make_shared<SwitchLetterIndex>(false), gamepadID);
+	inputManager.AddAction(dae::GamepadButtons::DpadRight, dae::InputType::PressedThisFrame, std::make_shared<SwitchLetterIndex>(true), gamepadID);
 #pragma endregion
 
 	bomberman::NameEntryManager::GetInstance().Reset();

@@ -6,6 +6,8 @@ namespace bomberman
     class MenuState : public StateMachineBase
     {
     public:
+        using ScoreEntry = std::pair<std::string, int>;
+
         MenuState(dae::GameObject& ownerObject);
         ~MenuState() override = default;
     
@@ -17,6 +19,8 @@ namespace bomberman
 
     private:
         void CreateMenu();
+        
+        ScoreEntry GetHighScore();
     };
 }
 
