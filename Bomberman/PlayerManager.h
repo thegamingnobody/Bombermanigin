@@ -88,6 +88,16 @@ namespace bomberman
 
 			return m_Players[playerID];
 		}
+		PlayerInfo& GetPlayerInfo(const std::string& playerName)
+		{
+			auto it = std::find_if(m_Players.begin(), m_Players.end(), [&playerName](const PlayerInfo& player) { return player.name == playerName; });
+
+			if (it != m_Players.end())
+			{
+				return *it;
+			}
+			throw std::runtime_error("Player not found: " + playerName);
+		}
 
 		void RemovePlayer(int playerID);
 		void ClearPlayers();
@@ -106,6 +116,7 @@ namespace bomberman
 		{
 			return std::all_of(m_Players.begin(), m_Players.end(), [](const PlayerInfo& player) { return !player.isAlive; });
 		}
+
 
 	private:
 		PlayerInfo CreatePlayerInfo(InputMapping mapping1, InputMapping mapping2 = InputMapping());

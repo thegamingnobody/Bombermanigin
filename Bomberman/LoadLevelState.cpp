@@ -14,6 +14,8 @@
 #include "GameManager.h"
 #include "MainGameState.h"
 #include <InputManager.h>
+#include "ExtraBombPickup.h"
+#include "PickupComponent.h"
 
 bomberman::LoadLevelState::LoadLevelState(dae::GameObject& ownerObject, GameMode chosenGameMode)
 	: StateMachineBase(ownerObject)
@@ -107,6 +109,14 @@ void bomberman::LoadLevelState::LoadMap(dae::Scene& scene)
 			scene.Add(go);
 		}
 	}
+	// Todo: remove test pickup
+	// todo: add texture(s)
+	// Todo: spawn pickups when destroying bricks
+	go = std::make_shared<dae::GameObject>("TestPickup", grid.GridCoordToWorldPos(2, 1));
+	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::PickUp, bomberman::Box(0.0f, 0.0f, TILE_SIZE, TILE_SIZE));
+	ExtraBombPickup pickup{};
+	go->AddComponent<bomberman::PickupComponent>(*go.get(), std::make_shared<ExtraBombPickup>(pickup));
+	scene.Add(go);
 }
 
 void bomberman::LoadLevelState::LoadPlayer()

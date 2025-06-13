@@ -195,6 +195,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="EnemyCollisionEvent.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="ExplosionComponent.cpp" />
+    <ClCompile Include="ExtraBombPickup.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameOverMenuState.cpp" />
@@ -212,6 +213,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClCompile Include="NameEntryManager.cpp" />
     <ClCompile Include="ObjectDamagedEvent.cpp" />
     <ClCompile Include="OctagonCollider.cpp" />
+    <ClCompile Include="PickupBase.cpp" />
+    <ClCompile Include="PickupComponent.cpp" />
     <ClCompile Include="PlayerDeathState.cpp" />
     <ClCompile Include="PlayerDiedEvent.cpp" />
     <ClCompile Include="PlayerGameOverState.cpp" />
@@ -245,6 +248,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EventTypes.h" />
     <ClInclude Include="ExplosionComponent.h" />
+    <ClInclude Include="ExtraBombPickup.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameOverMenuState.h" />
@@ -263,6 +267,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\$(PlatformTarget)\*.dll" "$(OutputPat
     <ClInclude Include="NameEntryManager.h" />
     <ClInclude Include="ObjectDamagedEvent.h" />
     <ClInclude Include="OctagonCollider.h" />
+    <ClInclude Include="PickupBase.h" />
+    <ClInclude Include="PickupComponent.h" />
     <ClInclude Include="PlayerDeathState.h" />
     <ClInclude Include="PlayerDiedEvent.h" />
     <ClInclude Include="PlayerGameOverState.h" />

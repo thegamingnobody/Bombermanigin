@@ -16,7 +16,8 @@ namespace bomberman
 		Brick,
 		Player,
 		Door,
-		Bomb
+		Bomb,
+		PickUp
 	};
 
     class BaseCollider : public dae::Component

@@ -52,6 +52,9 @@
     <Filter Include="Commands\Game">
       <UniqueIdentifier>{30299e0d-1049-4fd3-8843-295947fda530}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Components\StandardComponents\Pickups">
+      <UniqueIdentifier>{135d7c04-1bf2-4b70-9a81-f02c32486062}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HealthComponent.cpp">
@@ -194,6 +197,11 @@
       <Filter>Commands\Menu</Filter>
     </ClCompile>
     <ClCompile Include="ResetLevelEvent.cpp" />
+    <ClCompile Include="PickupComponent.cpp">
+      <Filter>Components\StandardComponents\Pickups</Filter>
+    </ClCompile>
+    <ClCompile Include="ExtraBombPickup.cpp" />
+    <ClCompile Include="PickupBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HealthComponent.h">
@@ -341,6 +349,11 @@
       <Filter>Commands\Menu</Filter>
     </ClInclude>
     <ClInclude Include="ResetLevelEvent.h" />
+    <ClInclude Include="PickupComponent.h">
+      <Filter>Components\StandardComponents\Pickups</Filter>
+    </ClInclude>
+    <ClInclude Include="ExtraBombPickup.h" />
+    <ClInclude Include="PickupBase.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

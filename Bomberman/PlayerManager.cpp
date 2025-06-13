@@ -116,6 +116,8 @@ std::shared_ptr<dae::GameObject> bomberman::PlayerManager::CreatePlayerObject(co
 		go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::Player, bomberman::Box(4 * tileScale, 1 * tileScale, 8 * tileScale, 14 * tileScale));
 	}
 
+	m_Players[playerInfo.playerID].name = go->GetName();
+
 	return go;
 }
 

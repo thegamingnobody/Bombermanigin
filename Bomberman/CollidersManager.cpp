@@ -4,6 +4,8 @@
 #include "HealthComponent.h"
 #include "GameManager.h"
 #include "EnemyManager.h"
+#include "PickupComponent.h"
+#include "PlayerManager.h"
 
 void bomberman::CollidersManager::Init()
 {
@@ -34,6 +36,19 @@ void bomberman::CollidersManager::Init()
 			}
 		};
 
+	CollisionHandler CollectPickUp = [](BaseCollider* self, BaseCollider* other)
+		{
+			auto powerUp = other->GetOwner()->GetComponent<bomberman::PickupComponent>();
+			if (powerUp.has_value())
+			{
+				std::string playerName = self->GetOwner()->GetName();
+
+				PlayerInfo playerInfo = bomberman::PlayerManager::GetInstance().GetPlayerInfo(playerName);
+				powerUp.value()->CollectPickup(playerInfo.playerID);
+				other->GetOwner()->SetShouldBeRemoved();
+			}
+		};
+
 	SetCollisionHandler(CollisionType::Player, CollisionType::Wall, stopMovement, false);
 	SetCollisionHandler(CollisionType::Player, CollisionType::Brick, stopMovement, false);
 	SetCollisionHandler(CollisionType::Enemy, CollisionType::Wall, stopMovementEnemy, false);
@@ -46,6 +61,8 @@ void bomberman::CollidersManager::Init()
 	SetCollisionHandler(CollisionType::Explosion, CollisionType::Player, damageOtherCollider, false);
 
 	SetCollisionHandler(CollisionType::Player, CollisionType::Door, tryNextLevel, false);
+
+	SetCollisionHandler(CollisionType::Player, CollisionType::PickUp, CollectPickUp, false);
 }
 
 void bomberman::CollidersManager::AddCollider(bomberman::BaseCollider& collider)
