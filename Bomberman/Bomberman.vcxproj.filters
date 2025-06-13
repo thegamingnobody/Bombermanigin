@@ -196,12 +196,15 @@
     <ClCompile Include="NameConfirmCommand.cpp">
       <Filter>Commands\Menu</Filter>
     </ClCompile>
-    <ClCompile Include="ResetLevelEvent.cpp" />
     <ClCompile Include="PickupComponent.cpp">
       <Filter>Components\StandardComponents\Pickups</Filter>
     </ClCompile>
     <ClCompile Include="ExtraBombPickup.cpp" />
     <ClCompile Include="PickupBase.cpp" />
+    <ClCompile Include="ResetLevelEvent.cpp">
+      <Filter>Events</Filter>
+    </ClCompile>
+    <ClCompile Include="BiggerBombPickup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HealthComponent.h">
@@ -354,6 +357,7 @@
     </ClInclude>
     <ClInclude Include="ExtraBombPickup.h" />
     <ClInclude Include="PickupBase.h" />
+    <ClInclude Include="BiggerBombPickup.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

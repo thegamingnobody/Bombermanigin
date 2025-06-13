@@ -61,7 +61,6 @@ namespace bomberman
 		void CreatePickUp(int gridID);
 
 		int m_BrickCount{ 0 };
-		//int m_MaxBombs{ 0 };
 		std::vector<GridCell> m_Grid{};
 
 		bool m_DoorFound{ false };

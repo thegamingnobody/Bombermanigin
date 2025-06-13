@@ -86,6 +86,10 @@ namespace bomberman
 				bombRange = maxBombRange;
 			}
 		}
+		void IncreaseBombRange() 
+		{
+			SetBombRange(bombRange + 1);
+		}
 	private:
 		int bombRange{ 1 };
 		int maxBombRange{ 3 };

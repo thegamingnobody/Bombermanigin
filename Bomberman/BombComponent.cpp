@@ -61,7 +61,7 @@ void bomberman::BombComponent::SpawnExplosion(int size)
 	float centerOffset = size * TILE_SIZE;
 
 	// Horizontal line: spans left-right, centered vertically
-	float horizontalX = 0.0f;
+	float horizontalX = 4.0f;
 	float horizontalY = centerOffset + TILE_SIZE / 2.0f - lineHeight / 2.0f;
 
 	// Vertical line: spans top-bottom, centered horizontally

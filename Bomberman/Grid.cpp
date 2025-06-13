@@ -10,6 +10,7 @@
 #include "SceneNames.h"
 #include "ExtraBombPickup.h"
 #include "PickupComponent.h"
+#include "BiggerBombPickup.h"
 
 using json = nlohmann::json;
 
@@ -146,6 +147,8 @@ void bomberman::Grid::LoadMap(LevelData const& levelData)
 		m_Grid[cellNumber] = enemySpawn;
 	}
 
+	m_DoorFound = false;
+	m_PickupSpawned = false;
 }
 
 void bomberman::Grid::CreateGameObjects()
@@ -190,19 +193,20 @@ void bomberman::Grid::BrickDestroyed(int cellID)
 		m_BrickCount = 0;
 	}
 
-	if (m_DoorFound) return;
-
-	if (rand() % m_BrickCount == 0 or m_BrickCount == 0)
+	if (!m_DoorFound)
 	{
-		m_DoorFound = true;
-		m_Grid[cellID].cellType = CellTypes::Door;
-		CreateDoor(cellID);
-		return;
+		if (rand() % m_BrickCount == 0 or m_BrickCount == 0)
+		{
+			m_DoorFound = true;
+			m_Grid[cellID].cellType = CellTypes::Door;
+			CreateDoor(cellID);
+			return;
+		}
 	}
 	
 	if (m_PickupSpawned) return;
 
-	if (rand() % 50 == 0)
+	if (rand() % 2 == 0)
 	{
 		m_PickupSpawned = true;
 		CreatePickUp(cellID);
@@ -317,10 +321,27 @@ void bomberman::Grid::CreatePickUp(int gridID)
 	auto objectsScene = dae::SceneManager::GetInstance().GetScene(SCENE_OBJECTS);
 
 	auto go = std::make_shared<dae::GameObject>("Pickup", GridCoordToWorldPos(sourceCell.column, sourceCell.row));
-	go->AddComponent<dae::TextureComponent>(*go.get()).AddTexture("ExtraBomb.png");
 	go->AddComponent<bomberman::BoxCollider>(*go.get(), bomberman::CollisionType::PickUp, bomberman::Box(0.0f, 0.0f, TILE_SIZE, TILE_SIZE));
-	ExtraBombPickup pickup{};
-	go->AddComponent<bomberman::PickupComponent>(*go.get(), std::make_shared<ExtraBombPickup>(pickup));
+
+	std::shared_ptr<bomberman::PickupBase> pickup{};
+	std::string textureName{};
+
+	int randomValue = std::rand() % 2; // 0 or 1
+
+	if (randomValue == 0)
+	{
+		pickup = std::make_shared<ExtraBombPickup>();
+		textureName = "ExtraBomb.png";
+	}
+	else
+	{
+		pickup = std::make_shared<BiggerBombPickup>();
+		textureName = "BiggerBomb.png";
+	}
+
+	go->AddComponent<dae::TextureComponent>(*go.get()).AddTexture(textureName);
+
+	go->AddComponent<bomberman::PickupComponent>(*go.get(), pickup);
 
 	objectsScene->Add(go);
 }
