@@ -1,11 +1,16 @@
 #include <SDL.h>
+
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+
+#include <Xinput.h>
+#include <winerror.h>
 #include "InputManager.h"
 #include <backends/imgui_impl_sdl2.h>
 #include <stdexcept>
 #include "KeyboardDevice.h"
 #include "ServiceLocator.h"
-#include <Xinput.h>
-#include <winerror.h>
+
 void dae::InputManager::Init()
 {
 	int const maxAantalGamepads{ 4 };
@@ -62,6 +67,8 @@ int dae::InputManager::AddInputDevice(const Action::DeviceType& deviceType)
 	case Action::DeviceType::Keyboard:
 		result = m_KeyboardId;
 		break;
+	case Action::DeviceType::UnUsed:
+		return -1;
 	}
 	m_InputDevices[result]->SetInUse(true);
 	return result;

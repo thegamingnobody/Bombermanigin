@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include  <stdexcept>
+#include <stdexcept>
 
 namespace dae
 {
@@ -19,7 +19,7 @@ namespace dae
 		//*-----------------------------------------*
 		//|					Rule of 5				|
 		//*-----------------------------------------*
-		GameObject(std::string name = "", glm::vec3 startingPos = glm::vec3(0.0f, 0.0f, 0.0f), int inputDeviceId = -1);
+		GameObject(std::string name = "", glm::vec3 startingPos = glm::vec3(0.0f, 0.0f, 0.0f));
 		~GameObject();
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -41,11 +41,6 @@ namespace dae
 		template<std::derived_from<Component> T, class... Arguments>
 		T& AddComponent(Arguments&&... arguments)
 		{
-			//if (HasComponent<T>())
-			//{
-			//	throw std::runtime_error("Component already exists");
-			//}
-
 			std::shared_ptr<T> newComponent{ std::make_shared<T>(std::forward<Arguments>(arguments)...) };
 			m_pComponents.emplace_back(newComponent);
 
@@ -106,7 +101,6 @@ namespace dae
 		int GetChildCount() const { return static_cast<int>(m_pChildObjects.size()); }
 		GameObject* GetChildObject(int index) const { return m_pChildObjects[index]; }
 
-
 		void SetShouldBeRemoved() { m_ShouldBeRemoved = true; }
 		bool GetSouldBeRemoved() const { return m_ShouldBeRemoved; }
 
@@ -123,8 +117,6 @@ namespace dae
 
 		GameObject* m_pParentObject{};
 		std::vector<GameObject*> m_pChildObjects{};
-
-		int m_InputDeviceID;
 
 		bool m_ShouldBeRemoved{ false };
 	};

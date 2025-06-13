@@ -121,15 +121,29 @@ void bomberman::LoadLevelState::LoadPlayer()
 	switch (gameManager.GetGameMode())
 	{
 	case GameMode::Singleplayer:
-		playerManager.CreatePlayer(dae::Action::DeviceType::Keyboard, keyboardMapping);
+		//Todo: connect gamepad to player 1 as well
+		playerManager.CreatePlayer(keyboardMapping, gamepadMapping);
 		break;
 	case GameMode::Coop:
-		playerManager.CreatePlayer(dae::Action::DeviceType::Keyboard, keyboardMapping);
-		playerManager.CreatePlayer(dae::Action::DeviceType::Gamepad, gamepadMapping);
+		// If gamepad id 1 is connected, that means there are 2 gamepads connected
+		if (dae::InputManager::GetInstance().IsDeviceConnected(1))
+		{
+			// 2 gamepads
+			// => player 1 is gamepad and keyboard, player 2 is gamepad
+			playerManager.CreatePlayer(keyboardMapping, gamepadMapping);
+			playerManager.CreatePlayer(gamepadMapping);
+			break;
+		}
+
+		// 1 gamepad
+		// => player 1 is keyboard and player 2 is gamepad
+		playerManager.CreatePlayer(keyboardMapping);
+		playerManager.CreatePlayer(gamepadMapping);
 		break;
 	case GameMode::Versus:
-		playerManager.CreatePlayer(dae::Action::DeviceType::Keyboard, keyboardMapping);
-		playerManager.CreatePlayer(dae::Action::DeviceType::Gamepad, gamepadMapping);
+		// Todo: coop vs. versus
+		playerManager.CreatePlayer(keyboardMapping);
+		playerManager.CreatePlayer(gamepadMapping);
 		break;
 	}
 

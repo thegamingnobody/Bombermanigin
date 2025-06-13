@@ -12,6 +12,7 @@ namespace dae
 	public:
 		enum class DeviceType
 		{
+			UnUsed,
 			Gamepad,
 			Keyboard
 		};

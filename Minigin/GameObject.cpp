@@ -1,14 +1,7 @@
 #include "GameObject.h"
-//#include <string>
-//#include "ResourceManager.h"
-//#include "Renderer.h"
-//#include "EventManager.h"
-//#include "HealthComponent.h"
 
-
-dae::GameObject::GameObject(std::string name, glm::vec3 startingPos, int inputDeviceId)
+dae::GameObject::GameObject(std::string name, glm::vec3 startingPos)
 	: m_Name(name)
-	, m_InputDeviceID(inputDeviceId)
 {
 	m_Transform = std::make_shared<Transform>(*this, startingPos.x, startingPos.y, startingPos.z);
 	

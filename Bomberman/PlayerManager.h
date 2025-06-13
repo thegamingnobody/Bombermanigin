@@ -4,24 +4,15 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
+#include "GameObject.h"
+#include <memory>
 
 namespace bomberman
 {
-	struct PlayerInfo
-	{
-		int playerID{};
-		std::string name{};
-		dae::Action::DeviceType deviceType{};
-		int lives{ 0 };
-		int maxBombs{ 1 };
-		std::vector<int> inputIDs{}; // Store all input device IDs for this player
-
-		PlayerInfo() = default;
-	};
 
 	struct InputMapping
 	{
-		dae::Action::DeviceType deviceType{};
+		dae::Action::DeviceType deviceType{ dae::Action::DeviceType::UnUsed };
 		int upButton{};
 		int downButton{};
 		int leftButton{};
@@ -69,10 +60,22 @@ namespace bomberman
 		}
 	};
 
+	struct PlayerInfo
+	{
+		int playerID{};
+		std::string name{};
+		int lives{ 0 };
+		int maxBombs{ 1 };
+		std::vector<int> inputIDs{2}; // Store all input device IDs for this player
+		std::vector<bomberman::InputMapping> inputMappings{2};
+
+		PlayerInfo() = default;
+	};
+
 	class PlayerManager : public dae::Singleton<PlayerManager>
     {
 	public:
-		void CreatePlayer(dae::Action::DeviceType deviceType, InputMapping inputMapping = InputMapping());
+		void CreatePlayer(InputMapping mapping1, InputMapping mapping2 = InputMapping());
 
 		PlayerInfo& GetPlayerInfo(int playerID)
 		{
@@ -93,6 +96,11 @@ namespace bomberman
 		int GetScore() const { return m_Score; }
 
 	private:
+		PlayerInfo CreatePlayerInfo(InputMapping mapping1, InputMapping mapping2 = InputMapping());
+		std::shared_ptr<dae::GameObject> CreatePlayerObject(const PlayerInfo& playerInfo);
+		void CreatePlayerActions(dae::GameObject& playerObject, PlayerInfo& playerInfo);
+
+
 		std::vector<PlayerInfo> m_Players;
 		int m_Score{ 0 };
 	};
