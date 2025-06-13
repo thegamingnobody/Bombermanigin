@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include "KeyboardDevice.h"
 #include "ServiceLocator.h"
+#include <Xinput.h>
+#include <winerror.h>
 void dae::InputManager::Init()
 {
 	int const maxAantalGamepads{ 4 };
@@ -124,6 +126,13 @@ void dae::InputManager::AddAction(const KeyboardKeys& keyboardKey, const InputTy
 		//only add if button is not already present
 		m_Actions.emplace_back(std::make_unique<Action>(keyboardKey, inputType, command, deviceID));
 	}
+}
+
+bool dae::InputManager::IsDeviceConnected(int const deviceID) const
+{
+	XINPUT_STATE state = {};
+	DWORD result = XInputGetState(deviceID, &state);
+	return (result == ERROR_SUCCESS);
 }
 
 int dae::InputManager::GetAvailableGamepadIndex()
