@@ -4,6 +4,8 @@
 #include "DAE_SDL_Soundsystem.h"
 #include "ServiceLocator.h"
 #include "SoundIds.h"
+#include "StateMachineComponent.h"
+#include "GameObject.h"
 
 bomberman::MoveCommand::MoveCommand(dae::GameObject& controllingObject, glm::vec3 direction)
 	: m_pControllingObject(&controllingObject)

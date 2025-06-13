@@ -15,17 +15,21 @@ bomberman::MainGameState::MainGameState(dae::GameObject& ownerObject)
 void bomberman::MainGameState::OnEnter()
 {
 	auto stateMachineComp = m_Owner->GetComponent<bomberman::StateMachineComponent>();
-	dae::EventManager::GetInstance().AddObserver(*stateMachineComp.value(), static_cast<int>(bomberman::EventType::PLAYER_DIED));
+	stateMachineComp.value()->SubscribeToEvent(static_cast<int>(bomberman::EventType::PLAYER_DIED));
 }
 
 void bomberman::MainGameState::OnExit()
 {
-	auto stateMachineComp = m_Owner->GetComponent<bomberman::StateMachineComponent>();
-	dae::EventManager::GetInstance().RemoveObserver(*stateMachineComp.value());
 }
 
 std::unique_ptr<bomberman::StateMachineBase> bomberman::MainGameState::Update(float /*deltaTime*/)
 {
+	// Check if players are dead
+	if (bomberman::PlayerManager::GetInstance().AreAllPlayersDead())
+	{
+		return std::make_unique<bomberman::GameOverMenuState>(*m_Owner);
+	}
+
 	return nullptr;
 }
 
@@ -38,14 +42,10 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::MainGameState::Notify(co
 	{
 		auto castedEvent = static_cast<const bomberman::PlayerDiedEvent&>(event);
 
-		if (bomberman::PlayerManager::GetInstance().SetPlayerDied(castedEvent.GetPlayerId()))
-		{
-			return nullptr;
-		}
-		return std::make_unique<bomberman::GameOverMenuState>(*m_Owner);
+		bomberman::PlayerManager::GetInstance().SetPlayerDied(castedEvent.GetPlayerId());
+		break;
 	}
 	}
-
 
 	return nullptr;
 }

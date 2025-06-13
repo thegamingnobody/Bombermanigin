@@ -24,19 +24,15 @@ bomberman::MenuState::MenuState(dae::GameObject& ownerObject)
 
 void bomberman::MenuState::OnEnter()
 {
-	auto& eventManager = dae::EventManager::GetInstance();
 	auto stateMachineComp = m_Owner->GetComponent<bomberman::StateMachineComponent>();
 
-	eventManager.AddObserver(*stateMachineComp.value(), static_cast<int>(bomberman::EventType::START_GAME));
+	stateMachineComp.value()->SubscribeToEvent(static_cast<int>(bomberman::EventType::START_GAME));
 
 	CreateMenu();
 }
 
 void bomberman::MenuState::OnExit()
 {
-	auto stateMachineComp = m_Owner->GetComponent<bomberman::StateMachineComponent>();
-	dae::EventManager::GetInstance().RemoveObserver(*stateMachineComp.value());
-
 	// Remove gamepad temporarily so that the player can correctly start using them
 	dae::InputManager::GetInstance().RemoveInputDevice(dae::Action::DeviceType::Keyboard);
 	dae::InputManager::GetInstance().RemoveInputDevice(dae::Action::DeviceType::Gamepad);

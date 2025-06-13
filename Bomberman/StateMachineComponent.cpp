@@ -1,14 +1,22 @@
 #include "StateMachineComponent.h"
 #include <Event.h>
+#include <EventManager.h>
 
 bomberman::StateMachineComponent::StateMachineComponent(dae::GameObject& ownerObject)
 	: dae::Component(ownerObject)
 	, m_CurrentState(nullptr)
+	, m_SubbedEventsCount(0)
 {
 }
 
 bomberman::StateMachineComponent::~StateMachineComponent()
 {
+	auto& eventManager = dae::EventManager::GetInstance();
+	for (int i = 0; i < m_SubbedEventsCount; i++)
+	{
+		eventManager.RemoveObserver(*this);
+	}
+
 	if (m_CurrentState)
 	{
 		m_CurrentState->OnExit();
@@ -47,4 +55,10 @@ void bomberman::StateMachineComponent::Notify(const dae::Event& event)
 	if (returnValue == nullptr) return;
 
 	ChangeState(std::move(returnValue));
+}
+
+void bomberman::StateMachineComponent::SubscribeToEvent(int eventType)
+{
+	m_SubbedEventsCount++;
+	dae::EventManager::GetInstance().AddObserver(*this, eventType);
 }

@@ -8,6 +8,13 @@ void dae::SceneManager::Update(float const deltaTime)
 	{
 		scene->Update(deltaTime);
 	}
+
+	m_scenes.erase(std::remove_if(m_scenes.begin(), m_scenes.end(), [](const std::shared_ptr<Scene>& scene)
+		{
+			return scene->m_ShouldBeDeleted;
+
+		}), m_scenes.end());
+
 }
 
 void dae::SceneManager::FixedUpdate(float const fixedTimeStep)
@@ -56,9 +63,8 @@ void dae::SceneManager::RemoveScene(const std::string& name)
 
 	if (it != m_scenes.end())
 	{
-		m_scenes.erase(it);
+		it->get()->m_ShouldBeDeleted = true;
 	}
-
 }
 
 std::shared_ptr<dae::Scene> dae::SceneManager::GetScene(const std::string& name) const

@@ -23,10 +23,19 @@ std::vector<std::shared_ptr<GameObject>>::iterator Scene::Remove(std::shared_ptr
 
 void Scene::RemoveAll()
 {
-	if (m_objects.size() > 0)
+	if (m_objects.size() <= 0) return;
+
+	for (auto& object : m_objects)
 	{
-		m_objects.clear();
+		object->SetShouldBeRemoved();
 	}
+
+	m_objects.erase(std::remove_if(m_objects.begin(), m_objects.end(), [](const std::shared_ptr<GameObject>& object)
+		{
+			return object->GetSouldBeRemoved();
+
+		}), m_objects.end());
+
 }
 
 void Scene::Update(float const deltaTime)
@@ -35,6 +44,8 @@ void Scene::Update(float const deltaTime)
 
 	for(auto& object : m_objects)
 	{
+		if (object->IsHidden()) continue;
+
 		object->Update(deltaTime);
 	}
 
@@ -59,6 +70,8 @@ void Scene::FixedUpdate(float const fixedTimeStep)
 
 	for(auto& object : m_objects)
 	{
+		if (object->IsHidden()) continue;
+
 		object->FixedUpdate(fixedTimeStep);
 	}
 }
@@ -69,6 +82,8 @@ void dae::Scene::LateUpdate()
 
 	for (auto& object : m_objects)
 	{
+		if (object->IsHidden()) continue;
+
 		object->LateUpdate();
 	}
 }
@@ -79,6 +94,8 @@ void Scene::Render() const
 
 	for (const auto& object : m_objects)
 	{
+		if (object->IsHidden()) continue;
+
 		object->Render();
 	}
 }
@@ -89,6 +106,8 @@ void Scene::RenderImGui() const
 
 	for (const auto& object : m_objects)
 	{
+		if (object->IsHidden()) continue;
+
 		object->RenderImGui();
 	}
 }

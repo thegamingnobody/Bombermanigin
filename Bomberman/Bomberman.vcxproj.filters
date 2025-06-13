@@ -193,6 +193,7 @@
     <ClCompile Include="NameConfirmCommand.cpp">
       <Filter>Commands\Menu</Filter>
     </ClCompile>
+    <ClCompile Include="ResetLevelEvent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HealthComponent.h">
@@ -339,6 +340,7 @@
     <ClInclude Include="NameConfirmCommand.h">
       <Filter>Commands\Menu</Filter>
     </ClInclude>
+    <ClInclude Include="ResetLevelEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini" />

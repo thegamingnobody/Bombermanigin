@@ -38,15 +38,11 @@ void bomberman::GameOverMenuState::OnEnter()
 	CreateGameOverScreen();
 
 	auto stateMachineComp = m_Owner->GetComponent<bomberman::StateMachineComponent>();
-	dae::EventManager::GetInstance().AddObserver(*stateMachineComp.value(), static_cast<int>(bomberman::EventType::NAME_CONFIRM));
-
+	stateMachineComp.value()->SubscribeToEvent(static_cast<int>(bomberman::EventType::NAME_CONFIRM));
 }
 
 void bomberman::GameOverMenuState::OnExit()
 {
-	auto stateMachineComp = m_Owner->GetComponent<bomberman::StateMachineComponent>();
-	dae::EventManager::GetInstance().RemoveObserver(*stateMachineComp.value());
-
 	dae::Camera::GetInstance().EnableTracking(false);
 
 	auto& sceneManager = dae::SceneManager::GetInstance();

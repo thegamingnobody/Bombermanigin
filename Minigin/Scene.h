@@ -31,6 +31,7 @@ namespace dae
 
 		bool m_IsActive{ true };
 
+		bool m_ShouldBeDeleted{ false };
 	private: 
 		explicit Scene(const std::string& name);
 
@@ -38,6 +39,7 @@ namespace dae
 		std::vector < std::shared_ptr<GameObject>> m_objects{};
 
 		static unsigned int m_idCounter; 
+
 	};
 
 }

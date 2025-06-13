@@ -6,6 +6,9 @@
 #include "PlayerGameOverState.h"
 #include "PlayerDiedEvent.h"
 #include "EventManager.h"
+#include "EventTypes.h"
+#include "StateMachineComponent.h"
+#include "ResetLevelEvent.h"
 
 bomberman::PlayerDeathState::PlayerDeathState(dae::GameObject& ownerObject, int playerID)
 	: StateMachineBase(ownerObject)
@@ -22,6 +25,7 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::PlayerDeathState::Update
 		// Only triggers once
 		bomberman::PlayerDiedEvent event(m_PlayerID);
 		dae::EventManager::GetInstance().BroadcastEvent(std::make_unique<PlayerDiedEvent>(event));
+		m_Owner->SetIsHidden(true);
 	}
 
 	bool playersLeft = playerManager.SetPlayerDied(m_PlayerID);
@@ -36,24 +40,40 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::PlayerDeathState::Update
 		return std::make_unique<bomberman::PlayerGameOverState>(*m_Owner, m_PlayerID);
 	}
 
-	auto healthComp = m_Owner->GetComponent<bomberman::HealthComponent>();
-
-	if (!healthComp.has_value()) return nullptr;
-
 	bomberman::GameManager::GetInstance().ResetLevel();
-	healthComp.value()->Heal(1);
-	return std::make_unique<bomberman::PlayerIdleState>(*m_Owner, m_PlayerID);
+	dae::EventManager::GetInstance().BroadcastEvent(std::make_unique<ResetLevelEvent>());
+	return nullptr;
 }
 
 void bomberman::PlayerDeathState::OnEnter()
 {
+	auto stateMachineComp = m_Owner->GetComponent<bomberman::StateMachineComponent>();
+	stateMachineComp.value()->SubscribeToEvent(static_cast<int>(bomberman::EventType::RESET_LEVEL));
 }
 
 void bomberman::PlayerDeathState::OnExit()
 {
+	m_Owner->SetIsHidden(false);
 }
 
-std::unique_ptr<bomberman::StateMachineBase> bomberman::PlayerDeathState::Notify(const dae::Event& /*event*/)
+std::unique_ptr<bomberman::StateMachineBase> bomberman::PlayerDeathState::Notify(const dae::Event& event)
 {
+	switch (static_cast<bomberman::EventType>(event.GetEventType()))
+	{
+	case bomberman::EventType::RESET_LEVEL:
+	{
+		//Todo: test reset level event
+		//Todo: PICKUPS!!!!!!!!!!!
+		auto healthComp = m_Owner->GetComponent<bomberman::HealthComponent>();
+		if (healthComp.has_value())
+		{
+			healthComp.value()->Heal(1);
+		}
+		return std::make_unique<bomberman::PlayerIdleState>(*m_Owner, m_PlayerID);
+	}
+	default:
+		break;
+	}
+
 	return nullptr;
 }

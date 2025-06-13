@@ -11,7 +11,8 @@ namespace bomberman
 		PLAYER_DIED = 3,
 		ENEMY_COLLISION = 4,
 		START_GAME = 5,
-		NAME_CONFIRM = 6
+		NAME_CONFIRM = 6,
+		RESET_LEVEL = 7
 	};
 }
 

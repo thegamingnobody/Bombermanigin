@@ -106,6 +106,9 @@ namespace dae
 
 		std::string GetName() const { return m_Name; }
 
+		void SetIsHidden(bool isHidden) { m_IsHidden = isHidden; }
+		bool IsHidden() const { return m_IsHidden; }
+
 	private:
 		bool IsChild(GameObject* object);
 
@@ -119,5 +122,7 @@ namespace dae
 		std::vector<GameObject*> m_pChildObjects{};
 
 		bool m_ShouldBeRemoved{ false };
+
+		bool m_IsHidden{ false };
 	};
 }

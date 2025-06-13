@@ -31,7 +31,10 @@ namespace bomberman
 
 		void Notify(const dae::Event& event) override;
 
+		void SubscribeToEvent(int eventType);
+
 	private:
 		std::unique_ptr<StateMachineBase> m_CurrentState;
+		int m_SubbedEventsCount;
 	};
 }

@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include "GameObject.h"
 #include <memory>
+#include <algorithm>
 
 namespace bomberman
 {
@@ -101,11 +102,15 @@ namespace bomberman
 
 		void ResetPlayersLifeState();
 
+		bool AreAllPlayersDead() const
+		{
+			return std::all_of(m_Players.begin(), m_Players.end(), [](const PlayerInfo& player) { return !player.isAlive; });
+		}
+
 	private:
 		PlayerInfo CreatePlayerInfo(InputMapping mapping1, InputMapping mapping2 = InputMapping());
 		std::shared_ptr<dae::GameObject> CreatePlayerObject(const PlayerInfo& playerInfo);
 		void CreatePlayerActions(dae::GameObject& playerObject, PlayerInfo& playerInfo);
-
 
 		std::vector<PlayerInfo> m_Players;
 		int m_Score{ 0 };

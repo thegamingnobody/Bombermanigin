@@ -75,8 +75,6 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::RoamingState::Update(flo
 
 void bomberman::RoamingState::OnEnter()
 {
-	auto& eventManager = dae::EventManager::GetInstance();
-
 	//Generate a random direction
 	int positiveOrNegative{ ((rand() % 2) * 2) - 1 };
 	int randomDirection{ rand() % 2 };
@@ -91,14 +89,11 @@ void bomberman::RoamingState::OnEnter()
 		throw std::runtime_error("StateMachineComponent not found on owner object");
 	}
 	//Subscribe to event
-	eventManager.AddObserver(*stateMachineComp.value(), static_cast<int>(bomberman::EventType::ENEMY_COLLISION));
+	stateMachineComp.value()->SubscribeToEvent(static_cast<int>(bomberman::EventType::ENEMY_COLLISION));
 }
 
 void bomberman::RoamingState::OnExit()
 {
-	auto stateMachineComp = m_Owner->GetComponent<bomberman::StateMachineComponent>();
-
-	dae::EventManager::GetInstance().RemoveObserver(*stateMachineComp.value());
 }
 
 std::unique_ptr<bomberman::StateMachineBase> bomberman::RoamingState::Notify(const dae::Event& event)
