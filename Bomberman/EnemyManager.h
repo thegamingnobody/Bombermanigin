@@ -32,7 +32,7 @@ namespace bomberman
     public:
 		void Init();
 
-		std::shared_ptr<dae::GameObject> CreateEnemy(bomberman::EnemyType enemyType, glm::vec3 position);
+		std::shared_ptr<dae::GameObject> CreateEnemy(bomberman::EnemyType enemyType, glm::vec3 position, bool hasAI = true);
 
 		EnemyData GetEnemyData(EnemyType enemyType) const;
 		int GetEnemySpeed(EnemyType enemyType) const;

@@ -50,6 +50,20 @@ void dae::GameObject::SetParentObject(GameObject* parentObject, bool keepWorldPo
 
 }
 
+void dae::GameObject::Rename(const std::string& newName)
+{
+	size_t underscorePos = m_Name.find('_');
+
+	if (underscorePos != std::string::npos)
+	{
+		std::string tail = m_Name.substr(underscorePos);
+		m_Name = newName + tail;
+		return;
+	}
+
+	m_Name = newName;
+}
+
 bool dae::GameObject::IsChild(GameObject* object)
 {
 	for (auto& child : m_pChildObjects)

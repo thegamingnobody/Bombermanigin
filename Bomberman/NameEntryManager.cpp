@@ -6,6 +6,7 @@
 #include <GameObject.h>
 #include "StateMachineComponent.h"
 #include "NameConfirmEvent.h"
+#include "EventManager.h"
 
 void bomberman::NameEntryManager::Init()
 {
@@ -86,7 +87,8 @@ void bomberman::NameEntryManager::ConfirmName()
 	if (gameStateComponent.has_value())
 	{
 		NameConfirmEvent event{ GetName() };
-		gameStateComponent.value()->Notify(event);
+		dae::EventManager::GetInstance().BroadcastEvent(std::make_unique<NameConfirmEvent>(event));
+		//gameStateComponent.value()->Notify(event);
 	}
 }
 

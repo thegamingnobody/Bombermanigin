@@ -16,6 +16,9 @@
 #include <InputManager.h>
 #include "ExtraBombPickup.h"
 #include "PickupComponent.h"
+#include "EnemyManager.h"
+#include "StateMachineComponent.h"
+#include "PlayerIdleState.h"
 
 bomberman::LoadLevelState::LoadLevelState(dae::GameObject& ownerObject, GameMode chosenGameMode)
 	: StateMachineBase(ownerObject)
@@ -142,9 +145,36 @@ void bomberman::LoadLevelState::LoadPlayer()
 		playerManager.CreatePlayer(gamepadMapping);
 		break;
 	case GameMode::Versus:
-		// Todo: coop vs. versus
-		playerManager.CreatePlayer(keyboardMapping);
-		playerManager.CreatePlayer(gamepadMapping);
+	{
+		// If gamepad id 1 is connected, that means there are 2 gamepads connected
+		if (dae::InputManager::GetInstance().IsDeviceConnected(1))
+		{
+			// 2 gamepads
+			// => player 1 is gamepad and keyboard, player 2 is gamepad
+			playerManager.CreatePlayer(keyboardMapping, gamepadMapping);
+			break;
+		}
+		else
+		{
+			// 1 gamepad
+			// => player 1 is keyboard and player 2 is gamepad
+			playerManager.CreatePlayer(keyboardMapping);
+		}
+
+		auto& enemyManager = bomberman::EnemyManager::GetInstance();
+		auto& grid = bomberman::Grid::GetInstance();
+
+		auto go = enemyManager.CreateEnemy(bomberman::EnemyType::Balloom, grid.GridCoordToWorldPos(1, 11), false);
+		playerManager.PossesObject(go, gamepadMapping);
+
+		auto stateMachineComponent = go->GetComponent<bomberman::StateMachineComponent>();
+		auto idleState = std::make_unique<bomberman::PlayerIdleState>(*go.get(), 1);
+		stateMachineComponent.value()->ChangeState(std::move(idleState));
+
+		auto scene = dae::SceneManager::GetInstance().GetScene(SCENE_PLAYERS);
+		scene->Add(go);
+
+	}
 		break;
 	}
 

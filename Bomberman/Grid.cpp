@@ -195,7 +195,7 @@ void bomberman::Grid::BrickDestroyed(int cellID)
 
 	if (!m_DoorFound)
 	{
-		if (rand() % m_BrickCount == 0 or m_BrickCount == 0)
+		if (rand() % 2 == 0 or m_BrickCount == 0)
 		{
 			m_DoorFound = true;
 			m_Grid[cellID].cellType = CellTypes::Door;
@@ -206,7 +206,7 @@ void bomberman::Grid::BrickDestroyed(int cellID)
 	
 	if (m_PickupSpawned) return;
 
-	if (rand() % 2 == 0)
+	if (rand() % 15 == 0)
 	{
 		m_PickupSpawned = true;
 		CreatePickUp(cellID);

@@ -98,6 +98,7 @@ namespace bomberman
     {
 	public:
 		void CreatePlayer(InputMapping mapping1, InputMapping mapping2 = InputMapping());
+		void PossesObject(std::shared_ptr<dae::GameObject> object, InputMapping mapping1, InputMapping mapping2 = InputMapping());
 
 		PlayerInfo& GetPlayerInfo(int playerID)
 		{
@@ -148,7 +149,7 @@ namespace bomberman
 	private:
 		PlayerInfo CreatePlayerInfo(InputMapping mapping1, InputMapping mapping2 = InputMapping());
 		std::shared_ptr<dae::GameObject> CreatePlayerObject(const PlayerInfo& playerInfo);
-		void CreatePlayerActions(dae::GameObject& playerObject, PlayerInfo& playerInfo);
+		void CreatePlayerActions(dae::GameObject& playerObject, PlayerInfo& playerInfo, bool canAttack);
 
 		std::vector<PlayerInfo> m_Players;
 		int m_Score{ 0 };

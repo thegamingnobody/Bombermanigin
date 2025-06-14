@@ -45,7 +45,7 @@ void bomberman::EnemyManager::Init()
 	}
 }
 
-std::shared_ptr<dae::GameObject> bomberman::EnemyManager::CreateEnemy(bomberman::EnemyType enemyType, glm::vec3 position)
+std::shared_ptr<dae::GameObject> bomberman::EnemyManager::CreateEnemy(bomberman::EnemyType enemyType, glm::vec3 position, bool hasAI)
 {
 	if (static_cast<int>(enemyType) > static_cast<int>(m_EnemyData.size())) return nullptr;
 
@@ -53,8 +53,11 @@ std::shared_ptr<dae::GameObject> bomberman::EnemyManager::CreateEnemy(bomberman:
 
 	auto& stateMachineComponent = go->AddComponent<bomberman::StateMachineComponent>(*go.get());
 
-	auto roamingState = std::make_unique<bomberman::RoamingState>(*go.get(), m_EnemyData[static_cast<int>(enemyType)]);
-	stateMachineComponent.ChangeState(std::move(roamingState));
+	if (hasAI)
+	{
+		auto roamingState = std::make_unique<bomberman::RoamingState>(*go.get(), m_EnemyData[static_cast<int>(enemyType)]);
+		stateMachineComponent.ChangeState(std::move(roamingState));
+	}
 
 	std::stringstream ss;
 

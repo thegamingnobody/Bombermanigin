@@ -109,6 +109,8 @@ namespace dae
 		void SetIsHidden(bool isHidden) { m_IsHidden = isHidden; }
 		bool IsHidden() const { return m_IsHidden; }
 
+		void Rename(const std::string& newName);
+
 	private:
 		bool IsChild(GameObject* object);
 

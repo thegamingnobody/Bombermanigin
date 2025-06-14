@@ -32,8 +32,17 @@ void bomberman::PlayerManager::CreatePlayer(InputMapping mapping1, InputMapping 
 
 	camera.SetTrackingTarget(*go.get());
 
-	CreatePlayerActions(*go.get(), playerInfo);
+	CreatePlayerActions(*go.get(), playerInfo, true);
+}
 
+void bomberman::PlayerManager::PossesObject(std::shared_ptr<dae::GameObject> object, InputMapping mapping1, InputMapping mapping2)
+{
+	PlayerInfo playerInfo = CreatePlayerInfo(mapping1, mapping2);
+	//m_Players.emplace_back(playerInfo);
+	
+	object->Rename(playerInfo.name);
+
+	CreatePlayerActions(*object.get(), playerInfo, false);
 }
 
 void bomberman::PlayerManager::RemovePlayer(int playerID)
@@ -120,7 +129,7 @@ std::shared_ptr<dae::GameObject> bomberman::PlayerManager::CreatePlayerObject(co
 	return go;
 }
 
-void bomberman::PlayerManager::CreatePlayerActions(dae::GameObject& playerObject, PlayerInfo& playerInfo)
+void bomberman::PlayerManager::CreatePlayerActions(dae::GameObject& playerObject, PlayerInfo& playerInfo, bool canAttack)
 {
 	auto& inputManager = dae::InputManager::GetInstance();
 	float const playerSpeed{ 150.0f };
@@ -143,7 +152,10 @@ void bomberman::PlayerManager::CreatePlayerActions(dae::GameObject& playerObject
 			inputManager.AddAction(dae::KeyboardKeys(playerInfo.inputMappings[i].downButton), dae::InputType::Held, downCommand,				playerInfo.inputIDs[i]);
 			inputManager.AddAction(dae::KeyboardKeys(playerInfo.inputMappings[i].leftButton), dae::InputType::Held, leftCommand,				playerInfo.inputIDs[i]);
 			inputManager.AddAction(dae::KeyboardKeys(playerInfo.inputMappings[i].rightButton), dae::InputType::Held, rightCommand,				playerInfo.inputIDs[i]);
-			inputManager.AddAction(dae::KeyboardKeys(playerInfo.inputMappings[i].bombButton), dae::InputType::PressedThisFrame, attackCommand,	playerInfo.inputIDs[i]);
+			if (canAttack)
+			{
+				inputManager.AddAction(dae::KeyboardKeys(playerInfo.inputMappings[i].bombButton), dae::InputType::PressedThisFrame, attackCommand,	playerInfo.inputIDs[i]);
+			}
 
 			inputManager.AddAction(dae::KeyboardKeys::F1, dae::InputType::PressedThisFrame, std::make_shared<bomberman::SkipLevelCommand>(), playerInfo.inputIDs[i]);
 			inputManager.AddAction(dae::KeyboardKeys::R, dae::InputType::PressedThisFrame, std::make_shared<bomberman::ResetLevelCommand>(), playerInfo.inputIDs[i]);
@@ -153,7 +165,10 @@ void bomberman::PlayerManager::CreatePlayerActions(dae::GameObject& playerObject
 			inputManager.AddAction(dae::GamepadButtons(playerInfo.inputMappings[i].downButton), dae::InputType::Held, downCommand,					playerInfo.inputIDs[i]);
 			inputManager.AddAction(dae::GamepadButtons(playerInfo.inputMappings[i].leftButton), dae::InputType::Held, leftCommand,					playerInfo.inputIDs[i]);
 			inputManager.AddAction(dae::GamepadButtons(playerInfo.inputMappings[i].rightButton), dae::InputType::Held, rightCommand,				playerInfo.inputIDs[i]);
-			inputManager.AddAction(dae::GamepadButtons(playerInfo.inputMappings[i].bombButton), dae::InputType::PressedThisFrame, attackCommand,	playerInfo.inputIDs[i]);
+			if (canAttack)
+			{
+				inputManager.AddAction(dae::GamepadButtons(playerInfo.inputMappings[i].bombButton), dae::InputType::PressedThisFrame, attackCommand,	playerInfo.inputIDs[i]);
+			}
 			break;
 		case dae::Action::DeviceType::UnUsed:
 			continue;
