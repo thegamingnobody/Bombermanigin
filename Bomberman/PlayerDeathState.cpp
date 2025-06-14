@@ -18,30 +18,6 @@ bomberman::PlayerDeathState::PlayerDeathState(dae::GameObject& ownerObject, int 
 
 std::unique_ptr<bomberman::StateMachineBase> bomberman::PlayerDeathState::Update(float /*deltaTime*/)
 {
-	auto& playerManager = bomberman::PlayerManager::GetInstance();
-
-	if (playerManager.GetPlayerInfo(m_PlayerID).isAlive)
-	{
-		// Only triggers once
-		bomberman::PlayerDiedEvent event(m_PlayerID);
-		dae::EventManager::GetInstance().BroadcastEvent(std::make_unique<PlayerDiedEvent>(event));
-		m_Owner->SetIsHidden(true);
-	}
-
-	bool playersLeft = playerManager.SetPlayerDied(m_PlayerID);
-
-	if (playersLeft) return nullptr;
-
-	// no players left, reset
-
-	if (playerManager.GetPlayerInfo(m_PlayerID).lives < 0)
-	{
-		// only game over if no lives left
-		return std::make_unique<bomberman::PlayerGameOverState>(*m_Owner, m_PlayerID);
-	}
-
-	bomberman::GameManager::GetInstance().ResetLevel();
-	dae::EventManager::GetInstance().BroadcastEvent(std::make_unique<ResetLevelEvent>());
 	return nullptr;
 }
 
@@ -49,6 +25,17 @@ void bomberman::PlayerDeathState::OnEnter()
 {
 	auto stateMachineComp = m_Owner->GetComponent<bomberman::StateMachineComponent>();
 	stateMachineComp.value()->SubscribeToEvent(static_cast<int>(bomberman::EventType::RESET_LEVEL));
+
+	auto& playerManager = bomberman::PlayerManager::GetInstance();
+
+	if (playerManager.GetPlayerInfo(m_PlayerID).isAlive)
+	{
+		// Only triggers once
+		bomberman::PlayerDiedEvent event(m_PlayerID);
+		dae::EventManager::GetInstance().BroadcastEvent(std::make_unique<PlayerDiedEvent>(event));
+		playerManager.SetPlayerDied(m_PlayerID);
+		m_Owner->SetIsHidden(true);
+	}
 }
 
 void bomberman::PlayerDeathState::OnExit()
@@ -66,6 +53,8 @@ std::unique_ptr<bomberman::StateMachineBase> bomberman::PlayerDeathState::Notify
 		if (healthComp.has_value())
 		{
 			healthComp.value()->Heal(1);
+			auto& playerManager = bomberman::PlayerManager::GetInstance();
+			playerManager.GetPlayerInfo(m_PlayerID).isAlive = true;
 		}
 		return std::make_unique<bomberman::PlayerIdleState>(*m_Owner, m_PlayerID);
 	}

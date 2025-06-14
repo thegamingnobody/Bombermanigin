@@ -7,6 +7,8 @@
 #include "BoxCollider.h"
 #include "OctagonCollider.h"
 #include "PlayerManager.h"
+#include "StateMachineComponent.h"
+#include "ResetLevelEvent.h"
 
 void bomberman::GameManager::ResetLevelCount()
 {
@@ -39,13 +41,20 @@ void bomberman::GameManager::ResetPlayerPositions()
 
 	if (player == nullptr) return;
 
+	// Is a nasty stinky hack, but I can't work it out any other way
+	// Didn't plan out enough
+	ResetLevelEvent resetEvent{};
+	player->GetComponent<bomberman::StateMachineComponent>().value()->Notify(resetEvent);
 	player->GetTransform()->SetLocalPosition(grid.GridCoordToWorldPos(m_CurrentLevelData.playerSpawns[0]));
+	player->SetIsHidden(false);
 
 	player = playerScene->GetObject("Player 2");
 
 	if (player == nullptr) return;
 
+	player->GetComponent<bomberman::StateMachineComponent>().value()->Notify(resetEvent);
 	player->GetTransform()->SetLocalPosition(grid.GridCoordToWorldPos(m_CurrentLevelData.playerSpawns[1]));
+	player->SetIsHidden(false);
 
 	bomberman::PlayerManager::GetInstance().ResetPlayersLifeState();
 }

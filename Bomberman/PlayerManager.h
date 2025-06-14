@@ -65,7 +65,6 @@ namespace bomberman
 	{
 		int playerID{};
 		std::string name{};
-		int lives{ 3 };
 		int maxBombs{ 1 };
 		std::vector<int> inputIDs{2}; // Store all input device IDs for this player
 		std::vector<bomberman::InputMapping> inputMappings{2};
@@ -135,9 +134,16 @@ namespace bomberman
 
 		bool AreAllPlayersDead() const
 		{
-			return std::all_of(m_Players.begin(), m_Players.end(), [](const PlayerInfo& player) { return !player.isAlive; });
+			auto aliveCount = std::count_if(m_Players.begin(), m_Players.end(), [](const PlayerInfo& player) { return player.isAlive; });
+			
+			return (aliveCount == 0);
 		}
 
+		int GetLives() const { return m_Lives; }
+		void DecreaseLives()
+		{
+			m_Lives--;
+		}
 
 	private:
 		PlayerInfo CreatePlayerInfo(InputMapping mapping1, InputMapping mapping2 = InputMapping());
@@ -146,6 +152,8 @@ namespace bomberman
 
 		std::vector<PlayerInfo> m_Players;
 		int m_Score{ 0 };
+		int m_Lives{ 3 };
+		int const m_MaxLives{ 3 };
 	};
 }
 

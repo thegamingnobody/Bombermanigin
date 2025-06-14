@@ -17,6 +17,8 @@
 
 void bomberman::PlayerManager::CreatePlayer(InputMapping mapping1, InputMapping mapping2)
 {
+	m_Lives = m_MaxLives;
+
 	auto& camera = dae::Camera::GetInstance();
 	auto& sceneManager = dae::SceneManager::GetInstance();
 
@@ -31,6 +33,7 @@ void bomberman::PlayerManager::CreatePlayer(InputMapping mapping1, InputMapping 
 	camera.SetTrackingTarget(*go.get());
 
 	CreatePlayerActions(*go.get(), playerInfo);
+
 }
 
 void bomberman::PlayerManager::RemovePlayer(int playerID)
@@ -61,15 +64,11 @@ bool bomberman::PlayerManager::SetPlayerDied(int playerID)
 		throw std::out_of_range("Player ID is out of range.");
 	}
 
-	if (m_Players[playerID].isAlive)
-	{
-		m_Players[playerID].lives--;
-		m_Players[playerID].isAlive = false;
-	}
+	m_Players[playerID].isAlive = false;
 
-	int playersLeft = static_cast<int>(std::count_if(m_Players.begin(), m_Players.end(), [](const PlayerInfo& player) { return player.isAlive; }));
+	bool playersLeft = AreAllPlayersDead();
 
-	return (playersLeft > 0);
+	return !playersLeft;
 }
 
 void bomberman::PlayerManager::ResetPlayersLifeState()
