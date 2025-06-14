@@ -1,18 +1,20 @@
-# Minigin
+# Bombermanigin
 
-Minigin is a very small project using [SDL2](https://www.libsdl.org/) and [glm](https://github.com/g-truc/glm) for 2D c++ game projects. It is in no way a game engine, only a barebone start project where everything sdl related has been set up. It contains glm for vector math, to aleviate the need to write custom vector and matrix classes.
+Bombermanigin is c++ game engine based on Minigin made for the programming 4 course at Digital Arts & Entertainment.
 
 [![Build Status](https://github.com/avadae/minigin/actions/workflows/msbuild.yml/badge.svg)](https://github.com/avadae/msbuild/actions)
 [![GitHub Release](https://img.shields.io/github/v/release/avadae/minigin?logo=github&sort=semver)](https://github.com/avadae/minigin/releases/latest)
 
-# Goal
+# Features/Choices
 
-Minigin can/may be used as a start project for the exam assignment in the course [Programming 4](https://youtu.be/j96Oh6vzhmg) at DAE. In that assignment students need to recreate a popular 80's arcade game with a game engine they need to program themselves. During the course we discuss several game programming patterns, using the book '[Game Programming Patterns](https://gameprogrammingpatterns.com/)' by [Robert Nystrom](https://github.com/munificent) as reading material. 
+Input happens through 'actions'. Register an action in the inputmanager by giving it a gamepad button or keyboard key to watch, when to trigger it, and a command class that gets executed when triggered.
 
-# Disclaimer
+Using the event manager, you can send events to other components or gameobjects. To do this you need to:
+1) Make the class where you want to receive the event also an "observer" and override its notify function.
+2) Register the (observer) instance to the eventmanager with an event ID. If an event with that ID gets pushed to the event manager, all instances that are subscribed to it will receive it.
 
-Minigin is, despite perhaps the suggestion in its name, **not** a game engine. It is just a very simple sdl2 ready project with some of the scaffolding in place to get started. None of the patterns discussed in the course are used yet (except singleton which use we challenge during the course). It is up to the students to implement their own vision for their engine, apply patterns as they see fit, create their game as efficient as possible.
+Every event ID obviously has its own event type. The engine uses int for these, but making an enum is recommended to more easily differentiate between event types.
 
-# Use
+To push an event, you make an event object. The event class can be inherited from to allow for passing parameters in/with the event.
 
-Either download the latest release of this project and compile/run in visual studio or, since students need to have their work on github too, they can use this repository as a template (see the "Use this template" button at the top right corner). There is no point in forking this project.
+Each gameobject has a list of components that it possesses, but every gameobject also has a "transform" component by default. This is stored seperatle from the other components and is accesible through the "GetTransform" function.
